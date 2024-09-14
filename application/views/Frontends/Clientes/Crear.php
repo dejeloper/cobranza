@@ -743,14 +743,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         }
 
-        $(function () {
-            var IglesiasTags = <?= $Lista7; ?>;
-            $("#IglesiaEvento").autocomplete({
-                source: IglesiasTags
-            });
-            var EventosTags = <?= $Lista8; ?>;
-            $("#BarrioEvento").autocomplete({
-                source: EventosTags
-            });
-        });
+        // $(function () {
+        //     var IglesiasTags = <?= $Lista7; ?>;
+        //     $("#IglesiaEvento").autocomplete({
+        //         source: IglesiasTags
+        //     });
+        //     var EventosTags = <?= $Lista8; ?>;
+        //     $("#BarrioEvento").autocomplete({
+        //         source: EventosTags
+        //     });
+        // });
     </script>
