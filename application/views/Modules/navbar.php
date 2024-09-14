@@ -1,5 +1,5 @@
-<?php 
-defined('BASEPATH') OR exit('No direct script access allowed'); 
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <div class="navbar navbar-default" role="navigation">
 	<div class="navbar-header">
@@ -9,12 +9,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="" href="<?= base_url(); ?>">
-			<span class="navbar-brand" style="height:auto; padding-left: 0px; display:flex;">
-				<img src="<?= base_url('Public'); ?>/images/logo/rocket.svg" style="width: 30px;"
+		<a href="<?= base_url(); ?>">
+			<span class="navbar-brand" style="padding-left: 0px; display:flex ;">
+				<img src="<?= base_url('Public'); ?>/images/logo/rocket.svg" style="width: 30px; margin-right: 5px;"
 					alt="Logo de Cobranza Imagen" />
-				<img src="<?= base_url('Public'); ?>/images/logo/logo.webp" style="margin-left:5px; "
-					alt="Logo de Cobranza Letra" />
+				Cobranza - Casa Software
 			</span>
 		</a>
 	</div>
@@ -31,15 +30,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<li style="border-bottom:1px solid;">
 						<div style="border:none;width:100px;height:100px;text-align:center;margin:0px auto 5px;">
 							<?php
-                                $subdominio = $this->config->item('subdominio');
-                                $foto = dirname(FCPATH)."/".$subdominio."/Public/images/perfiles/" . $this->session->userdata('Usuario') . ".jpg";
-                                
-                                if(file_exists($foto)==FALSE){
-                                    $foto =  base_url('Public')."/images/perfiles/user.jpg";
-                                }else{
-                                    $foto =  base_url('Public')."/images/perfiles/" . $this->session->userdata('Usuario') . ".jpg";
-                                }
-                            ?>
+							$subdominio = $this->config->item('subdominio');
+							$foto = dirname(FCPATH) . "/" . $subdominio . "/Public/images/perfiles/" . $this->session->userdata('Usuario') . ".jpg";
+
+							if (file_exists($foto) == FALSE) {
+								$foto =  base_url('Public') . "/images/perfiles/user.jpg";
+							} else {
+								$foto =  base_url('Public') . "/images/perfiles/" . $this->session->userdata('Usuario') . ".jpg";
+							}
+							?>
 							<img src="<?= $foto; ?>" style="width:100%;height:100%;" alt="" />
 						</div>
 					</li>
