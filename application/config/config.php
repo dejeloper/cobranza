@@ -546,7 +546,7 @@ $config['PAGE_AUTHOR_TW'] = "";
 $config['PAGE_AUTHOR_PLUS'] = "";
 $config['PAGE_AUTHOR_MAIL'] = "jhonatanguerrero@outlook.com";
 $config['PAGE_AUTHOR_CEL'] = "3138227185";
-$config['usuDesarrollador'] = 100; 
+$config['usuDesarrollador'] = 1000;
 
 $config['NAME_CEO'] = "Jhonatan Guerrero";
 $config['NIT_COMPANY'] = "NIT: 1024526544-1";

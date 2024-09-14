@@ -1,11 +1,12 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <div class="content">
-    <div class="header">        
-        <?php //$this->load->view('Modules/notifications'); ?>
+    <div class="header">
+        <?php //$this->load->view('Modules/notifications'); 
+        ?>
         <h1 class="page-title" style="font-size: 2em;"><?= $title; ?> </h1>
-    </div>            
+    </div>
     <div class="main-content">
         <div class="panel panel-default">
             <a href="#page-stats" class="panel-heading" data-toggle="collapse"><?= $subtitle; ?></a>
@@ -13,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="row">
                     <?php if ($this->session->flashdata("msg")): ?>
                         <div class="col-md-12">
-                            <div class="alert alert-success alert-dismissable fade in">                       
+                            <div class="alert alert-success alert-dismissable fade in">
                                 <?= $this->session->flashdata("msg"); ?>
                             </div>
                         </div>
@@ -27,54 +28,67 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <?= $this->session->flashdata("error"); ?>
                             </div>
                         </div>
-                    <?php endif; ?>                                            
+                    <?php endif; ?>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="btn-toolbar list-toolbar">
-                            <a href="<?= base_url() . "Mantenimiento/Usuarios/Admin/" ?>" class="btn btn-danger"><i class="fa fa-undo"></i> Volver a Usuarios</a>
+                            <a href="<?= base_url() . "Mantenimiento/Usuarios/Admin/" ?>" class="btn btn-danger"><i
+                                    class="fa fa-undo"></i> Volver a Usuarios</a>
                         </div>
-                    </div>  
-                </div>   
+                    </div>
+                </div>
                 <div class="btn-toolbar list-toolbar">
                     <form id="frmActualizarUsuario" name="frmActualizarUsuario" method="POST" role="form">
                         <div class="row">
-                            <div class="col-md-4 col-md-offset-2">
+                            <div class="col-md-6 col-md-offset-2">
                                 <div class="form-group hidden">
                                     <label for="ActualizarCodigo">Codigo</label>
-                                    <input type="text" class="form-control span12" disabled value="<?= $ListaDatos[0]['Codigo']; ?>" id="ActualizarCodigo" name="ActualizarCodigo">
-                                </div>                            
+                                    <input type="text" class="form-control span12" disabled value="<?= $ListaDatos[0]['Codigo']; ?>"
+                                        id="ActualizarCodigo" name="ActualizarCodigo">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-md-offset-2">
                                 <div class="form-group">
                                     <label for="ActualizarUsuario">Usuario</label>
-                                    <input type="text" class="form-control span12" disabled value="<?= $ListaDatos[0]['Usuario']; ?>" id="ActualizarUsuario" name="ActualizarUsuario">
+                                    <input type="text" class="form-control span12" disabled value="<?= $ListaDatos[0]['Usuario']; ?>"
+                                        id="ActualizarUsuario" name="ActualizarUsuario">
                                 </div>
                             </div>
-                            <div class="col-md-8  col-md-offset-2">
+                            <div class="col-md-8 col-md-offset-2">
                                 <div class="form-group">
                                     <label for="ActualizarNombre">Nombre</label>
-                                    <input type="text" class="form-control span12" value="<?= $ListaDatos[0]['Nombre']; ?>" id="ActualizarNombre" name="ActualizarNombre">
+                                    <input type="text" class="form-control span12" value="<?= $ListaDatos[0]['Nombre']; ?>"
+                                        id="ActualizarNombre" name="ActualizarNombre">
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-4 col-md-offset-2">
                                 <div class="form-group">
                                     <label for="ActualizarTipoDoc">Tipo Documento</label>
-                                    <select disabled name="ActualizarTipoDoc" id="ActualizarTipoDoc" class="form-control span12" >
+                                    <select disabled name="ActualizarTipoDoc" id="ActualizarTipoDoc" class="form-control span12">
                                         <?php
                                         foreach ($Lista1 as $item):
                                             echo '<option ' . ($item['Codigo'] == $ListaDatos[0]['TipoDocumentoId'] ? 'selected="selected"' : '') . ' value="' . $item['Codigo'] . '">' . $item['Nombre'] . '</option>';
                                         endforeach;
                                         ?>
-                                    </select>                             
-                                </div>
-                                <div class="form-group">
-                                    <label for="ActualizarDocumento">Documento</label>
-                                    <input type="number" class="form-control span12"disabled value="<?= $ListaDatos[0]['Documento']; ?>" id="ActualizarDocumento" name="ActualizarDocumento">
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-4 col-md-offset-0">
                                 <div class="form-group">
+                                    <label for="ActualizarDocumento">Documento</label>
+                                    <input type="number" class="form-control span12" disabled value="<?= $ListaDatos[0]['Documento']; ?>"
+                                        id="ActualizarDocumento" name="ActualizarDocumento">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-2">
+                                <div class="form-group">
                                     <label for="ActualizarPerfil">Perfil</label>
-                                    <select name="ActualizarPerfil" id="ActualizarPerfil" class="form-control span12" >
+                                    <select name="ActualizarPerfil" id="ActualizarPerfil" class="form-control span12">
                                         <?php
                                         foreach ($Lista2 as $item):
                                             echo '<option ' . ($item['Codigo'] == $ListaDatos[0]['PerfilId'] ? 'selected="selected"' : '') . ' value="' . $item['Codigo'] . '">' . $item['Nombre'] . '</option>';
@@ -82,9 +96,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         ?>
                                     </select>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-2">
                                 <div class="form-group">
                                     <label for="ActualizarEstado">Estado</label>
-                                    <select name="ActualizarEstado" id="ActualizarEstado" class="form-control span12" >
+                                    <select name="ActualizarEstado" id="ActualizarEstado" class="form-control span12">
                                         <?php
                                         foreach ($Lista3 as $item):
                                             echo '<option ' . ($item['Codigo'] == $ListaDatos[0]['EstadoId'] ? 'selected="selected"' : '') . ' value="' . $item['Codigo'] . '">' . $item['Nombre'] . '</option>';
@@ -96,9 +114,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-md-4 col-md-offset-2">
                                 <div class="form-group">
                                     <label for="ActualizarCambioPass">Cambio Contraseña</label>
-                                    <select name="ActualizarCambioPass" id="ActualizarCambioPass" class="form-control span12" >
-                                        <option <?= ($ListaDatos[0]['CambioPass'] == 1 ? 'selected="selected"' : ''); ?> value="1">Sí</option>
-                                        <option <?= ($ListaDatos[0]['CambioPass'] == 0 ? 'selected="selected"' : ''); ?> value="0">No</option>                                        
+                                    <select name="ActualizarCambioPass" id="ActualizarCambioPass" class="form-control span12">
+                                        <option <?= ($ListaDatos[0]['CambioPass'] == 1 ? 'selected="selected"' : ''); ?> value="1">Sí
+                                        </option>
+                                        <option <?= ($ListaDatos[0]['CambioPass'] == 0 ? 'selected="selected"' : ''); ?> value="0">No
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -107,21 +127,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-md-4 col-md-offset-2">
                                 <div class="form-group">
                                     <label for="ActualizarUsuarioCreacion">Usuario de Creación</label>
-                                    <input type="text" disabled class="form-control span12" value="<?= $ListaDatos[0]['UsuarioCreacion']; ?>" id="ActualizarUsuarioCreacion" name="ActualizarUsuarioCreacion">
+                                    <input type="text" disabled class="form-control span12"
+                                        value="<?= $ListaDatos[0]['UsuarioCreacion']; ?>" id="ActualizarUsuarioCreacion"
+                                        name="ActualizarUsuarioCreacion">
                                 </div>
                                 <div class="form-group">
                                     <label for="ActualizarFechaCreacion">Fecha de Creación</label>
-                                    <input type="text" disabled class="form-control span12" value="<?= $ListaDatos[0]['FechaCreacion']; ?>" id="ActualizarFechaCreacion" name="ActualizarFechaCreacion">
-                                </div>  
+                                    <input type="text" disabled class="form-control span12"
+                                        value="<?= $ListaDatos[0]['FechaCreacion']; ?>" id="ActualizarFechaCreacion"
+                                        name="ActualizarFechaCreacion">
+                                </div>
                             </div>
                             <div class="col-md-4 col-md-offset-0">
                                 <div class="form-group">
                                     <label for="ActualizarUsuarioModificacion">Usuario de Modificación</label>
-                                    <input type="text" disabled class="form-control span12" value="<?= $ListaDatos[0]['UsuarioModificacion']; ?>" id="ActualizarUsuarioModificacion" name="ActualizarUsuarioModificacion">
+                                    <input type="text" disabled class="form-control span12"
+                                        value="<?= $ListaDatos[0]['UsuarioModificacion']; ?>" id="ActualizarUsuarioModificacion"
+                                        name="ActualizarUsuarioModificacion">
                                 </div>
                                 <div class="form-group">
                                     <label for="ActualizarFechaModificacion">Fecha de Modificación</label>
-                                    <input type="text" disabled class="form-control span12" value="<?= $ListaDatos[0]['FechaModificacion']; ?>" id="ActualizarFechaModificacion" name="ActualizarFechaModificacion">
+                                    <input type="text" disabled class="form-control span12"
+                                        value="<?= $ListaDatos[0]['FechaModificacion']; ?>" id="ActualizarFechaModificacion"
+                                        name="ActualizarFechaModificacion">
                                 </div>
                             </div>
                         </div>
@@ -129,16 +157,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-md-12" style="display:flex;justify-content:center;">
                                 <button type="submit" class="btn btn-primary" id="btnActualizarUsuario">
                                     <i class="fa fa-save"></i>&nbsp; Actualizar
-                                </button>      
-                            </div>  
-                        </div>  
+                                </button>
+                            </div>
+                        </div>
                     </form>
-                </div>                        
-            </div>                            
+                </div>
+            </div>
         </div>
-    </div>  
+    </div>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#<?= $Controller; ?>').DataTable({
                 responsive: true,
                 scrollX: true,
@@ -146,13 +174,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     url: "<?= base_url('Public/assets/'); ?>/lib/Datetables.js/Spanish.json"
                 }
             });
-            $('#frmActualizarUsuario').submit(function (e) {
+            $('#frmActualizarUsuario').submit(function(e) {
                 e.preventDefault();
             });
-            $('#btnActualizarUsuario').click(function (e) {
+            $('#btnActualizarUsuario').click(function(e) {
                 e.preventDefault();
                 actualizarusuario();
             });
+
             function actualizarusuario() {
                 $('#message').html("");
                 var user_cod = $('form[name=frmActualizarUsuario] input[name=ActualizarCodigo]')[0].value.trim();
@@ -166,35 +195,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 var user_camPass = e_camPass.options[e_camPass.selectedIndex].value;
                 if (user_cod.toString().length <= 0) {
                     $('#message').html(
-                            '<div class="alert alert-danger alert-dismissable fade in">\n\
+                        '<div class="alert alert-danger alert-dismissable fade in">\n\
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                 <strong>Error</strong><br />No se encuentra el Código del Usuario. Actualice la página antes de continuar.\n\
                             </div>');
                 } else {
                     if (user_user.toString().length <= 0) {
                         $('#message').html(
-                                '<div class="alert alert-danger alert-dismissable fade in">\n\
+                            '<div class="alert alert-danger alert-dismissable fade in">\n\
                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                     <strong>Error</strong><br />No se encuentra el Usuario. Actualice la página antes de continuar.\n\
                                 </div>');
                     } else {
                         if (user_name.toString().length <= 0) {
                             $('#message').html(
-                                    '<div class="alert alert-danger alert-dismissable fade in">\n\
+                                '<div class="alert alert-danger alert-dismissable fade in">\n\
                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                         <strong>Error</strong><br />Digite el Nombre para continuar\n\
                                     </div>');
                         } else {
                             if (user_perf.toString().length <= 0) {
                                 $('#message').html(
-                                        '<div class="alert alert-danger alert-dismissable fade in">\n\
+                                    '<div class="alert alert-danger alert-dismissable fade in">\n\
                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                             <strong>Error</strong><br />Seleccione el Perfil para continuar\n\
                                         </div>');
                             } else {
                                 if (user_est.toString().length <= 0) {
                                     $('#message').html(
-                                            '<div class="alert alert-danger alert-dismissable fade in">\n\
+                                        '<div class="alert alert-danger alert-dismissable fade in">\n\
                                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                                 <strong>Error</strong><br />Seleccione el Estado para continuar\n\
                                             </div>');
@@ -208,17 +237,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     $.ajax({
                                         type: 'POST',
                                         url: method,
-                                        data: {user_cod: user_cod, user_user: user_user, user_name: user_name, user_perf: user_perf, user_est: user_est, user_camPass: user_camPass},
+                                        data: {
+                                            user_cod: user_cod,
+                                            user_user: user_user,
+                                            user_name: user_name,
+                                            user_perf: user_perf,
+                                            user_est: user_est,
+                                            user_camPass: user_camPass
+                                        },
                                         cache: false,
-                                        beforeSend: function () {
+                                        beforeSend: function() {
                                             $('#message').html("");
                                             $("#btnActualizarUsuario").html("Guardando...");
                                         },
-                                        success: function (data) {
+                                        success: function(data) {
                                             $("#btnActualizarUsuario").html('<i class="fa fa-save"></i>&nbsp; Actualizar');
                                             if (data == 1) {
                                                 $('#message').html(
-                                                        '<div class="alert alert-success alert-dismissable fade in">\n\
+                                                    '<div class="alert alert-success alert-dismissable fade in">\n\
                                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                                             <strong>El usuario \"<b>' + user_user + '</b>\" fue actualizado exitosamente</strong>\n\
                                                         </div>');
@@ -226,7 +262,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 location.href = "<?= base_url(); ?>Mantenimiento/Usuarios/Admin";
                                             } else {
                                                 $('#message').html(
-                                                        '<div class="alert alert-danger alert-dismissable fade in">\n\
+                                                    '<div class="alert alert-danger alert-dismissable fade in">\n\
                                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                                             <strong>Error</strong><br />' + data + '\n\
                                                         </div>');
@@ -262,6 +298,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 return regla;
             }
-        }
-        );
+        });
     </script>

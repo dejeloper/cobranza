@@ -1,10 +1,12 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Usuarios extends CI_Controller {
+class Usuarios extends CI_Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->viewControl = 'Usuarios';
         $this->load->model('Usuarios_model');
@@ -13,17 +15,19 @@ class Usuarios extends CI_Controller {
         $this->load->model('Estados_model');
         $this->load->model('Login_model');
         if (!$this->session->userdata('Login')) {
-            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI] );
+            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
             $url = str_replace("/", "|", $_SERVER["REQUEST_URI"]);
             redirect(site_url("Login/index/" . substr($url, 1)));
         }
     }
 
-    public function index() {
+    public function index()
+    {
         redirect(site_url('Mantenimiento/' . $this->viewControl . "/Admin/"));
     }
 
-    public function Admin() {
+    public function Admin()
+    {
         $idPermiso = 1;
         $page = validarPermisoPagina($idPermiso);
 
@@ -34,12 +38,14 @@ class Usuarios extends CI_Controller {
         $data->title = "Administración Usuarios";
         $data->subtitle = "Listado de Usuarios";
         $data->contenido = $this->viewControl . '/Admin';
-        $data->ListaDatos = $dataUsers;
+        if ($dataUsers) $data->ListaDatos = $dataUsers;
+        else $data->ListaDatos = [];
 
         $this->load->view('frontend', $data);
     }
 
-    public function Crear() {
+    public function Crear()
+    {
         $idPermiso = 2;
         $page = validarPermisoPagina($idPermiso);
 
@@ -81,10 +87,21 @@ class Usuarios extends CI_Controller {
         }
     }
 
-    public function encriptarPass($pass) {
-        $salt = mcrypt_create_iv(22, MCRYPT_DEV_URANDOM);
-        $salt = base64_encode($salt);
+    public function encriptarPass($pass)
+    {
+        $salt = base64_encode(random_bytes(22));
         $salt = str_replace('+', '.', '$2y$10$' . $salt . '$');
+        $hash = password_hash($pass, PASSWORD_BCRYPT);
+        $password  = array(
+            'salt' => $salt,
+            'pass' => $hash
+        );
+
+        return $password;
+    }
+
+    public function encriptarPassSalt($pass, $salt)
+    {
         $hash = crypt($pass, $salt);
 
         $password = array(
@@ -95,18 +112,8 @@ class Usuarios extends CI_Controller {
         return $password;
     }
 
-    public function encriptarPassSalt($pass, $salt) {
-        $hash = crypt($pass, $salt);
-
-        $password = array(
-            'salt' => $salt,
-            'pass' => $hash
-        );
-
-        return $password;
-    }
-
-    public function Log($usuario) {
+    public function Log($usuario)
+    {
         if (isset($usuario)) {
             redirect(base_url("/Mantenimiento/Log/Usuarios/" . $usuario . "/"));
         } else {
@@ -115,7 +122,8 @@ class Usuarios extends CI_Controller {
         }
     }
 
-    public function NewUser() {
+    public function NewUser()
+    {
         $usuario = $this->input->post("user_user");
         $password1 = $this->input->post("user_pass1");
         $password2 = $this->input->post("user_pass2");
@@ -134,50 +142,55 @@ class Usuarios extends CI_Controller {
         if (isset($user) && $user == TRUE) {
             echo "El Usuario <b>" . $user[0]['Usuario'] . "</b> ya existe en la base de datos, y está " . $user[0]['Estado'] . ". No se puede crear.";
         } else {
-            $p = $this->encriptarPass($password2);
-            $user = $this->session->userdata('Usuario');
-            $fecha = date("Y-m-d H:i:s");
+            if ($password1 != $password2) {
+                echo "Las contraseñas no coinciden. Por favor confirmar.";
+            } else {
+                $p = $this->encriptarPass($password2);
+                $user = $this->session->userdata('Usuario');
+                $fecha = date("Y-m-d H:i:s");
 
-            $data = array(
-                'Codigo' => null,
-                'Usuario' => $usuario,
-                'Pass' => $p['pass'],
-                'Salt' => $p['salt'],
-                'Nombre' => $nombre,
-                'TipoDocumento' => $tipoDocumento,
-                'Documento' => $documento,
-                'Perfil' => $perfil,
-                'Administrador' => $Administrador,
-                'Estado' => $estado,
-                'CambioPass' => $cambioPass,
-                'Habilitado' => 1,
-                'UsuarioCreacion' => $user,
-                'FechaCreacion' => $fecha,
-                'UsuarioModificacion' => null,
-                'FechaModificacion' => null
-            );
+                $data = array(
+                    'Codigo' => null,
+                    'Usuario' => $usuario,
+                    'Pass' => $p['pass'],
+                    'Salt' => $p['salt'],
+                    'Nombre' => $nombre,
+                    'TipoDocumento' => $tipoDocumento,
+                    'Documento' => $documento,
+                    'Perfil' => $perfil,
+                    'Administrador' => $Administrador,
+                    'Estado' => $estado,
+                    'CambioPass' => $cambioPass,
+                    'Habilitado' => 1,
+                    'UsuarioCreacion' => $user,
+                    'FechaCreacion' => $fecha,
+                    'UsuarioModificacion' => null,
+                    'FechaModificacion' => null
+                );
 
-            if ($this->Usuarios_model->save($data)) {
-                $user = $this->Usuarios_model->obtenerUsuarioPorUserEP($usuario);
-                if ($user) {
-                    $data['Codigo'] = $user[0]['Codigo'];
-                    $modulo = "Usuarios";
-                    $tabla = "Usuarios";
-                    $accion = "Crear Usuario";
-                    $llave = $user[0]['Codigo'];
-                    $sql = LogSave($data, $modulo, $tabla, $accion, $llave);
+                if ($this->Usuarios_model->save($data)) {
+                    $user = $this->Usuarios_model->obtenerUsuarioPorUserEP($usuario);
+                    if ($user) {
+                        $data['Codigo'] = $user[0]['Codigo'];
+                        $modulo = "Usuarios";
+                        $tabla = "Usuarios";
+                        $accion = "Crear Usuario";
+                        $llave = $user[0]['Codigo'];
+                        $sql = LogSave($data, $modulo, $tabla, $accion, $llave);
 
-                    echo 1;
+                        echo 1;
+                    } else {
+                        echo "No se pudo guardar, por favor intentelo de nuevo.";
+                    }
                 } else {
                     echo "No se pudo guardar, por favor intentelo de nuevo.";
                 }
-            } else {
-                echo "No se pudo guardar, por favor intentelo de nuevo.";
             }
         }
     }
 
-    public function Consultar($usuario) {
+    public function Consultar($usuario)
+    {
         $idPermiso = 3;
         $page = validarPermisoPagina($idPermiso);
 
@@ -219,7 +232,8 @@ class Usuarios extends CI_Controller {
         };
     }
 
-    public function UpdateUser() {
+    public function UpdateUser()
+    {
         $cod = $this->input->post("user_cod");
         $usuario = $this->input->post("user_user");
         $nombre = $this->input->post("user_name");
@@ -262,7 +276,8 @@ class Usuarios extends CI_Controller {
         }
     }
 
-    public function Eliminar($usuario) {
+    public function Eliminar($usuario)
+    {
         $idPermiso = 6;
         $page = validarPermisoPagina($idPermiso);
 
@@ -283,7 +298,8 @@ class Usuarios extends CI_Controller {
         };
     }
 
-    public function DeleteUser() {
+    public function DeleteUser()
+    {
         $cod = $this->input->post("user_cod");
         $usuario = $this->input->post("user_user");
         $nombre = $this->input->post("user_name");
@@ -320,7 +336,8 @@ class Usuarios extends CI_Controller {
         }
     }
 
-    public function Eliminados() {
+    public function Eliminados()
+    {
         $idPermiso = 7;
         $page = validarPermisoPagina($idPermiso);
 
@@ -338,15 +355,16 @@ class Usuarios extends CI_Controller {
         $this->load->view('frontend', $data);
     }
 
-    public function CambiarPass($usuario) {
+    public function CambiarPass($usuario)
+    {
         $dataUsers = $this->Usuarios_model->obtenerUsuario($usuario);
 
         if (isset($dataUsers) && $dataUsers == FALSE) {
             $this->session->set_flashdata("error", "No se puede acceder a la información del Usuario <b>" . $usuario . "</b>");
             redirect(base_url("/Mantenimiento/Usuarios/Admin/"));
         } else {
-            $nombre = $dataUsers [0]["Nombre"];
-            $user = $dataUsers [0]["Usuario"];
+            $nombre = $dataUsers[0]["Nombre"];
+            $user = $dataUsers[0]["Usuario"];
 
             $data = new stdClass();
             $data->Controller = "Usuarios";
@@ -361,7 +379,8 @@ class Usuarios extends CI_Controller {
         }
     }
 
-    public function ChangePassUser() {
+    public function ChangePassUser()
+    {
         $codigo = $this->input->post("codigo");
         $usuario = $this->input->post("usuario");
         $passAct = $this->input->post("passAct");
@@ -373,7 +392,8 @@ class Usuarios extends CI_Controller {
         echo $val;
     }
 
-    public function ResetPass($codigo, $usuario) {
+    public function ResetPass($codigo, $usuario)
+    {
         $idPermiso = 4;
         $page = validarPermisoPagina($idPermiso);
 
@@ -392,7 +412,8 @@ class Usuarios extends CI_Controller {
         }
     }
 
-    public function ChangePass($codigo, $usuario, $passAct, $passNew1, $passNew2, $motivo) {
+    public function ChangePass($codigo, $usuario, $passAct, $passNew1, $passNew2, $motivo)
+    {
         $users = $this->Usuarios_model->obtenerUsuario($codigo);
         if (isset($users) && $users == FALSE) {
             return "El Usuario <b>" . $users[0]['Usuario'] . "</b> no existe en la base de datos.";
@@ -455,7 +476,8 @@ class Usuarios extends CI_Controller {
         }
     }
 
-    public function validarPass($motivo, $passAct, $users) {
+    public function validarPass($motivo, $passAct, $users)
+    {
         $validar = false;
         if ($motivo == "Reset") {
             $validar = TRUE;
@@ -468,5 +490,4 @@ class Usuarios extends CI_Controller {
 
         return $validar;
     }
-
 }
