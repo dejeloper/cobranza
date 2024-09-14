@@ -1,6 +1,18 @@
-<IfModule authz_core_module>
-    Require all denied
-</IfModule>
-<IfModule !authz_core_module>
-    Deny from all
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+RewriteCond %{HTTP_HOST} ^www.edicionescat.com.co [NC]
+RewriteRule ^(.*)$ https://edicionescat.com.co/$1 [L,R=301,NC]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?/$1 [L]
+
+# Prevent user access to the CI system folder.
+RewriteCond %{REQUEST_URI} ^system.*
+RewriteRule ^(.*)$ index.php?/$1 [L] 
+
+# Prevent user access to the CI application folder
+RewriteCond %{REQUEST_URI} ^application.*
+RewriteRule ^(.*)$ index.php?/$1 [L]
 </IfModule>
