@@ -398,8 +398,8 @@ class Usuarios extends CI_Controller
         $page = validarPermisoPagina($idPermiso);
 
         $passAct = "";
-        $passNew1 = "Ediciones123";
-        $passNew2 = "Ediciones123";
+        $passNew1 = "Cobranza123";
+        $passNew2 = "Cobranza123";
         $motivo = "Reset";
 
         $val = $this->ChangePass($codigo, $usuario, $passAct, $passNew1, $passNew2, $motivo);

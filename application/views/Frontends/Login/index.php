@@ -21,14 +21,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</div>
 	<p class="pull-right">
-		<a href="https://x.com/dejeloper" target="_blank"
-			style="display: block; text-align: right; font-weight: 600; color: #8a8a8a; text-decoration:underline;">
+		<a href="https://x.com/dejeloper" target="_blank"  style="font-weight: 600; color: #8a8a8a;">
 			Jhonatan Guerrero
-		</a>
-		<span style="display: block; text-align: right; font-size: 13px; font-weight: 600; color: #8a8a8a;">
-			2018 - <?= date("Y"); ?>
+		</a> 
+		<span style="color: #8a8a8a;">
+				| 2018 - <?= date("Y"); ?>
+		</span>
 	</p>
-	</span>
 	<!--    <p><a href="#">¿Olvidó su Contraseña?</a></p>-->
 	<br>
 	<div class="row">

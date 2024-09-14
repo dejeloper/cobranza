@@ -2334,7 +2334,7 @@ class Pagos extends CI_Controller {
 
         // set document information
         $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('Ediciones Católicas');
+        $pdf->SetAuthor('Casa Cobranza');
         $pdf->SetTitle('Notificación DataCrédito');
         $pdf->SetSubject('Carta Prejuridico');
 

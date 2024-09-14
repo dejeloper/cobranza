@@ -1,8 +1,8 @@
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
-RewriteCond %{HTTP_HOST} ^www.edicionescat.com.co [NC]
-RewriteRule ^(.*)$ https://edicionescat.com.co/$1 [L,R=301,NC]
+RewriteCond %{HTTP_HOST} ^www.cobranza.dejeloper.com [NC]
+RewriteRule ^(.*)$ https://cobranza.dejeloper.com/$1 [L,R=301,NC]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
