@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
   |--------------------------------------------------------------------------
@@ -26,6 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 $subdominio = 'cobranza';
 $config['subdominio'] = $subdominio;
+$config['subdominio_folder'] = $subdominio . '.dejeloper.com/';
 $config['base_url'] = 'https://' . $subdominio . '.dejeloper.com/';
 
 /*
@@ -566,5 +567,3 @@ $config['cli_mor'] = 124;
 //Pedidos
 $config['ped_devol'] = 113;
 $config['ped_paz'] = 114;
-
-

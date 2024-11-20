@@ -57,11 +57,11 @@ INSERT INTO `TiposPermisos` (`Codigo`, `Nombre`, `Habilitado`, `UsuarioCreacion`
 -- Volcado de datos para la tabla `TiposViviendas`
 --
 
-INSERT INTO `TiposViviendas` (`Codigo`, `Nombre`, `Habilitado`, `UsuarioCreacion`, `FechaCreacion`, `UsuarioModificacion`, `FechaModificacion`) VALUES
+INSERT INTO `TiposViviendas` (`Codigo`, `Nombre`, `Habilitado`, `UsuarioCreacion`, `FechaCreacion`, `UsuarioModificacion`, `FechaModificacion`) VALUES  
+(100, 'Sin Especificar', 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL),
 (101, 'Propia', 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL),
 (102, 'Familiar', 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL),
-(103, 'Arriendo', 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL),
-(104, 'Sin Especificar', 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL);
+(103, 'Arriendo', 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL);
 
 --
 -- Volcado de datos para la tabla `Estados`
@@ -101,13 +101,14 @@ INSERT INTO `Estados` (`Codigo`, `Nombre`, `TipoEstado`, `Habilitado`, `UsuarioC
 --
 
 INSERT INTO `Administradores` (`Codigo`, `Nombre`, `Direccion`, `Telefono1`, `Telefono2`, `Telefono3`, `Cargo`, `Habilitado`, `UsuarioCreacion`, `FechaCreacion`, `UsuarioModificacion`, `FechaModificacion`) VALUES
-(100, 'Jhonatan Guerrero', 'Cr 88 C 74-26 Sur', '3138227185', '5700426', NULL, 'Desarrollador', 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL);
+(100, 'Jhonatan Guerrero', 'Cl 17 Sur 6 22', '3138227185', '', NULL, 'Desarrollador', 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL);
 
 --
 -- Volcado de datos para la tabla `Cobradores`
 --
 
 INSERT INTO `Cobradores` (`Codigo`, `Nombre`, `TipoDocumento`, `Documento`, `Direccion`, `Telefono1`, `Telefono2`, `Correo`, `Estado`, `Habilitado`, `UsuarioCreacion`, `FechaCreacion`, `UsuarioModificacion`, `FechaModificacion`) VALUES  
+(100, 'Sin Cobrador', 101, '0', '.', '0', NULL, NULL, 119, 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL),
 (101, 'Nequi', 101, '0', '.', '0', NULL, NULL, 119, 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL),
 (102, 'Daviplata', 101, '0', '.', '0', NULL, NULL, 119, 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL),
 (103, 'Ahorro a la Mano', 101, '0', '.', '0', NULL, NULL, 119, 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL), 
@@ -119,7 +120,7 @@ INSERT INTO `Cobradores` (`Codigo`, `Nombre`, `TipoDocumento`, `Documento`, `Dir
 --
 
 INSERT INTO `Direcciones` (`Codigo`, `Direccion`, `Etapa`, `Torre`, `Apartamento`, `Manzana`, `Interior`, `Casa`, `Barrio`, `TipoVivienda`, `Habilitado`, `UsuarioCreacion`, `FechaCreacion`, `UsuarioModificacion`, `FechaModificacion`) VALUES
-(1, 'Dirección Guia', '', '', '', '', '', '', '', 101, 1, 'ADMIN', '2018-08-21 07:00:00', NULL, NULL);   
+(100, 'Dirección Guia', '', '', '', '', '', '', '', 100, 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL);   
 
 --
 -- Volcado de datos para la tabla `Vendedores`
@@ -134,7 +135,7 @@ COMMIT;
 --
 
 INSERT INTO `Eventos` (`Codigo`, `Vendedor`, `Iglesia`, `Barrio`, `Fecha`, `Habilitado`, `UsuarioCreacion`, `FechaCreacion`, `UsuarioModificacion`, `FechaModificacion`) VALUES
-(1, 1, 'Evento Inicial', '', '0000-00-00 00:00:00', 1, 'ADMIN', '0000-00-00 00:00:00', NULL, NULL);  
+(100, 1, 'Evento Inicial', '', '0000-00-00 00:00:00', 1, 'ADMIN', '0000-00-00 00:00:00', NULL, NULL);  
 
 --
 -- Volcado de datos para la tabla `MotivosLlamadas`
@@ -275,21 +276,27 @@ INSERT INTO `Permisos` (`Codigo`, `Nombre`, `Tipo`, `Controlador`, `Habilitado`,
 --
 
 INSERT INTO `Productos` (`Codigo`, `Nombre`, `Valor`, `Habilitado`, `UsuarioCreacion`, `FechaCreacion`, `UsuarioModificacion`, `FechaModificacion`) VALUES
-(1, 'Imagen', 1, 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL);
+(1, 'Sin Producto', 1, 0, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL),
+(2, 'Imagen', 200000, 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL),
+(3, 'Sagrada Familia', 240000, 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL);
 
 --
 -- Volcado de datos para la tabla `SuperUsuarios`
 --
 
 INSERT INTO `SuperUsuarios` (`Codigo`, `Usuario`, `Habilitado`) VALUES
-(1, 'Adriana', 1);
+(101, 'daniel.maldonado', 1);
 
 --
 -- Volcado de datos para la tabla `Tarifas`
 --
 
 INSERT INTO `Tarifas` (`Codigo`, `Nombre`, `Producto`, `Valor`, `Cuotas`, `ValorCuota`, `Descuento`, `Habilitado`, `UsuarioCreacion`, `FechaCreacion`, `UsuarioModificacion`, `FechaModificacion`) VALUES
-(1, 'Tarifa Importada sin Valor', 1, 0, 0, 0, 0, 0, 'ADMIN', '2018-05-30 07:00:00', NULL, NULL);
+(1, 'Tarifa Importada sin Valor', 1, 0, 0, 0, 0, 0, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL),
+(2, '1 Cuota - Imagen $160000', 1, 160000, 1, 160000, 40000, 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL), 
+(3, '4 Cuotas - Imagen $200000', 1, 200000, 4, 50000, 0, 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL), 
+(4, '1 Cuota - Sagrada Familia $190000', 2, 190000, 1, 190000, 50000, 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL), 
+(5, '4 Cuotas - Sagrada Familia $240000', 2, 240000, 4, 60000, 0, 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL);
 
 --
 -- Volcado de datos para la tabla `Usuarios`
@@ -297,12 +304,12 @@ INSERT INTO `Tarifas` (`Codigo`, `Nombre`, `Producto`, `Valor`, `Cuotas`, `Valor
 
 INSERT INTO `Usuarios` (`Codigo`, `Usuario`, `Pass`, `Salt`, `Nombre`, `TipoDocumento`, `Documento`, `Perfil`, `Administrador`, `Estado`, `CambioPass`, `Habilitado`, `UsuarioCreacion`, `FechaCreacion`, `UsuarioModificacion`, `FechaModificacion`) VALUES
 (100, 'Desarrollador', '$2y$10$9g/9ajCbElCnpDYhuFqX7u7iRDR//JNW0x543uPsd7ZFegkPF5XD2', '$2y$10$9g/9ajCbElCnpDYhuFqX7u3.rS/pxw==$', 'Jhonatan Guerrero', 101, '1024526544', 100, 100, 101, 1, 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL);
--- (101, 'Adriana', '$2y$10$NuzHvNwHi8LsCJeYILXyU.Bz6sMZYLkdtcwaWG83G76CmG7JnpM0a', '$2y$10$NuzHvNwHi8LsCJeYILXyUCjFlcTXsA==$', 'Adriana Suarez', 101, '000000000', 101, 101, 101, 1, 1, 'ADMIN', '2018-09-01 07:00:00', 'Adriana', '2024-05-06 21:08:38'),
--- (102, 'lorena.coji', '$2y$10$NuzHvNwHi8LsCJeYILXyU.UvPBUOGtnOVE7yDYNQ/eWiZ6FYBrgQO', '$2y$10$NuzHvNwHi8LsCJeYILXyUCjFlcTXsA==$', 'Maria', 101, '000000000', 103, 101, 101, 1, 1, 'ADMIN', '2018-09-01 07:00:00', 'Adriana', '2024-05-06 21:10:38'),
--- (103, 'oscar.fandino', '$2y$10$NuzHvNwHi8LsCJeYILXyU.Bz6sMZYLkdtcwaWG83G76CmG7JnpM0a', '$2y$10$NuzHvNwHi8LsCJeYILXyUCjFlcTXsA==$', 'Oscar Fandiño', 101, '000000000', 103, 101, 101, 0, 1, 'ADMIN', '2018-09-01 07:00:00', 'oscar.fandino', '2018-09-01 14:03:53'),
--- (104, 'lizeth.cortes', '$2y$10$NuzHvNwHi8LsCJeYILXyU.lnDW0MVf9.GFGhNQ7CoqNZB7LLOvAcK', '$2y$10$NuzHvNwHi8LsCJeYILXyUCjFlcTXsA==$', 'Lizeth Cortes', 101, '1010008673', 103, 101, 101, 0, 1, 'ADMIN', '2023-03-06 07:00:00', 'lizeth.cortes', '2023-03-07 07:53:27'),
--- (105, 'Maria.Medina', '$2y$10$h4zd0FlnaUBjpoC3mOm4RO8yOo0pxmma.MLRXZozBjn28y7W7a.7C', '$2y$10$h4zd0FlnaUBjpoC3mOm4RVXWsQhnzQ==$', 'Maria Medina', 101, '1063158004', 103, 101, 101, 1, 1, 'Adriana', '2024-05-06 21:12:38', NULL, NULL),
--- (106, 'Katerine.Mahecha', '$2y$10$9abLBNG5ADTc2rVszREH6OiqHep/5T1vBuMn0WhxSaMxWXR.bq8qW', '$2y$10$9abLBNG5ADTc2rVszREH6O3688iEXA==$', 'Katerine Mahecha', 101, '1002604505', 103, 100, 101, 1, 1, 'Adriana', '2024-05-06 21:22:30', NULL, NULL);
+-- (101, 'Adriana', '$2y$10$NuzHvNwHi8LsCJeYILXyU.Bz6sMZYLkdtcwaWG83G76CmG7JnpM0a', '$2y$10$NuzHvNwHi8LsCJeYILXyUCjFlcTXsA==$', 'Adriana Suarez', 101, '000000000', 101, 101, 101, 1, 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL),
+-- (102, 'lorena.coji', '$2y$10$NuzHvNwHi8LsCJeYILXyU.UvPBUOGtnOVE7yDYNQ/eWiZ6FYBrgQO', '$2y$10$NuzHvNwHi8LsCJeYILXyUCjFlcTXsA==$', 'Maria', 101, '000000000', 103, 101, 101, 1, 1, 'ADMIN', '2018-09-01 07:00:00',, NULL, NULL),
+-- (103, 'oscar.fandino', '$2y$10$NuzHvNwHi8LsCJeYILXyU.Bz6sMZYLkdtcwaWG83G76CmG7JnpM0a', '$2y$10$NuzHvNwHi8LsCJeYILXyUCjFlcTXsA==$', 'Oscar Fandiño', 101, '000000000', 103, 101, 101, 0, 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL),
+-- (104, 'lizeth.cortes', '$2y$10$NuzHvNwHi8LsCJeYILXyU.lnDW0MVf9.GFGhNQ7CoqNZB7LLOvAcK', '$2y$10$NuzHvNwHi8LsCJeYILXyUCjFlcTXsA==$', 'Lizeth Cortes', 101, '1010008673', 103, 101, 101, 0, 1, 'ADMIN', '2018-09-01 07:00:00', NULL, NULL),
+-- (105, 'Maria.Medina', '$2y$10$h4zd0FlnaUBjpoC3mOm4RO8yOo0pxmma.MLRXZozBjn28y7W7a.7C', '$2y$10$h4zd0FlnaUBjpoC3mOm4RVXWsQhnzQ==$', 'Maria Medina', 101, '1063158004', 103, 101, 101, 1, 1, 'Adriana', '2018-09-01 07:00:00', NULL, NULL),
+-- (106, 'Katerine.Mahecha', '$2y$10$9abLBNG5ADTc2rVszREH6OiqHep/5T1vBuMn0WhxSaMxWXR.bq8qW', '$2y$10$9abLBNG5ADTc2rVszREH6O3688iEXA==$', 'Katerine Mahecha', 101, '1002604505', 103, 100, 101, 1, 1, 'Adriana', '2018-09-01 07:00:00', NULL, NULL);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

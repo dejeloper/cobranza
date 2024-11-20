@@ -1,11 +1,12 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <div class="content">
-    <div class="header">        
-        <?php //$this->load->view('Modules/notifications'); ?>
+    <div class="header">
+        <?php //$this->load->view('Modules/notifications'); 
+        ?>
         <h1 class="page-title" style="font-size: 2em;"><?= $title; ?> </h1>
-    </div>            
+    </div>
     <div class="main-content">
         <div class="panel panel-default">
             <a href="#" class="panel-heading"><?= $subtitle; ?></a>
@@ -20,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <?= $this->session->flashdata("error"); ?>
                             </div>
                         </div>
-                    <?php endif; ?>                                               
+                    <?php endif; ?>
                 </div>
                 <div class="row">
                     <div class="col-md-10 col-md-offset-1">
@@ -35,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <label>Dirección</label>
                                 <input type="text" value="<?= $ListaDatos2[0]["Dir"]; ?>" class="form-control" disabled style="background-color: #ffffff;">
                             </div>
-                        </div>                        
+                        </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Barrio</label>
@@ -46,19 +47,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="form-group">
                                 <label>Teléfonos</label>
                                 <input type="text" value="<?= $ListaDatos2[0]["Telefono1"] . "  " . $ListaDatos2[0]["Telefono2"] . "  " . $ListaDatos2[0]["Telefono3"]; ?>" class="form-control" disabled style="background-color: #ffffff;">
-                            </div> 
+                            </div>
                         </div>
                     </div>
-                </div>                                            
-            </div>                                            
+                </div>
+            </div>
         </div>
         <?php
         foreach ($ListaDatos as $item) {
             $item["Observaciones"] = str_replace("\n", "\n", $item["Observaciones"]);
-            ?>
+        ?>
             <div class="panel panel-default">
                 <div id="page-stats-<?= $item["Codigo"] ?>" class="panel-collapse panel-body collapse in">
-                    <div class="row">             
+                    <div class="row">
                         <div class="col-md-10 col-md-offset-1">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -69,9 +70,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Saldo</label>
-                                    <input type="text" value="<?= money_format("%.0n", $item["Saldo"]); ?>" class="form-control" disabled style="background-color: #ffffff;">
+                                    <input type="text" value="<?= money_format_cop($item["Saldo"]); ?>" class="form-control" disabled style="background-color: #ffffff;">
                                 </div>
-                            </div>  
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Tipo de Devolución</label>
@@ -81,21 +82,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Valor de Devolución</label>
-                                    <input type="text" value="<?= money_format("%.0n", $item["ValorDevol"]); ?>" class="form-control" disabled style="background-color: #ffffff;">
+                                    <input type="text" value="<?= money_format_cop($item["ValorDevol"]); ?>" class="form-control" disabled style="background-color: #ffffff;">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Cobrador</label>
                                     <input type="text" value="<?= $item["NomCobrador"]; ?>" class="form-control" disabled style="background-color: #ffffff;">
-                                </div> 
-                            </div> 
+                                </div>
+                            </div>
                             <br>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Notas/Observaciones</label>
                                     <textarea value="" rows="6" class="form-control" style="resize: none;" id="Observacion" name="Observacion" disabled><?= $item["Observaciones"]; ?></textarea>
-                                </div>  
+                                </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="pull-right btn-toolbar list-toolbar">
@@ -107,7 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
             <script>
-                $(document).ready(function () {
+                $(document).ready(function() {
                     var todayDate = new Date().getDate();
                     $('.datepicker8').datetimepicker({
                         format: 'DD/MM/YYYY',
@@ -117,9 +118,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     });
 
                 });
-
             </script>
-            <?php
+        <?php
         }
         ?>
     </div>

@@ -1,10 +1,12 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Pagos extends CI_Controller {
+class Pagos extends CI_Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->viewControl = 'Pagos';
         $this->load->model('Usuarios_model');
@@ -23,16 +25,18 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function index() {
+    public function index()
+    {
         redirect(site_url($this->viewControl . "/Admin/"));
     }
- 
-    public function Admin() {
+
+    public function Admin()
+    {
         $idPermiso = 27;
         $page = validarPermisoPagina($idPermiso);
-        
+
         $datosMotivos = $this->Cobradores_model->obtenerMotivosLlamadas();
-        
+
         $dataCobradores = $this->Cobradores_model->obtenerCobradores();
 
         $data = new stdClass();
@@ -45,7 +49,8 @@ class Pagos extends CI_Controller {
         $this->load->view('frontend', $data);
     }
 
-    public function NoLlamada() {
+    public function NoLlamada()
+    {
         $datosMotivos = $this->Cobradores_model->obtenerMotivosLlamadas();
 
         $data = new stdClass();
@@ -58,7 +63,8 @@ class Pagos extends CI_Controller {
         $this->load->view('frontend', $data);
     }
 
-    public function Admin2() {
+    public function Admin2()
+    {
         $datosPagos = $this->obtenerListadosClientesCobro();
 
         $datosMotivos = $this->Cobradores_model->obtenerMotivosLlamadas();
@@ -81,7 +87,8 @@ class Pagos extends CI_Controller {
         $this->load->view('frontend', $data);
     }
 
-    public function Cliente($cliente) {
+    public function Cliente($cliente)
+    {
         $idPermiso = 23;
         $page = validarPermisoPagina($idPermiso);
 
@@ -115,7 +122,7 @@ class Pagos extends CI_Controller {
             $data->ListaDatos2 = $dataClientes;
 
             if ($dataClientes[0]["Estado"] == 123) {
-                $this->session->set_flashdata("msg", "El Cliente <b>" . $dataClientes[0]["Nombre"] . "</b> pagó el total de la Biblia.");
+                $this->session->set_flashdata("msg", "El Cliente <b>" . $dataClientes[0]["Nombre"] . "</b> pagó el total del pedido.");
             }
 
             $this->load->view('frontend', $data);
@@ -125,7 +132,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function Generar($cliente) {
+    public function Generar($cliente)
+    {
         $idPermiso = 19;
         $page = validarPermisoPagina($idPermiso);
 
@@ -153,7 +161,7 @@ class Pagos extends CI_Controller {
                         $abonado = 0;
                         $f2 = "2018-01-01 00:00:00";
                         foreach ($dataPagoPedido[$i] as $item) {
-                            $cuota ++;
+                            $cuota++;
                             $abonado = $abonado + $item["Pago"];
                             $f1 = $item["FechaPago"];
                             if ($f1 > $f2) {
@@ -214,7 +222,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function SchedulePayment() {
+    public function SchedulePayment()
+    {
         $idPermiso = 98;
         $page = validarPermisoAcciones($idPermiso);
         if ($page) {
@@ -248,6 +257,7 @@ class Pagos extends CI_Controller {
             );
 
             try {
+                $errores = 0;
                 if ($this->Pagos_model->saveProg($dataPago)) {
                     $Pag = $this->Pagos_model->obtenerPagosProgramaPedidoPagoUserFec($pag_ped, $pag_fec, $user, $fecha);
                     if ($Pag) {
@@ -279,7 +289,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function Programados($pedido) {
+    public function Programados($pedido)
+    {
         $idPermiso = 20;
         $page = validarPermisoPagina($idPermiso);
 
@@ -317,7 +328,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function ProgramadosPaz($pedido) {
+    public function ProgramadosPaz($pedido)
+    {
         $dataPedido = $this->Pedidos_model->obtenerProductosPedidoClienteAll($pedido);
         if (isset($dataPedido) && $dataPedido != FALSE) {
             $dataProgramados = $this->Pagos_model->obtenerPagosProgramaPedido($pedido);
@@ -342,7 +354,7 @@ class Pagos extends CI_Controller {
                     $data->ListaDatos = array();
                 }
                 $data->ListaDatos2 = $dataPedido;
-                $this->session->set_flashdata("msg", "El Cliente <b>" . $datacliente[0]["Nombre"] . "</b> pagó el total de la Biblia.");
+                $this->session->set_flashdata("msg", "El Cliente <b>" . $datacliente[0]["Nombre"] . "</b> pagó el total del pedido.");
 
                 $this->load->view('frontend', $data);
             } else {
@@ -355,7 +367,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function valPagosProgramados($pedido, $dataProgramados) {
+    public function valPagosProgramados($pedido, $dataProgramados)
+    {
         $fecha = date("Y-m-d");
         $fecha = date("Y-m-d", strtotime($fecha . "- 60 days"));
         $con = 0;
@@ -419,7 +432,8 @@ class Pagos extends CI_Controller {
         return 0;
     }
 
-    public function Validar($pagoProgramado) {
+    public function Validar($pagoProgramado)
+    {
         $idPermiso = 100;
         $page = validarPermisoPagina($idPermiso);
 
@@ -448,7 +462,7 @@ class Pagos extends CI_Controller {
                             $abonado = 0;
                             $f2 = "2018-01-01 00:00:00";
                             foreach ($dataPagoPedido[$i] as $item) {
-                                $cuota ++;
+                                $cuota++;
                                 $abonado = $abonado + $item["Pago"];
                                 $f1 = $item["FechaPago"];
                                 if ($f1 > $f2) {
@@ -497,11 +511,11 @@ class Pagos extends CI_Controller {
 
                     $this->load->view('frontend', $data);
                 } else {
-                    $this->session->set_flashdata("error", "No se encontraron datos del Cliente: <b>$cliente</b>");
+                    $this->session->set_flashdata("error", "No se encontraron datos del Cliente");
                     redirect(base_url("/Clientes/Admin/"));
                 }
             } else {
-                $this->session->set_flashdata("error", "No se encontraron datos del Pedido del Pago: <b>$cliente</b>");
+                $this->session->set_flashdata("error", "No se encontraron datos del Pedido del Pago");
                 redirect(base_url("/Clientes/Admin/"));
             }
         } else {
@@ -510,16 +524,18 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function numCuotas($pedido) {
+    public function numCuotas($pedido)
+    {
         $dataPagos = $this->Pagos_model->ultimaCuota($pedido);
-//        var_dump($dataPagos);
-//        $num = $dataPagos[0]["Cuotas"];
+        //        var_dump($dataPagos);
+        //        $num = $dataPagos[0]["Cuotas"];
         //var_dump($dataPagos);
         //return $num;
         return $dataPagos;
     }
 
-    public function Confirmar($pagoProgramado) {
+    public function Confirmar($pagoProgramado)
+    {
         $idPermiso = 21;
         $page = validarPermisoPagina($idPermiso);
 
@@ -552,7 +568,7 @@ class Pagos extends CI_Controller {
                                 $abonado = 0;
                                 $f2 = "2018-01-01 00:00:00";
                                 foreach ($dataPagoPedido[$i] as $item) {
-                                    $cuota ++;
+                                    $cuota++;
                                     $abonado = $abonado + $item["Pago"];
                                     $f1 = $item["FechaPago"];
                                     if ($f1 > $f2) {
@@ -592,7 +608,7 @@ class Pagos extends CI_Controller {
                                 $datosPagos[$i] = $dataPagosP;
                             }
                         }
-                        
+
                         $proximoPago = $this->getNextDayPay($dataPedido[0]["DiaCobro"]);
 
                         $data = new stdClass();
@@ -617,11 +633,11 @@ class Pagos extends CI_Controller {
                         redirect(base_url("/Cobradores/Admin/"));
                     }
                 } else {
-                    $this->session->set_flashdata("error", "No se encontraron datos del Cliente: <b>$cliente</b>");
+                    $this->session->set_flashdata("error", "No se encontraron datos del Cliente");
                     redirect(base_url("/Clientes/Admin/"));
                 }
             } else {
-                $this->session->set_flashdata("error", "No se encontraron datos del Pedido del Pago: <b>$cliente</b>");
+                $this->session->set_flashdata("error", "No se encontraron datos del Pedido del Pago");
                 redirect(base_url("/Clientes/Admin/"));
             }
         } else {
@@ -630,10 +646,11 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function Confirm() {
+    public function Confirm()
+    {
         $idPermiso = 116;
         $page = validarPermisoAcciones($idPermiso);
-         
+
         if ($page) {
             //Datos Pago
             $pag_cli = trim($this->input->post('pag_cli'));
@@ -656,7 +673,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function ConfirmarDia() {        
+    public function ConfirmarDia()
+    {
         $idPermiso = 116;
         $page = validarPermisoAcciones($idPermiso);
         if ($page) {
@@ -687,16 +705,16 @@ class Pagos extends CI_Controller {
     }
 
     public function conf($pag_cli, $pag_ped, $pag_cuo, $pag_pag, $pag_fec, $pag_pro, $pag_fec_pro, $pag_cob, $pag_tot, $pag_obs, $pag_obsAnt)
-    { 
+    {
         //Datos Auditoría
         $user = $this->session->userdata('Usuario');
         $fecha = date("Y-m-d H:i:s");
-        
-        //Validación del pago antes de realizarlo         
-        $valPago = $this->Pagos_model->obtenerValidacionPagosPrevio($pag_cli, $pag_ped, $pag_pag, $pag_pro); 
 
-        if (isset($valPago)){ 
-            $numPagosConfirmados = $valPago[0]["Num"]; 
+        //Validación del pago antes de realizarlo         
+        $valPago = $this->Pagos_model->obtenerValidacionPagosPrevio($pag_cli, $pag_ped, $pag_pag, $pag_pro);
+
+        if (isset($valPago)) {
+            $numPagosConfirmados = $valPago[0]["Num"];
             if ($numPagosConfirmados == 0) {
                 //Confirmar Pago (Crear Pago y actualizar pago programado)
                 $dataPago = array(
@@ -712,7 +730,7 @@ class Pagos extends CI_Controller {
                     "Habilitado" => 1,
                     "UsuarioCreacion" => $user,
                     "FechaCreacion" => $fecha
-                ); 
+                );
 
                 try {
                     if ($this->Pagos_model->save($dataPago)) {
@@ -727,7 +745,7 @@ class Pagos extends CI_Controller {
                             $sql = LogSave($dataPago, $modulo, $tabla, $accion, $llave);
 
                             $dataPedido = $this->Pedidos_model->obtenerPedido($pag_ped);
-                            if ($pag_fec_pro == "" or $pag_fec_pro == NULL){
+                            if ($pag_fec_pro == "" or $pag_fec_pro == NULL) {
                                 $DiaCobro = $this->getNextDayPay($dataPedido[0]["DiaCobro"]);
                             } else {
                                 $DiaCobro = $pag_fec_pro;
@@ -743,8 +761,8 @@ class Pagos extends CI_Controller {
                                     "Saldo" => $saldo,
                                     "Estado" => 114,
                                     "FechaUltimoPago" => $fecha,
-                                    "Observaciones" => "Actualización de Saldo del Pedido:\nSaldo Anterior: " . money_format("%.0n", ($dataPedido[0]["Valor"]))
-                                    . "\nSaldo Actual: " . money_format("%.0n", ($saldo)) . "\nEstado: Paz y Salvo\n \nObservación automática.",
+                                    "Observaciones" => "Actualización de Saldo del Pedido:\nSaldo Anterior: " . money_format_cop(($dataPedido[0]["Valor"]))
+                                        . "\nSaldo Actual: " . money_format_cop(($saldo)) . "\nEstado: Paz y Salvo\n \nObservación automática.",
                                     "UsuarioModificacion" => $user,
                                     "FechaModificacion" => $fecha
                                 );
@@ -754,8 +772,8 @@ class Pagos extends CI_Controller {
                                     "Saldo" => $saldo,
                                     "Estado" => 111,
                                     "FechaUltimoPago" => $fecha,
-                                    "Observaciones" => "Actualización de Saldo del Pedido:\nSaldo Anterior: " . money_format("%.0n", ($dataPedido[0]["Valor"]))
-                                    . "\nSaldo Actual: " . money_format("%.0n", ($saldo)) . "\nEstado: Pagado\n \nObservación automática.",
+                                    "Observaciones" => "Actualización de Saldo del Pedido:\nSaldo Anterior: " . money_format_cop(($dataPedido[0]["Valor"]))
+                                        . "\nSaldo Actual: " . money_format_cop(($saldo)) . "\nEstado: Pagado\n \nObservación automática.",
                                     "UsuarioModificacion" => $user,
                                     "FechaModificacion" => $fecha
                                 );
@@ -793,7 +811,7 @@ class Pagos extends CI_Controller {
                                         $llave = $pag_ped;
                                         $sql = LogSave($data, $modulo, $tabla, $accion, $llave);
                                     }
-                                    
+
                                     $this->inhabilitarLlamadas($pag_cli, $pag_ped, $fecha, $user);
                                     $this->Pagos_model->quitarllamadas($pag_cli, $pag_ped);
                                     if ($saldo <= 0) {
@@ -862,14 +880,13 @@ class Pagos extends CI_Controller {
             } else {
                 echo "Este pago ya se realizó, por favor confirme los datos.";
             }
-
-            
-        } else{
+        } else {
             echo "No se pudo Confirmar el Pago. Actualice la página y vuelva a intentarlo.";
         }
     }
 
-    public function Descartar($pagoProgramado) {        
+    public function Descartar($pagoProgramado)
+    {
         $idPermiso = 22;
         $page = validarPermisoPagina($idPermiso);
 
@@ -899,7 +916,7 @@ class Pagos extends CI_Controller {
                             $abonado = 0;
                             $f2 = "2018-01-01 00:00:00";
                             foreach ($dataPagoPedido[$i] as $item) {
-                                $cuota ++;
+                                $cuota++;
                                 $abonado = $abonado + $item["Pago"];
                                 $f1 = $item["FechaPago"];
                                 if ($f1 > $f2) {
@@ -951,11 +968,11 @@ class Pagos extends CI_Controller {
 
                     $this->load->view('frontend', $data);
                 } else {
-                    $this->session->set_flashdata("error", "No se encontraron datos del Cliente: <b>$cliente</b>");
+                    $this->session->set_flashdata("error", "No se encontraron datos del Cliente");
                     redirect(base_url("/Clientes/Admin/"));
                 }
             } else {
-                $this->session->set_flashdata("error", "No se encontraron datos del Pedido del Pago: <b>$cliente</b>");
+                $this->session->set_flashdata("error", "No se encontraron datos del Pedido del Pago");
                 redirect(base_url("/Clientes/Admin/"));
             }
         } else {
@@ -964,10 +981,11 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function Discard() {
+    public function Discard()
+    {
         $idPermiso = 118;
         $page = validarPermisoAcciones($idPermiso);
-         
+
         if ($page) {
             //Datos Pago
             $pag_cli = trim($this->input->post('pag_cli'));
@@ -991,10 +1009,11 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function DescartarDia() {
+    public function DescartarDia()
+    {
         $idPermiso = 118;
         $page = validarPermisoAcciones($idPermiso);
-         
+
         if ($page) {
             $pag_cli = trim($this->input->post('cliente'));
             $pag_ped = trim($this->input->post('pedido'));
@@ -1016,7 +1035,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function desc($pag_cli, $pag_ped, $pag_pro, $pag_obs, $pag_sal, $pag_pag, $pag_Rellam, $pag_fechaRellam, $Fecha_Rellam) {
+    public function desc($pag_cli, $pag_ped, $pag_pro, $pag_obs, $pag_sal, $pag_pag, $pag_Rellam, $pag_fechaRellam, $Fecha_Rellam)
+    {
         //Datos Auditoría
         $user = $this->session->userdata('Usuario');
         $fecha = date("Y-m-d H:i:s");
@@ -1032,7 +1052,7 @@ class Pagos extends CI_Controller {
             "UsuarioModificacion" => $user,
             "FechaModificacion" => $fecha
         );
- 
+
         try {
             if ($this->Pagos_model->updateProg($pag_pro, $dataPago)) {
                 $modulo = "Pagar Pedido";
@@ -1048,14 +1068,14 @@ class Pagos extends CI_Controller {
                     $this->History($pag_cli, $pag_ped, $fecha, $user, "Descartar Pago", $pag_sal, 0, $pag_sal, 0, $pag_obs);
 
                     $sql = LogSave($data, $modulo, $tabla, $accion, $llave);
-                
+
                     $this->inhabilitarLlamadas($pag_cli, $pag_ped, $fecha, $user);
 
                     if ($pag_fechaRellam != "") {
                         //Programar Llamada para otro día //
                         $observaciones = "Se descarta el Recibo de Pago.\n---\n" . $pag_obs . "\n\n"
-                                . "Se asigna otro día para Llamar al Cliente nuevamente.\n"
-                                . "Nuevo día: " . $pag_fechaRellam . ".\n \nObservación Automática";
+                            . "Se asigna otro día para Llamar al Cliente nuevamente.\n"
+                            . "Nuevo día: " . $pag_fechaRellam . ".\n \nObservación Automática";
                         $fechaGestion = date("Y-m-d", strtotime($fecha));
                         $gestion = array(
                             "Pedido" => $pag_ped,
@@ -1072,8 +1092,8 @@ class Pagos extends CI_Controller {
                         if ($this->Cobradores_model->saveLlamada($gestion)) {
                             $dataGestion = $this->Cobradores_model->obtenerLlamadasPedidoFecha($pag_ped, $pag_cli, $fechaGestion);
                             if ($dataGestion) {
-                                $gestion ["Codigo"] = $dataGestion[0]['Codigo'];
-                                $gestion ['Observaciones'] = "Gestión de Llamada: Recibo de Pago\n---\n" . $observaciones;
+                                $gestion["Codigo"] = $dataGestion[0]['Codigo'];
+                                $gestion['Observaciones'] = "Gestión de Llamada: Recibo de Pago\n---\n" . $observaciones;
                                 $modulo = "Gestión Cliente";
                                 $tabla = "Llamada";
                                 $accion = "Llamada a Cliente";
@@ -1092,28 +1112,29 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function obtenerListadosClientesCobro() {
+    public function obtenerListadosClientesCobro()
+    {
         $dataClientes = $this->Clientes_model->obtenerNomClientesDir($this->config->item('cli_devol'), $this->config->item('cli_paz'));
         $usuario = $this->session->userdata('Codigo');
         $PerfilId = $this->session->userdata('PerfilId');
-        
+
         if (isset($dataClientes) && $dataClientes != FALSE) {
             $d = array();
             $dataPagoPedido = array();
             $datosPagos = array();
             $dataPagosP = array();
-            $permisos = $this->SearchPermissions();  
+            $permisos = $this->SearchPermissions();
             foreach ($dataClientes as $itemCliente) {
                 $diaCobroPedido = "";
-                $cliente = $itemCliente["Codigo"]; 
+                $cliente = $itemCliente["Codigo"];
                 $dataUserCliente = false;
-         
-                if (!$permisos["SoloPropios"]) 
+
+                if (!$permisos["SoloPropios"])
                     $dataUserCliente = $this->Clientes_model->ClienteUsuarioBool($cliente, $usuario);
-                else 
+                else
                     $dataUserCliente = true;
- 
-                if ($dataUserCliente) { 
+
+                if ($dataUserCliente) {
                     $dataPedido = $this->Pedidos_model->obtenerPedidosCliente($cliente);
                     if (isset($dataPedido) && $dataPedido != FALSE) {
                         foreach ($dataPedido as $item) {
@@ -1226,7 +1247,7 @@ class Pagos extends CI_Controller {
                                 $dataPagosP["saldo"] = intval($item1["Valor"]) - intval($abonado);
                                 $dataPagosP["DiaCobro"] = $diaCobroPedido;
                                 $dataPagosP["telefono"] = $telefono;
-                                $dataPagosP["barrio"] = $barrio; 
+                                $dataPagosP["barrio"] = $barrio;
                                 $dataPagosP["codCliente"] = $codCliente;
                                 $dataPagosP["PaginaFisica"] = $item1["PaginaFisica"];
 
@@ -1236,7 +1257,7 @@ class Pagos extends CI_Controller {
                     }
                 }
             }
-            
+
             $datosPagos = $this->valPagosGestion($datosPagos);
             //die();
             //print_r($dataPagoPedido);
@@ -1248,39 +1269,40 @@ class Pagos extends CI_Controller {
     }
 
     public function SearchPermissions()
-    { 
-        $permisos = [];  
+    {
+        $permisos = [];
 
         //Consultar Cliente
         $idPermiso = 15;
-        $permisos["Consultar"] = validarPermisoAcciones($idPermiso);  
+        $permisos["Consultar"] = validarPermisoAcciones($idPermiso);
         //Cambio de Fecha de Cobro
         $idPermiso = 16;
-        $permisos["CambioFecha"] = validarPermisoAcciones($idPermiso);  
+        $permisos["CambioFecha"] = validarPermisoAcciones($idPermiso);
         //Cambio de Tarifa
         $idPermiso = 17;
-        $permisos["CambioTarifa"] = validarPermisoAcciones($idPermiso);  
+        $permisos["CambioTarifa"] = validarPermisoAcciones($idPermiso);
         //Hacer Recibo
         $idPermiso = 19;
-        $permisos["Generar"] = validarPermisoAcciones($idPermiso);  
+        $permisos["Generar"] = validarPermisoAcciones($idPermiso);
         //Pagos Realizados del Cliente
         $idPermiso = 23;
-        $permisos["Pagos"] = validarPermisoAcciones($idPermiso);  
+        $permisos["Pagos"] = validarPermisoAcciones($idPermiso);
         //Devolución del Cliente
         $idPermiso = 90;
-        $permisos["Devolucion"] = validarPermisoAcciones($idPermiso);  
+        $permisos["Devolucion"] = validarPermisoAcciones($idPermiso);
         //Ver solo las llamadas de los Clientes Propios
         $idPermiso = 107;
-        $permisos["SoloPropios"] = validarPermisoAcciones($idPermiso);  
-            
+        $permisos["SoloPropios"] = validarPermisoAcciones($idPermiso);
+
         return $permisos;
     }
-    
-    public function obtenerListadosClientesNoLlamadaCobro() {
+
+    public function obtenerListadosClientesNoLlamadaCobro()
+    {
         $dataClientes = $this->Clientes_model->obtenerNomClientesDir($this->config->item('cli_devol'), $this->config->item('cli_paz'));
         $usuario = $this->session->userdata('Codigo');
-        $PerfilId = $this->session->userdata('PerfilId');        
-        $permisos = $this->SearchPermissions();  
+        $PerfilId = $this->session->userdata('PerfilId');
+        $permisos = $this->SearchPermissions();
 
         if (isset($dataClientes) && $dataClientes != FALSE) {
             $d = array();
@@ -1291,10 +1313,10 @@ class Pagos extends CI_Controller {
                 $diaCobroPedido = "";
                 $cliente = $itemCliente["Codigo"];
                 $dataUserCliente = false;
-     
-                if (!$permisos["SoloPropios"]) 
-                    $dataUserCliente = $this->Clientes_model->ClienteUsuarioBool($value["Cliente"], $usuario);
-                else 
+
+                if (!$permisos["SoloPropios"])
+                    $dataUserCliente = $this->Clientes_model->ClienteUsuarioBool($cliente, $usuario);
+                else
                     $dataUserCliente = true;
 
                 if ($dataUserCliente) {
@@ -1401,7 +1423,7 @@ class Pagos extends CI_Controller {
                                 $dataPagosP["saldo"] = intval($item1["Valor"]) - intval($abonado);
                                 $dataPagosP["DiaCobro"] = $diaCobroPedido;
                                 $dataPagosP["telefono"] = $telefono;
-                                $dataPagosP["barrio"] = $barrio; 
+                                $dataPagosP["barrio"] = $barrio;
                                 $dataPagosP["codCliente"] = $codCliente;
                                 $dataPagosP["PaginaFisica"] = $item1["PaginaFisica"];
 
@@ -1420,7 +1442,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function obtenerListadosClientesCobroJson() {
+    public function obtenerListadosClientesCobroJson()
+    {
         $data = $this->obtenerListadosClientesCobro();
         //die();
         $arreglo["data"] = [];
@@ -1428,20 +1451,22 @@ class Pagos extends CI_Controller {
         if (isset($data) && $data != FALSE) {
             $i = 0;
             foreach ($data as $item) {
-                //var_dump($item);
-                //echo "<br><br>"; 
-                $btn1 = '<a href = "#ModalCall" data-toggle = "modal" title = "Reportar Llamada" onclick = "DatosModal(\'' . $item["Pedidos"] . '\', \'' . $item["codCliente"] . '\', \'' . $item["Nombre"] . '\', \'' . $item["Direccion"] . '\', \'' . $item["telefono"] . '\', \'' . $item["barrio"] . '\', \'' . money_format("%.0n", $item["saldo"]) . '\');"><i class = "fa fa-phone" aria-hidden = "true" style = "padding:5px;"></i></a>';
+                // var_dump($item);
+                // echo "<br><br>";
+                // var_dump(money_format_cop($item["saldo"]));
+                // die();
+                $btn1 = '<a href = "#ModalCall" data-toggle = "modal" title = "Reportar Llamada" onclick = "DatosModal(\'' . $item["Pedidos"] . '\', \'' . $item["codCliente"] . '\', \'' . $item["Nombre"] . '\', \'' . $item["Direccion"] . '\', \'' . $item["telefono"] . '\', \'' . $item["barrio"] . '\', \'' . money_format_cop($item["saldo"]) . '\');"><i class = "fa fa-phone" aria-hidden = "true" style = "padding:5px;"></i></a>';
                 $btn2 = '<a href = "' . base_url() . 'Cobradores/GestionHoy/' . $item["Pedidos"] . '/' . $item["codCliente"] . '/" title = "Gestión de Llamada (15 días)" target="_blank"><i class = "fa fa-list-ul" aria-hidden = "true" style = "padding:5px;"></i></a>';
                 $btn3 = '<a href = "' . base_url() . 'Pagos/Generar/' . $item["codCliente"] . '/" target="_blank" title = "Pagar"><i class = "fa fa-motorcycle" aria-hidden = "true" style = "padding:5px;"></i></a>';
                 $btn4 = '<a href = "' . base_url() . 'Cobradores/GestionHis/' . $item["Pedidos"] . '/' . $item["codCliente"] . '/" title = "TODAS las Gestión de Llamada" target="_blank"><i class = "fa fa-history" aria-hidden = "true" style = "padding:5px;"></i></a>';
-                
+
                 $arreglo["data"][$i] = array(
                     "Nombre" => $item["Nombre"],
                     "Direccion" => $item["Direccion"],
                     "telefono" => $item["telefono"],
                     "cuota" => $item["cuota"],
-                    "saldo" => money_format("%.0n", $item["saldo"]),
-                    "UltimoPago" => money_format("%.0n", $item["UltimoPago"]),
+                    "saldo" => money_format_cop($item["saldo"]),
+                    "UltimoPago" => money_format_cop($item["UltimoPago"]),
                     "DiaCobro" => $item["DiaCobro"],
                     "Ubicacion" => $item["PaginaFisica"],
                     "Motivo" => $item["Motivo"],
@@ -1453,7 +1478,8 @@ class Pagos extends CI_Controller {
         echo json_encode($arreglo);
     }
 
-    public function obtenerListadosClientesNoLlamadaCobroJson() {
+    public function obtenerListadosClientesNoLlamadaCobroJson()
+    {
         $data = $this->obtenerListadosClientesNoLlamadaCobro();
         $arreglo["data"] = [];
 
@@ -1463,18 +1489,18 @@ class Pagos extends CI_Controller {
                 //var_dump($item);
                 //echo "<br><br>";
 
-                $btn1 = '<a href = "#ModalCall" data-toggle = "modal" title = "Reportar Llamada" onclick = "DatosModal(\'' . $item["Pedidos"] . '\', \'' . $item["codCliente"] . '\', \'' . $item["Nombre"] . '\', \'' . $item["Direccion"] . '\', \'' . $item["telefono"] . '\', \'' . $item["barrio"] . '\', \'' . money_format("%.0n", $item["saldo"]) . '\');"><i class = "fa fa-phone" aria-hidden = "true" style = "padding:5px;"></i></a>';
+                $btn1 = '<a href = "#ModalCall" data-toggle = "modal" title = "Reportar Llamada" onclick = "DatosModal(\'' . $item["Pedidos"] . '\', \'' . $item["codCliente"] . '\', \'' . $item["Nombre"] . '\', \'' . $item["Direccion"] . '\', \'' . $item["telefono"] . '\', \'' . $item["barrio"] . '\', \'' . money_format_cop($item["saldo"]) . '\');"><i class = "fa fa-phone" aria-hidden = "true" style = "padding:5px;"></i></a>';
                 $btn2 = '<a href = "' . base_url() . 'Cobradores/GestionHoy/' . $item["Pedidos"] . '/' . $item["codCliente"] . '/" title = "Gestión de Llamada (15 días)" target="_blank"><i class = "fa fa-list-ul" aria-hidden = "true" style = "padding:5px;"></i></a>';
                 $btn3 = '<a href = "' . base_url() . 'Pagos/Generar/' . $item["codCliente"] . '/" target="_blank" title = "Pagar"><i class = "fa fa-motorcycle" aria-hidden = "true" style = "padding:5px;"></i></a>';
                 $btn4 = '<a href = "' . base_url() . 'Cobradores/GestionHis/' . $item["Pedidos"] . '/' . $item["codCliente"] . '/" title = "TODAS las Gestión de Llamada" target="_blank"><i class = "fa fa-history" aria-hidden = "true" style = "padding:5px;"></i></a>';
-               
+
                 $arreglo["data"][$i] = array(
                     "Nombre" => $item["Nombre"],
                     "Direccion" => $item["Direccion"],
                     "telefono" => $item["telefono"],
                     "cuota" => $item["cuota"],
-                    "saldo" => money_format("%.0n", $item["saldo"]),
-                    "UltimoPago" => money_format("%.0n", $item["UltimoPago"]),
+                    "saldo" => money_format_cop($item["saldo"]),
+                    "UltimoPago" => money_format_cop($item["UltimoPago"]),
                     "DiaCobro" => $item["DiaCobro"],
                     "Ubicacion" => $item["PaginaFisica"],
                     "Motivo" => $item["Motivo"],
@@ -1486,7 +1512,8 @@ class Pagos extends CI_Controller {
         echo json_encode($arreglo);
     }
 
-    public function Consultar($pago) {
+    public function Consultar($pago)
+    {
         $idPermiso = 24;
         $page = validarPermisoPagina($idPermiso);
 
@@ -1502,7 +1529,7 @@ class Pagos extends CI_Controller {
                             "Codigo" => "1",
                             "Nombre" => "Sin Cobrador Asociado"
                         );
-                        $dataCobradores [0] = $Cobradores;
+                        $dataCobradores[0] = $Cobradores;
                     }
 
                     $dataPagoPedido = array();
@@ -1524,7 +1551,7 @@ class Pagos extends CI_Controller {
                             $abonado = 0;
                             $f2 = "2018-01-01 00:00:00";
                             foreach ($dataPagoPedido[$i] as $item) {
-                                $cuota ++;
+                                $cuota++;
                                 $abonado = $abonado + $item["Pago"];
                                 $f1 = $item["FechaPago"];
                                 if ($f1 > $f2) {
@@ -1590,7 +1617,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function Log($pedido) {        
+    public function Log($pedido)
+    {
         $idPermiso = 26;
         $page = validarPermisoPagina($idPermiso);
 
@@ -1625,7 +1653,7 @@ class Pagos extends CI_Controller {
                         }
                     }
                     if ($datacliente[0]["Estado"] == 123) {
-                        $this->session->set_flashdata("msg", "El Cliente <b>" . $datacliente[0]["Nombre"] . "</b> pagó el total de la Biblia.");
+                        $this->session->set_flashdata("msg", "El Cliente <b>" . $datacliente[0]["Nombre"] . "</b> pagó el total del pedido.");
                     }
 
                     $this->load->view('frontend', $data);
@@ -1640,7 +1668,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function VerLog($codigo) {
+    public function VerLog($codigo)
+    {
         $dataLog = $this->Log_model->obtenerLogPorCod($codigo);
         if (isset($dataLog) && $dataLog != FALSE) {
             $data = new stdClass();
@@ -1656,7 +1685,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function Historial($pedido) {
+    public function Historial($pedido)
+    {
         $idPermiso = 25;
         $page = validarPermisoPagina($idPermiso);
 
@@ -1679,7 +1709,7 @@ class Pagos extends CI_Controller {
                     $data->ListaDatos = $dataLog;
                     $data->cliente = $cliente;
                     if ($datacliente[0]["Estado"] == 123) {
-                        $this->session->set_flashdata("msg", "El Cliente <b>" . $datacliente[0]["Nombre"] . "</b> pagó el total de la Biblia.");
+                        $this->session->set_flashdata("msg", "El Cliente <b>" . $datacliente[0]["Nombre"] . "</b> pagó el total del pedido.");
                     }
 
                     $this->load->view('frontend', $data);
@@ -1694,7 +1724,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function History($cliente, $pedido, $fecha, $usuario, $accion, $saldoAnt, $cuota, $saldoNue, $abono, $obs) {
+    public function History($cliente, $pedido, $fecha, $usuario, $accion, $saldoAnt, $cuota, $saldoNue, $abono, $obs)
+    {
         $historia = array(
             "Pedido" => $pedido,
             "Cliente" => $cliente,
@@ -1711,7 +1742,8 @@ class Pagos extends CI_Controller {
         $this->Pagos_model->saveHistoria($historia);
     }
 
-    public function inhabilitarLlamadas($cliente, $pedido, $fecha, $usuario) {
+    public function inhabilitarLlamadas($cliente, $pedido, $fecha, $usuario)
+    {
         $llamadas = array(
             "Habilitado" => 0,
             "UsuarioModificacion" => $usuario,
@@ -1720,7 +1752,8 @@ class Pagos extends CI_Controller {
         $this->Pagos_model->inhabilitarLlamadas($cliente, $pedido, $llamadas);
     }
 
-    public function Morosos() {
+    public function Morosos()
+    {
         $idPermiso = 13;
         $page = validarPermisoPagina($idPermiso);
 
@@ -1728,18 +1761,18 @@ class Pagos extends CI_Controller {
         $PerfilId = $this->session->userdata('PerfilId');
         $dataPedidos = $this->Pedidos_model->obtenerPedidosDeben();
         $dataCobradores = $this->Cobradores_model->obtenerCobradores();
-        $permisos = $this->SearchPermissions();  
-        
+        $permisos = $this->SearchPermissions();
+
         if (isset($dataPedidos) && $dataPedidos != FALSE) {
             $i = 0;
-            foreach ($dataPedidos as $value) {  
+            foreach ($dataPedidos as $value) {
                 $dataUserCliente = false;
-     
-                if (!$permisos["SoloPropios"]) 
+
+                if (!$permisos["SoloPropios"])
                     $dataUserCliente = $this->Clientes_model->ClienteUsuarioBool($value["Cliente"], $usuario);
-                else 
+                else
                     $dataUserCliente = true;
- 
+
                 if ($dataUserCliente) {
                     $dataCliente = $this->Clientes_model->obtenerClienteDir($value["Cliente"]);
                     $dataPedidos[$i]["CodCliente"] = $dataCliente["0"]["Codigo"];
@@ -1770,13 +1803,13 @@ class Pagos extends CI_Controller {
                 $i++;
             }
             $this->session->set_flashdata("msg", "");
-        } else { 
+        } else {
             if ($PerfilId >= 102) {
                 $this->session->set_flashdata("error", "Usted no tiene Clientes Asociados como Morosos.");
             } else {
                 $this->session->set_flashdata("error", "No hay Clientes Morosos");
             }
-        }       
+        }
         $data = new stdClass();
         $data->Controller = "Clientes";
         $data->title = "Clientes Morosos";
@@ -1788,25 +1821,26 @@ class Pagos extends CI_Controller {
         $this->load->view('frontend', $data);
     }
 
-    public function Datacredito() {
+    public function Datacredito()
+    {
         $idPermiso = 14;
         $page = validarPermisoPagina($idPermiso);
         $i = 0;
         $usuario = $this->session->userdata('Codigo');
         $PerfilId = $this->session->userdata('PerfilId');
-        $permisos = $this->SearchPermissions();  
+        $permisos = $this->SearchPermissions();
 
         $dataPedidos = $this->Pedidos_model->obtenerPedidosDatacredito();
         $dataCobradores = $this->Cobradores_model->obtenerCobradores();
-        if (isset($dataPedidos) && $dataPedidos != FALSE) {            
+        if (isset($dataPedidos) && $dataPedidos != FALSE) {
             foreach ($dataPedidos as $value) {
                 $dataUserCliente = false;
-     
-                if (!$permisos["SoloPropios"]) 
+
+                if (!$permisos["SoloPropios"])
                     $dataUserCliente = $this->Clientes_model->ClienteUsuarioBool($value["Cliente"], $usuario);
-                else 
+                else
                     $dataUserCliente = true;
-                
+
                 if ($dataUserCliente != FALSE) {
                     $dataCliente = $this->Clientes_model->obtenerClienteDir($value["Cliente"]);
                     $dataPedidos[$i]["Nombre"] = $dataCliente["0"]["Nombre"];
@@ -1836,7 +1870,7 @@ class Pagos extends CI_Controller {
                 $i++;
             }
             $this->session->set_flashdata("msg", "");
-        } else { 
+        } else {
             if ($PerfilId >= 102) {
                 $this->session->set_flashdata("error", "Usted no tiene Clientes Asociados en Datacrédito.");
             } else {
@@ -1855,7 +1889,8 @@ class Pagos extends CI_Controller {
         $this->load->view('frontend', $data);
     }
 
-    public function ReportarData($pedido) {
+    public function ReportarData($pedido)
+    {
         if ($pedido != "") {
             $dataPedido = $this->Pedidos_model->obtenerPedido($pedido);
             if ($dataPedido != FALSE) {
@@ -1944,7 +1979,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function Revision($ReturnUrl = null) {
+    public function Revision($ReturnUrl = null)
+    {
         $data = new stdClass();
         $data->Controller = "Pagos";
         $data->title = "Revisión de Clientes";
@@ -1963,8 +1999,9 @@ class Pagos extends CI_Controller {
             redirect(base_url() . $ReturnUrl);
         }
     }
- 
-    public function PagarMora($pedido) {
+
+    public function PagarMora($pedido)
+    {
         $dataPedido = $this->Pedidos_model->obtenerPedidosClientePorPedido($pedido);
         if (isset($dataPedido) && $dataPedido != FALSE) {
             $dataClientes = $this->Clientes_model->obtenerClienteDir($dataPedido[0]["Cliente"]);
@@ -1989,7 +2026,7 @@ class Pagos extends CI_Controller {
                         $abonado = 0;
                         $f2 = "2018-01-01 00:00:00";
                         foreach ($dataPagoPedido[$i] as $item) {
-                            $cuota ++;
+                            $cuota++;
                             $abonado = $abonado + $item["Pago"];
                             $f1 = $item["FechaPago"];
                             if ($f1 > $f2) {
@@ -2047,16 +2084,17 @@ class Pagos extends CI_Controller {
 
                 $this->load->view('frontend', $data);
             } else {
-                $this->session->set_flashdata("error", "No se encontraron datos del Cliente: <b>$cliente</b>");
+                $this->session->set_flashdata("error", "No se encontraron datos del Cliente");
                 redirect(base_url("/Clientes/Admin/"));
             }
         } else {
-            $this->session->set_flashdata("error", "No se encontraron pedidos del Cliente: <b>$cliente</b>");
+            $this->session->set_flashdata("error", "No se encontraron pedidos del Cliente");
             redirect(base_url("/Clientes/Admin/"));
         }
     }
 
-    public function calcularSaldoMinimo($valorTotal, $DiaCobro, $cuota) {
+    public function calcularSaldoMinimo($valorTotal, $DiaCobro, $cuota)
+    {
         $fechaPago = date("Y-m-d", strtotime($DiaCobro));
         $fecha = date("Y-m-d");
         $interval = date_diff(date_create($fechaPago), date_create($fecha));
@@ -2085,7 +2123,8 @@ class Pagos extends CI_Controller {
         return $dataSaldo;
     }
 
-    public function AdminProg() {
+    public function AdminProg()
+    {
         $dataUsuarios = $this->Usuarios_model->obtenerUsuariosEP();
         $fecha = date("Y-m-d");
         $user = "*";
@@ -2108,7 +2147,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function numPagosProgramados($user = "*", $fechaIni = "", $fechaFin = "") {
+    public function numPagosProgramados($user = "*", $fechaIni = "", $fechaFin = "")
+    {
         if ($user == "") {
             $user = "*";
         }
@@ -2126,14 +2166,15 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function pagosProgramados() {
+    public function pagosProgramados()
+    {
         //Datos Auditoría 
         $fecha = date("Y-m-d H:i:s");
 
         $user = "*";
         $fechaIni = date('Y-m-d') . " 00:00:00";
         $fechaFin = date('Y-m-d') . " 23:59:59";
- 
+
         try {
             $dataProgramados = $this->Pagos_model->obtenerPagosProgramaFechaUser($user, $fechaIni, $fechaFin);
             $arreglo["data"] = [];
@@ -2148,29 +2189,29 @@ class Pagos extends CI_Controller {
                     $btn3 = "";
                     $btn4 = "";
 
-                    if ($item["NomEstado"] == "Programado") { 
-                        $dia = date("d", strtotime($item["DiaCobro"] . "+ 1 month")); 
-                        $mes = date("m", strtotime($fecha . "+ 1 month"));  
+                    if ($item["NomEstado"] == "Programado") {
+                        $dia = date("d", strtotime($item["DiaCobro"] . "+ 1 month"));
+                        $mes = date("m", strtotime($fecha . "+ 1 month"));
                         $anio = date("Y", strtotime($item["DiaCobro"] . "+ 1 month"));
-  
+
                         $nuevoDiaCobro = date("d/m/Y", strtotime($dia . "-" . $mes . "-" . $anio));
-                        echo "<br><br>"; 
+                        echo "<br><br>";
                         $DiaCobro = date("d/m/Y", strtotime($item["DiaCobro"]));
                         //  echo "<br><br>"; 
-                                                
+
                         $newline = '\n';
                         $item["Observaciones"] = str_replace("\n", $newline, $item["Observaciones"]);
                         $saldo = intval($pedidosClientes[0]["Saldo"]) - intval($item["Cuota"]);
-                        $btn2 = html_entity_decode("<a href='#ModalConfirmarPago' data-toggle='modal' onclick='dataModalConfirmar(\"" . $item['Codigo'] . "\", \"" . money_format("%.0n", $item["Cuota"]) . "\", \"" . money_format("%.0n", $saldo) . "\", \"" . $item["Valor"] . "\", \"" . $pedidosClientes[0]['Cliente'] . "\", \"" . $item["Pedido"] . "\", \"" . $pedidosClientes[0]['Nombre'] . "\", \"" . $item["Observaciones"] . "\", \"" . $DiaCobro . "\", \"" . $nuevoDiaCobro . "\");' title='Confirmar Pago'><i class='fa fa-check' aria-hidden='true' style='padding:5px;'></i></a>");
-                        $btn3 = html_entity_decode("<a href='#ModalDescartarPago' data-toggle='modal' onclick='dataModalDescartar(\"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\", \"" . $pedidosClientes[0]['Cliente'] . "\", \"" . $pedidosClientes[0]['Nombre'] . "\", \"" . money_format("%.0n", $item["Cuota"]) . "\", \"" . money_format("%.0n", $pedidosClientes[0]["Saldo"]) . "\", \"" . $item["Valor"] . "\", \"" . $item["Observaciones"] . "\");' title='Descartar Pago'><i class='fa fa-close' aria-hidden='true' style='padding:5px;'></i></a>");
+                        $btn2 = html_entity_decode("<a href='#ModalConfirmarPago' data-toggle='modal' onclick='dataModalConfirmar(\"" . $item['Codigo'] . "\", \"" . money_format_cop($item["Cuota"]) . "\", \"" . money_format_cop($saldo) . "\", \"" . $item["Valor"] . "\", \"" . $pedidosClientes[0]['Cliente'] . "\", \"" . $item["Pedido"] . "\", \"" . $pedidosClientes[0]['Nombre'] . "\", \"" . $item["Observaciones"] . "\", \"" . $DiaCobro . "\", \"" . $nuevoDiaCobro . "\");' title='Confirmar Pago'><i class='fa fa-check' aria-hidden='true' style='padding:5px;'></i></a>");
+                        $btn3 = html_entity_decode("<a href='#ModalDescartarPago' data-toggle='modal' onclick='dataModalDescartar(\"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\", \"" . $pedidosClientes[0]['Cliente'] . "\", \"" . $pedidosClientes[0]['Nombre'] . "\", \"" . money_format_cop($item["Cuota"]) . "\", \"" . money_format_cop($pedidosClientes[0]["Saldo"]) . "\", \"" . $item["Valor"] . "\", \"" . $item["Observaciones"] . "\");' title='Descartar Pago'><i class='fa fa-close' aria-hidden='true' style='padding:5px;'></i></a>");
                         $f1 = strtotime($item["FechaImpresion"]);
                         $f2 = strtotime(date("d-m-Y 00:00:00", time()));
 
                         if ($item["Copias"] == 0) {
-                            $btn4 = "<a href='#ModalPrintSolo' data-toggle='modal' title='Imprimir Recibo de Pago' onclick='dataModalSolo(\"1\",\"" . money_format("%.0n", $item["Cuota"]) . "\", \"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\");'><i class='fa fa-print' aria-hidden='true' style='padding:5px;'></i></a>";
+                            $btn4 = "<a href='#ModalPrintSolo' data-toggle='modal' title='Imprimir Recibo de Pago' onclick='dataModalSolo(\"1\",\"" . money_format_cop($item["Cuota"]) . "\", \"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\");'><i class='fa fa-print' aria-hidden='true' style='padding:5px;'></i></a>";
                         } else {
                             if (($item["Copias"] > 1 && $item["Copias"] < 3) && $f1 != $f2) {
-                                $btn4 = "<a href='#ModalPrintSolo' data-toggle='modal' title='Imprimir Recibo de Pago' onclick='dataModalSolo(\"1\",\"" . money_format("%.0n", $item["Cuota"]) . "\", \"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\");'><i class='fa fa-print' aria-hidden='true' style='padding:5px;'></i></a>";
+                                $btn4 = "<a href='#ModalPrintSolo' data-toggle='modal' title='Imprimir Recibo de Pago' onclick='dataModalSolo(\"1\",\"" . money_format_cop($item["Cuota"]) . "\", \"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\");'><i class='fa fa-print' aria-hidden='true' style='padding:5px;'></i></a>";
                             }
                         }
                     }
@@ -2197,8 +2238,8 @@ class Pagos extends CI_Controller {
                     $arreglo["data"][$i] = array(
                         "pedido" => $pedidosClientes[0]["Nombre"],
                         "numCuota" => $numCuotas,
-                        "saldo" => money_format("%.0n", $pedidosClientes["0"]["Saldo"]),
-                        "cuota" => money_format("%.0n", $item["Cuota"]),
+                        "saldo" => money_format_cop($pedidosClientes["0"]["Saldo"]),
+                        "cuota" => money_format_cop($item["Cuota"]),
                         "fecha" => date("d/m/Y", strtotime($item["FechaProgramada"])),
                         "estado" => $item["NomEstado"],
                         "direccion" => $direccion,
@@ -2213,7 +2254,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function FiltroProg() {
+    public function FiltroProg()
+    {
         $user = trim($this->input->post('pag_usu'));
         // $user = "*";
         $fechaIni = trim($this->input->post('pag_fec1'));
@@ -2224,7 +2266,7 @@ class Pagos extends CI_Controller {
         // $fechaFin = date("Y-m-d");
         $date = str_replace('/', '-', $fechaFin);
         $fechaFin = date("Y-m-d", strtotime($date)) . " 23:59:59";
-        
+
         // echo $user."<br>";
         // echo $fechaIni."<br>";
         // echo $fechaFin."<br>";
@@ -2253,20 +2295,20 @@ class Pagos extends CI_Controller {
                     if ($item["NomEstado"] == "Programado") {
                         $saldo = intval($pedidosClientes[0]["Saldo"]) - intval($item["Cuota"]);
                         $newline = '\n';
-                        $item["Observaciones"] = str_replace("\n", $newline, $item["Observaciones"]);  
+                        $item["Observaciones"] = str_replace("\n", $newline, $item["Observaciones"]);
 
                         $proximoPago = $this->getNextDayPay($pedidosClientes[0]["DiaCobro"]);
                         $proximoPago = date("d/m/Y", strtotime($proximoPago));
-                        
+
                         $idPermiso = 112;
                         $accion = validarPermisoAcciones($idPermiso);
                         if ($accion) {
-                            $btn2 = html_entity_decode("<a href='#ModalConfirmarPago' data-toggle='modal' onclick='dataModalConfirmar(\"" . $item['Codigo'] . "\", \"" . money_format("%.0n", $item["Cuota"]) . "\", \"" . money_format("%.0n", $saldo) . "\", \"" . $item["Valor"] . "\", \"" . $pedidosClientes[0]['Cliente'] . "\", \"" . $item["Pedido"] . "\", \"" . $pedidosClientes[0]['Nombre'] . "\", \"" . $item["Observaciones"] . "\", \"" . $proximoPago . "\");' title='Confirmar Pago'><i class='fa fa-check' aria-hidden='true' style='padding:5px;'></i></a>");
+                            $btn2 = html_entity_decode("<a href='#ModalConfirmarPago' data-toggle='modal' onclick='dataModalConfirmar(\"" . $item['Codigo'] . "\", \"" . money_format_cop($item["Cuota"]) . "\", \"" . money_format_cop($saldo) . "\", \"" . $item["Valor"] . "\", \"" . $pedidosClientes[0]['Cliente'] . "\", \"" . $item["Pedido"] . "\", \"" . $pedidosClientes[0]['Nombre'] . "\", \"" . $item["Observaciones"] . "\", \"" . $proximoPago . "\");' title='Confirmar Pago'><i class='fa fa-check' aria-hidden='true' style='padding:5px;'></i></a>");
                         }
                         $idPermiso = 22;
                         $accion = validarPermisoAcciones($idPermiso);
                         if ($accion) {
-                            $btn3 = html_entity_decode("<a href='#ModalDescartarPago' data-toggle='modal' onclick='dataModalDescartar(\"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\", \"" . $pedidosClientes[0]['Cliente'] . "\", \"" . $pedidosClientes[0]['Nombre'] . "\", \"" . money_format("%.0n", $item["Cuota"]) . "\", \"" . money_format("%.0n", $pedidosClientes[0]["Saldo"]) . "\", \"" . $item["Valor"] . "\", \"" . $item["Observaciones"] . "\");' title='Descartar Pago'><i class='fa fa-close' aria-hidden='true' style='padding:5px;'></i></a>");
+                            $btn3 = html_entity_decode("<a href='#ModalDescartarPago' data-toggle='modal' onclick='dataModalDescartar(\"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\", \"" . $pedidosClientes[0]['Cliente'] . "\", \"" . $pedidosClientes[0]['Nombre'] . "\", \"" . money_format_cop($item["Cuota"]) . "\", \"" . money_format_cop($pedidosClientes[0]["Saldo"]) . "\", \"" . $item["Valor"] . "\", \"" . $item["Observaciones"] . "\");' title='Descartar Pago'><i class='fa fa-close' aria-hidden='true' style='padding:5px;'></i></a>");
                         }
 
                         $idPermiso = 32;
@@ -2276,10 +2318,10 @@ class Pagos extends CI_Controller {
                             $f2 = strtotime(date("d-m-Y 00:00:00", time()));
 
                             if ($item["Copias"] == 0) {
-                                $btn4 = "<a href='#ModalPrintSolo' data-toggle='modal' title='Imprimir Recibo de Pago' onclick='dataModalSolo(\"1\",\"" . money_format("%.0n", $item["Cuota"]) . "\", \"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\");'><i class='fa fa-print' aria-hidden='true' style='padding:5px;'></i></a>";
+                                $btn4 = "<a href='#ModalPrintSolo' data-toggle='modal' title='Imprimir Recibo de Pago' onclick='dataModalSolo(\"1\",\"" . money_format_cop($item["Cuota"]) . "\", \"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\");'><i class='fa fa-print' aria-hidden='true' style='padding:5px;'></i></a>";
                             } else {
                                 if (($item["Copias"] > 1 && $item["Copias"] < 3) && $f1 != $f2) {
-                                    $btn4 = "<a href='#ModalPrintSolo' data-toggle='modal' title='Imprimir Recibo de Pago' onclick='dataModalSolo(\"1\",\"" . money_format("%.0n", $item["Cuota"]) . "\", \"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\");'><i class='fa fa-print' aria-hidden='true' style='padding:5px;'></i></a>";
+                                    $btn4 = "<a href='#ModalPrintSolo' data-toggle='modal' title='Imprimir Recibo de Pago' onclick='dataModalSolo(\"1\",\"" . money_format_cop($item["Cuota"]) . "\", \"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\");'><i class='fa fa-print' aria-hidden='true' style='padding:5px;'></i></a>";
                                 }
                             }
                         }
@@ -2310,8 +2352,8 @@ class Pagos extends CI_Controller {
                     $arreglo["data"][$i] = array(
                         "pedido" => $pedidosClientes[0]["Nombre"],
                         "numCuota" => $numCuotas,
-                        "saldo" => money_format("%.0n", $pedidosClientes["0"]["Saldo"]),
-                        "cuota" => money_format("%.0n", $item["Cuota"]),
+                        "saldo" => money_format_cop($pedidosClientes["0"]["Saldo"]),
+                        "cuota" => money_format_cop($item["Cuota"]),
                         "fecha" => date("d/m/Y", strtotime($item["FechaProgramada"])),
                         "estado" => $item["NomEstado"],
                         "direccion" => $direccion,
@@ -2327,58 +2369,10 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function CartaData($pedido) {
-        $this->load->library('EdiPdf');
-        // create new PDF document
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+    public function CartaData($pedido) {}
 
-        // set document information
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('Casa Cobranza');
-        $pdf->SetTitle('Notificación DataCrédito');
-        $pdf->SetSubject('Carta Prejuridico');
-
-        // remove default header/footer
-        $pdf->setPrintHeader(false);
-        $pdf->setPrintFooter(false);
-
-        // set default monospaced font
-        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-        // set margins
-        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-
-        // set auto page breaks
-        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
-        // set image scale factor
-        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-        // set some language-dependent strings (optional)
-        if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
-            require_once(dirname(__FILE__) . '/lang/eng.php');
-            $pdf->setLanguageArray($l);
-        }
-
-        // ---------------------------------------------------------
-        // set font
-        $pdf->SetFont('times', 'BI', 20);
-            
-        // add a page
-        $pdf->AddPage();
-
-        // set some text to print
-        $txt = "Esta es la carta de notificación a datacrédito (Solicitar formato y texto)";
-
-        // print a block of text using Write()
-        $pdf->Write(0, $txt, '', 0, 'C', true, 0, false, false, 0);
-
-        // ---------------------------------------------------------
-        //Close and output PDF document
-        $pdf->Output('Notificacion_DataCredito.pdf', 'I');
-    }
-
-    public function ImprimirRecibosPP() {
+    public function ImprimirRecibosPP()
+    {
         $user = trim($this->input->post('pag_usu'));
         $fechaIni = trim($this->input->post('pag_fec1'));
         $date = str_replace('/', '-', $fechaIni);
@@ -2398,21 +2392,23 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function PermisosImprimirRecibos() {  
+    public function PermisosImprimirRecibos()
+    {
         $idPermiso = 113;
         $page = validarPermisoAcciones($idPermiso);
 
-        if ($page){
+        if ($page) {
             echo 1;
         } else {
             echo 0;
         }
     }
 
-    public function ImprimirReciboSolo($pedido, $pagoProg, $margen) { 
-        $idPermiso = 113; 
+    public function ImprimirReciboSolo($pedido, $pagoProg, $margen)
+    {
+        $idPermiso = 113;
         $page = validarPermisoAcciones($idPermiso);
-        if ($page){
+        if ($page) {
             if ($pedido != null && $pedido != "") {
                 if ($pedido != null && $pedido != "") {
                     $dataProgramados = $this->Pagos_model->obtenerPagosProgramaPedidoProg($pedido, $pagoProg);
@@ -2430,7 +2426,7 @@ class Pagos extends CI_Controller {
                                             <title>Recibos de Pago - </title>
                                             <link rel="icon" type="image/png" href="' . base_url() . 'Public/images/logo/01.png"/>
                                         </head>
-                                        <body>'; 
+                                        <body>';
                         if ($copias != FALSE) {
                             $num = $this->Pagos_model->ultimaCuota($pedido);
                             $numCuotas = $num[0]["Cuota"] + 1;
@@ -2473,10 +2469,13 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function ImprimirRecibos($margen) {
-        $idPermiso = 113; 
+    public function ImprimirRecibos($margen)
+    {
+        $idPermiso = 113;
         $page = validarPermisoAcciones($idPermiso);
         $data = $this->session->flashdata("dataProgramados");
+
+        $sub = $this->config->item('subdominio');
         if ($data != null) {
             $i = 0;
             echo $htmlEncabezado = '<!doctype html>
@@ -2488,7 +2487,7 @@ class Pagos extends CI_Controller {
                                 <link rel="icon" type="image/png" href="' . base_url() . 'Public/images/logo/01.png"/>
                             </head>
                             <body>';
-            $numRecibos = 0; 
+            $numRecibos = 0;
             foreach ($data as $value) {
                 //$copias = $this->agregarCopia($value["Codigo"]);
                 $copias = true;
@@ -2499,7 +2498,7 @@ class Pagos extends CI_Controller {
                         <br>
                         <br>
                         ";
-                        if ($sub == "Plataforma") { 
+                        if ($sub == "Plataforma") {
                             echo "<p style='margin-bottom: -8px;'>.</p>";
                         } elseif ($sub == "nelson") {
                             echo "<p style='margin-bottom: -10px;'>.</p>";
@@ -2511,7 +2510,7 @@ class Pagos extends CI_Controller {
 
                         echo $saltoNuevoRecibo;
                     }
-                    $numRecibos ++;
+                    $numRecibos++;
                     $pagina = $data[$i]["Pagina"];
 
                     $num = $this->Pagos_model->ultimaCuota($value["Pedido"]);
@@ -2540,7 +2539,7 @@ class Pagos extends CI_Controller {
                     echo $html;
 
                     $i++;
-                } 
+                }
             }
             if ($numRecibos <= 0) {
                 echo '<script>alert("Ya se imprimieron los recibos del día. Si desea reimprimirlos, debe comunicarse con el Administrador.");  window.open("","_parent",""); window.close(); </script>';
@@ -2552,7 +2551,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function agregarCopia($codigo) {
+    public function agregarCopia($codigo)
+    {
         if ($codigo != "") {
             $PagoPro = $this->Pagos_model->numCopias($codigo);
             if ($PagoPro != FALSE) {
@@ -2578,7 +2578,8 @@ class Pagos extends CI_Controller {
         return false;
     }
 
-    public function addCopia($codigo, $num) {
+    public function addCopia($codigo, $num)
+    {
         //Datos Auditoría
         $user = $this->session->userdata('Usuario');
         $fecha = date("Y-m-d H:i:s");
@@ -2606,14 +2607,15 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function RecibosSoloInfoNelson($data, $cliente, $dataAdmin, $pagina, $margen) {
+    public function RecibosSoloInfoNelson($data, $cliente, $dataAdmin, $pagina, $margen)
+    {
         setlocale(LC_ALL, "es_CO");
         $numeroRecibo = $data["Codigo"];
         $numeroRecibo = str_pad($numeroRecibo, 6, "0", STR_PAD_LEFT);
         $fecha = strftime("%d de %B del %Y", strtotime($data["FechaProgramada"])) . ' al ' . strftime("%d de %B del %Y", strtotime($data["FechaProgramada"] . "+ 8 days"));
         $nombreCliente = $cliente["Nombre"];
         $posSeparador = strpos($nombreCliente, '//');
-        if ($posSeparador != FALSE){
+        if ($posSeparador != FALSE) {
             $nombreCliente = substr($nombreCliente, 0, $posSeparador);
         }
 
@@ -2626,9 +2628,9 @@ class Pagos extends CI_Controller {
         $casa = $cliente["Casa"];
 
 
-        $valor = money_format("%.0n", $data["Valor"]);
-        $abono = money_format("%.0n", $data["Cuota"]);
-        $saldo = money_format("%.0n", $data["Saldo"] - $data["Cuota"]);
+        $valor = money_format_cop($data["Valor"]);
+        $abono = money_format_cop($data["Cuota"]);
+        $saldo = money_format_cop($data["Saldo"] - $data["Cuota"]);
         $cuota = $data["numCuotas"];
         $observaciones = $data["Observaciones"];
 
@@ -2697,7 +2699,8 @@ class Pagos extends CI_Controller {
         return $html;
     }
 
-    public function RecibosSoloInfoMundoKtolico($data, $cliente, $dataAdmin, $pagina, $margen) {
+    public function RecibosSoloInfoMundoKtolico($data, $cliente, $dataAdmin, $pagina, $margen)
+    {
         setlocale(LC_ALL, "es_CO");
         $numeroRecibo = $data["Codigo"];
         $numeroRecibo = str_pad($numeroRecibo, 6, "0", STR_PAD_LEFT);
@@ -2712,9 +2715,9 @@ class Pagos extends CI_Controller {
         $casa = $cliente["Casa"];
 
 
-        $valor = money_format("%.0n", $data["Valor"]);
-        $abono = money_format("%.0n", $data["Cuota"]);
-        $saldo = money_format("%.0n", $data["Saldo"] - $data["Cuota"]);
+        $valor = money_format_cop($data["Valor"]);
+        $abono = money_format_cop($data["Cuota"]);
+        $saldo = money_format_cop($data["Saldo"] - $data["Cuota"]);
         $cuota = $data["numCuotas"];
         $observaciones = $data["Observaciones"];
 
@@ -2781,16 +2784,17 @@ class Pagos extends CI_Controller {
         return $html;
     }
 
-    public function RecibosSoloInfoJose($data, $cliente, $dataAdmin, $pagina, $margen) {
+    public function RecibosSoloInfoJose($data, $cliente, $dataAdmin, $pagina, $margen)
+    {
         setlocale(LC_ALL, "es_CO");
         $numeroRecibo = $data["Codigo"];
         $numeroRecibo = str_pad($numeroRecibo, 6, "0", STR_PAD_LEFT);
         $fecha = strftime("%d de %B del %Y", strtotime($data["FechaProgramada"])) . ' al ' . strftime("%d de %B del %Y", strtotime($data["FechaProgramada"] . "+ 8 days"));
         $nombreCliente = $cliente["Nombre"];
         $direccionCliente = $cliente["Dir"];
-        $barrio = $cliente["Barrio"]; 
-        
-        $etapa = $cliente["Etapa"];    
+        $barrio = $cliente["Barrio"];
+
+        $etapa = $cliente["Etapa"];
         $torre = $cliente["Torre"];
         $apartamento = $cliente["Apartamento"];
         $manzana = $cliente["Manzana"];
@@ -2798,11 +2802,11 @@ class Pagos extends CI_Controller {
         $casa = $cliente["Casa"];
 
 
-        $valor = money_format("%.0n", $data["Valor"]);
-        $abono = money_format("%.0n", $data["Cuota"]);
-        $saldo = money_format("%.0n", $data["Saldo"] - $data["Cuota"]);
+        $valor = money_format_cop($data["Valor"]);
+        $abono = money_format_cop($data["Cuota"]);
+        $saldo = money_format_cop($data["Saldo"] - $data["Cuota"]);
         $cuota = $data["numCuotas"];
-        $observaciones = $data["Observaciones"]; 
+        $observaciones = $data["Observaciones"];
 
         if ($margen == 1) {
             $margen = "margin-top: 6px;";
@@ -2817,7 +2821,7 @@ class Pagos extends CI_Controller {
         } else {
             $margen = "margin-top: 0px;";
         }
-        
+
         $html = "
             <style>
                 * {
@@ -2887,7 +2891,8 @@ class Pagos extends CI_Controller {
         return $html;
     }
 
-    public function TablaRecibo1($data, $cliente, $dataAdmin) {
+    public function TablaRecibo1($data, $cliente, $dataAdmin)
+    {
         if ($data["Estado"] == 116) {
             $tel3 = "";
             if ($dataAdmin[0]["Telefono3"] != "") {
@@ -3024,13 +3029,13 @@ class Pagos extends CI_Controller {
                                 VALOR: 
                             </td> 
                             <td colspan="2" style="border-bottom:1px solid;">
-                                <p>&nbsp;&nbsp;&nbsp;' . money_format("%.0n", $data["Valor"]) . '</p>
+                                <p>&nbsp;&nbsp;&nbsp;' . money_format_cop($data["Valor"]) . '</p>
                             </td>
                             <td colspan="1" style="text-align:center;">
                                 ABONO: 
                             </td> 
                             <td colspan="2" style="border-bottom:1px solid;">
-                                <p>&nbsp;&nbsp;&nbsp;' . money_format("%.0n", $data["Cuota"]) . '</p>
+                                <p>&nbsp;&nbsp;&nbsp;' . money_format_cop($data["Cuota"]) . '</p>
                             </td>
                         </tr>
                         <tr>
@@ -3038,10 +3043,10 @@ class Pagos extends CI_Controller {
                                 SALDO: 
                             </td> 
                             <td colspan="2" style="border-bottom:1px solid;">
-                                <p>&nbsp;&nbsp;&nbsp;' . money_format("%.0n", $data["Valor"] - $data["Cuota"]) . '</p>
+                                <p>&nbsp;&nbsp;&nbsp;' . money_format_cop($data["Valor"] - $data["Cuota"]) . '</p>
                             </td>
                             <td colspan="3" style="text-align:center;">
-                                <p><b>1 BIBLIA GRANDE</b></p>
+                                <p><b>Pedido</b></p>
                             </td>
                         </tr>
                     </table>
@@ -3100,8 +3105,9 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function Contador() {
-        $validationAdmin = validarPermisoAdmin('Reporte de Pagos'); 
+    public function Contador()
+    {
+        $validationAdmin = validarPermisoAdmin('Reporte de Pagos');
         $f1 = date("Y-m-d 00:00:00");
         $f2 = date("Y-m-d 23:59:59");
 
@@ -3116,7 +3122,8 @@ class Pagos extends CI_Controller {
         $this->load->view('frontend', $data);
     }
 
-    public function ConteoPagosPost() {
+    public function ConteoPagosPost()
+    {
         $fecha1 = trim($this->input->post('pag_fec1') . " 00:00:00");
         $fecha1 = preg_replace('#(\d{2})/(\d{2})/(\d{4})\s(.*)#', '$3-$2-$1 $4', $fecha1);
         $fecha2 = trim($this->input->post('pag_fec2') . " 23:59:59");
@@ -3126,7 +3133,8 @@ class Pagos extends CI_Controller {
         echo json_encode($Pagos);
     }
 
-    public function ConteoPagos($fecha1, $fecha2) {
+    public function ConteoPagos($fecha1, $fecha2)
+    {
         $Pagos = array();
         $progH = $this->Pagos_model->AllPayProg();
         $Pagos["ProgH"] = $progH[0]["Num"];
@@ -3152,7 +3160,8 @@ class Pagos extends CI_Controller {
         return $Pagos;
     }
 
-    public function AdminPagos() {
+    public function AdminPagos()
+    {
         $dataUsuarios = $this->Usuarios_model->obtenerUsuariosEP();
         $fecha = date("Y-m-d");
         $user = "*";
@@ -3167,7 +3176,8 @@ class Pagos extends CI_Controller {
         $this->load->view('frontend', $data);
     }
 
-    public function pagosListado() {
+    public function pagosListado()
+    {
         $user = "*";
         $fechaIni = date('Y-m-d') . " 00:00:00";
         $fechaFin = date('Y-m-d') . " 23:59:59";
@@ -3191,7 +3201,7 @@ class Pagos extends CI_Controller {
                     $pedidosClientes = $this->Pedidos_model->obtenerClientePorPedido($item["Pedido"]);
                     $arreglo["data"][$i] = array(
                         "pedido" => $pedidosClientes[0]["Nombre"],
-                        "cuota" => money_format("%.0n", $item["Pago"]),
+                        "cuota" => money_format_cop($item["Pago"]),
                         "fecha" => date("d/m/Y", strtotime($item["FechaPago"])),
                         "observacion" => $osb,
                         "usuario" => $item["UsuarioCreacion"],
@@ -3206,7 +3216,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function FiltroPagos() {
+    public function FiltroPagos()
+    {
         $user = trim($this->input->post('pag_usu'));
         $fechaIni = trim($this->input->post('pag_fec1'));
         $date = str_replace('/', '-', $fechaIni);
@@ -3234,7 +3245,7 @@ class Pagos extends CI_Controller {
                     $pedidosClientes = $this->Pedidos_model->obtenerClientePorPedido($item["Pedido"]);
                     $arreglo["data"][$i] = array(
                         "pedido" => $pedidosClientes[0]["Nombre"],
-                        "cuota" => money_format("%.0n", $item["Pago"]),
+                        "cuota" => money_format_cop($item["Pago"]),
                         "fecha" => date("d/m/Y", strtotime($item["FechaPago"])),
                         "observacion" => $osb,
                         "usuario" => $item["UsuarioCreacion"],
@@ -3249,7 +3260,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function Reversar($pago) {
+    public function Reversar($pago)
+    {
         $dataPago = $this->Pagos_model->obtenerPagosCod($pago);
         if (isset($dataPago) && $dataPago != FALSE) {
             $dataPedido = $this->Pedidos_model->obtenerProductosPedidoClienteAll($dataPago[0]["Pedido"]);
@@ -3278,7 +3290,7 @@ class Pagos extends CI_Controller {
                                 $abonado = 0;
                                 $f2 = "2018-01-01 00:00:00";
                                 foreach ($dataPagoPedido[$i] as $item) {
-                                    $cuota ++;
+                                    $cuota++;
                                     $abonado = $abonado + $item["Pago"];
                                     $f1 = $item["FechaPago"];
                                     if ($f1 > $f2) {
@@ -3335,11 +3347,11 @@ class Pagos extends CI_Controller {
                         redirect(base_url("/Cobradores/Admin/"));
                     }
                 } else {
-                    $this->session->set_flashdata("error", "No se encontraron datos del Cliente: <b>$cliente</b>");
+                    $this->session->set_flashdata("error", "No se encontraron datos del Cliente");
                     redirect(base_url("/Clientes/Admin/"));
                 }
             } else {
-                $this->session->set_flashdata("error", "No se encontraron datos del Pedido del Pago: <b>$cliente</b>");
+                $this->session->set_flashdata("error", "No se encontraron datos del Pedido del Pago");
                 redirect(base_url("/Clientes/Admin/"));
             }
         } else {
@@ -3348,7 +3360,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function Reverse() {
+    public function Reverse()
+    {
         //Datos Pago
         $pag_cod = trim($this->input->post('pag_cod'));
         $pag_cli = trim($this->input->post('pag_cli'));
@@ -3383,8 +3396,8 @@ class Pagos extends CI_Controller {
                         "Saldo" => $saldo,
                         "Estado" => 110,
                         "FechaUltimoPago" => date("Y-m-d H:i:s", strtotime("2018-06-01 00:00:00")),
-                        "Observaciones" => "Actualización de Saldo del Pedido:\nSaldo Anterior: " . money_format("%.0n", ($dataPedido[0]["Saldo"]))
-                        . "\nSaldo Actual: " . money_format("%.0n", ($saldo)) . "\n\nObservación automática.",
+                        "Observaciones" => "Actualización de Saldo del Pedido:\nSaldo Anterior: " . money_format_cop(($dataPedido[0]["Saldo"]))
+                            . "\nSaldo Actual: " . money_format_cop(($saldo)) . "\n\nObservación automática.",
                         "UsuarioModificacion" => $user,
                         "FechaModificacion" => $fecha
                     );
@@ -3438,7 +3451,8 @@ class Pagos extends CI_Controller {
         }
     }
 
-    public function valPagosGestion($dataPagos) {
+    public function valPagosGestion($dataPagos)
+    {
         $fecha1 = date("Y-m-d", strtotime(date("Y-m-d") . "+ 8 days")) . " 23:59:59";
         $fecha2 = date("Y-m-d", strtotime(date("Y-m-d") . "- 8 days")) . " 00:00:00";
         $i = 0;
@@ -3449,39 +3463,39 @@ class Pagos extends CI_Controller {
             $Motivo = "Pendiente";
             $color = "";
             $codMotivo = "100";
-            $contHabilitados = 0; 
-            $habilitado = 0; 
+            $contHabilitados = 0;
+            $habilitado = 0;
 
             if ($gest != FALSE) {
                 $Motivo = "Pendiente";
                 $color = "";
                 $codMotivo = "100";
-                 
-                foreach ($gest as $val) {                    
+
+                foreach ($gest as $val) {
                     $habilitado = $val['Habilitado'];
                     if ($habilitado == 1) {
                         $Motivo = $val["nombreMotivo"];
                         $color = $val["color"];
                         $codMotivo = $val["codMotivo"];
-                    } 
-                } 
+                    }
+                }
                 $dataPagos[$pedido]['Motivo'] = $Motivo;
-                $dataPagos[$pedido]['Color'] = $color; 
+                $dataPagos[$pedido]['Color'] = $color;
             } else {
                 $ultimoPagoProgramado = $this->Pagos_model->ultimoPagosProgramadosPorPedido($pedido, $fecha2, $fecha1);
-                if ($ultimoPagoProgramado!=FALSE){
+                if ($ultimoPagoProgramado != FALSE) {
                     $Motivo = "Pago Programado";
                     $color = "green";
                     $codMotivo = "101";
                 }
-                
+
                 $dataPagos[$pedido]['Motivo'] = $Motivo;
                 $dataPagos[$pedido]['Color'] = $color;
             }
-            $dataPagos[$pedido]['CodMotivo'] = $codMotivo;             
+            $dataPagos[$pedido]['CodMotivo'] = $codMotivo;
         }
-  
-    return $dataPagos;
+
+        return $dataPagos;
     }
 
     public function getNextDayPay($DiaCobro)
@@ -3502,7 +3516,4 @@ class Pagos extends CI_Controller {
 
         return $proximoPago;
     }
-
 }
-
-?>

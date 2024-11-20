@@ -1,16 +1,17 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <div class="content">
-    <div class="header">        
-        <?php //$this->load->view('Modules/notifications'); ?>
+    <div class="header">
+        <?php //$this->load->view('Modules/notifications'); 
+        ?>
         <h1 class="page-title" style="font-size: 2em;"><?= $title; ?> </h1>
-    </div>            
+    </div>
     <div class="main-content">
         <div class="row">
             <?php if ($this->session->flashdata("msg")): ?>
                 <div class="col-md-12">
-                    <div class="alert alert-success alert-dismissable fade in">                       
+                    <div class="alert alert-success alert-dismissable fade in">
                         <?= $this->session->flashdata("msg"); ?>
                     </div>
                 </div>
@@ -30,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="btn-toolbar list-toolbar">
                     <a href="<?= base_url() . "Pagos/Cliente/" . $cliente; ?>" class="btn btn-default"><i class="fa fa-undo"></i> Pagos Cliente</a>
                 </div>
-            </div>                            
+            </div>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -52,10 +53,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 //var_dump($item);
                                 $item["Observaciones"] = str_replace("\n", "", $item["Observaciones"]);
                                 $item["Observaciones"] = str_replace("---", ". ", $item["Observaciones"]);
-                                ?>
+                        ?>
                                 <tr>
                                     <td><?= $item["Pedido"]; ?></td>
-                                    <td><?= money_format("%.0n", $item["Cuota"]); ?></td>
+                                    <td><?= money_format_cop($item["Cuota"]); ?></td>
                                     <td><?= date("d/m/Y", strtotime($item["FechaProgramada"])); ?></td>
                                     <td><?= $item["NomEstado"]; ?></td>
                                     <td><?php
@@ -70,16 +71,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <a href="<?= base_url() . "Pagos/Validar/" . $item["Codigo"] . "/"; ?>" title="Ver Recibo de Pago"><i class="fa fa-search" aria-hidden="true" style="padding:5px;"></i></a>
                                             <?php
                                             if ($item["NomEstado"] == "Programado") {
-                                                ?>
+                                            ?>
                                                 <a href="<?= base_url() . "Pagos/Confirmar/" . $item["Codigo"] . "/"; ?>" title="Confirmar Pago"><i class="fa fa-check" aria-hidden="true" style="padding:5px;"></i></a>
-                                                <a href="<?= base_url() . "Pagos/Descartar/" . $item["Codigo"] . "/"; ?>" title="Descartar Pago"><i class="fa fa-close" aria-hidden="true" style="padding:5px;"></i></a>                                                
-                                                <?php
+                                                <a href="<?= base_url() . "Pagos/Descartar/" . $item["Codigo"] . "/"; ?>" title="Descartar Pago"><i class="fa fa-close" aria-hidden="true" style="padding:5px;"></i></a>
+                                            <?php
                                             }
                                             ?>
-                                        </div>                                        
+                                        </div>
                                     </td>
                                 </tr>
-                                <?php
+                            <?php
                             }
                         } else {
                             ?>
@@ -90,15 +91,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </td>
                             </tr>
-                            <?php
+                        <?php
                         }
                         ?>
                     </tbody>
                 </table>
-            </div>                            
+            </div>
         </div>
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
                 $('#<?= $Controller; ?>').DataTable({
                     responsive: true,
                     scrollX: true,

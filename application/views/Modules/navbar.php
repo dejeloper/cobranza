@@ -31,7 +31,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<div style="border:none;width:100px;height:100px;text-align:center;margin:0px auto 5px;">
 							<?php
 							$subdominio = $this->config->item('subdominio');
-							$foto = dirname(FCPATH) . "/" . $subdominio . "/Public/images/perfiles/" . $this->session->userdata('Usuario') . ".jpg";
+							$subdominio_folder = $this->config->item('subdominio_folder');
+							$foto = dirname(FCPATH) . "/" . $subdominio_folder . "/Public/images/perfiles/" . $this->session->userdata('Usuario') . ".jpg";
 
 							if (file_exists($foto) == FALSE) {
 								$foto =  base_url('Public') . "/images/perfiles/user.jpg";

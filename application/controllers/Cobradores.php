@@ -1,10 +1,12 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Cobradores extends CI_Controller {
+class Cobradores extends CI_Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->viewControl = 'Cobradores';
         $this->load->model('Cobradores_model');
@@ -14,22 +16,22 @@ class Cobradores extends CI_Controller {
         $this->load->model('Pagos_model');
         $this->load->model('Usuarios_model');
         if (!$this->session->userdata('Login')) {
-            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI] );
+            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://" . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI]);
             $url = str_replace("/", "|", $_SERVER["REQUEST_URI"]);
             redirect(site_url("Login/index/" . substr($url, 1)));
         }
     }
 
-    public function index() {
+    public function index()
+    {
         //redirect(site_url($this->viewControl . "/Admin/"));
     }
 
-    public function Admin() {
-        
-    }
+    public function Admin() {}
 
     //Sección llamadas
-    public function AddCall() {
+    public function AddCall()
+    {
         $pedido = trim($this->input->post('pedido'));
         $cliente = trim($this->input->post('cliente'));
         $motivo = trim($this->input->post('motivo'));
@@ -69,7 +71,7 @@ class Cobradores extends CI_Controller {
                     "Cliente" => $cliente,
                     "Fecha" => $fechaprogramada,
                     "Motivo" => '100',
-                    "Devolucion" => 0, 
+                    "Devolucion" => 0,
                     "Observaciones" => $observaciones,
                     "UsuarioCreacion" => $user,
                     "FechaCreacion" => $fecha
@@ -116,8 +118,8 @@ class Cobradores extends CI_Controller {
             if ($this->Cobradores_model->saveLlamada($gestion)) {
                 $dataGestion = $this->Cobradores_model->obtenerLlamadasPedidoFecha($pedido, $cliente, $fechaGestion);
                 if ($dataGestion) {
-                    $gestion ["Codigo"] = $dataGestion[0]['Codigo'];
-                    $gestion ['Observaciones'] = "Gestión de Llamada: Recibo de Pago\n---\n" . $observaciones;
+                    $gestion["Codigo"] = $dataGestion[0]['Codigo'];
+                    $gestion['Observaciones'] = "Gestión de Llamada: Recibo de Pago\n---\n" . $observaciones;
                     $modulo = "Gestión Cliente";
                     $tabla = "Llamada";
                     $accion = "Llamada a Cliente";
@@ -135,7 +137,8 @@ class Cobradores extends CI_Controller {
         }
     }
 
-    public function AddReCall() {
+    public function AddReCall()
+    {
         $llamada = trim($this->input->post('llamada'));
         $pedido = trim($this->input->post('pedido'));
         $cliente = trim($this->input->post('cliente'));
@@ -214,8 +217,8 @@ class Cobradores extends CI_Controller {
             if ($this->Cobradores_model->updateDevolucionLlamada($llamada, $gestion)) {
                 $dataGestion = $this->Cobradores_model->obtenerDevolucionLlamadasPedidoFecha($pedido, $cliente, $fechaGestion);
                 if ($dataGestion) {
-                    $gestion ["Codigo"] = $dataGestion[0]['Codigo'];
-                    $gestion ['Observaciones'] = "Gestión de Llamada:\n---\n" . $observaciones;
+                    $gestion["Codigo"] = $dataGestion[0]['Codigo'];
+                    $gestion['Observaciones'] = "Gestión de Llamada:\n---\n" . $observaciones;
                     $modulo = "Gestión Cliente";
                     $tabla = "DevolucionLlamadas";
                     $accion = "Llamada a Cliente";
@@ -236,14 +239,15 @@ class Cobradores extends CI_Controller {
         }
     }
 
-    public function GestionHis($pedido, $cliente) {
+    public function GestionHis($pedido, $cliente)
+    {
         if ($pedido == "" || $cliente == "") {
             $this->session->set_flashdata("error", "Se requieren datos del Cliente y del Pedido para ver las Gestiones.");
             redirect(base_url("Pagos/Admin/"));
         } else {
             $fecha1 = date("Y-m-d") . " 23:59:59";
             $fecha2 = "2018-09-01 00:00:00";
-            $dataLlamadas = $this->Cobradores_model->obtenerLlamadasPedidoFechas($pedido, $cliente, $fecha2, $fecha1, "DESC"); 
+            $dataLlamadas = $this->Cobradores_model->obtenerLlamadasPedidoFechas($pedido, $cliente, $fecha2, $fecha1, "DESC");
             if ($dataLlamadas == FALSE) {
                 $this->session->set_flashdata("error", "No se encontraron Gestiones en el Cliente y Pedido indicado el día de hoy.");
                 redirect(base_url("Pagos/Admin/"));
@@ -280,7 +284,8 @@ class Cobradores extends CI_Controller {
         }
     }
 
-    public function GestionHoy($pedido, $cliente) {
+    public function GestionHoy($pedido, $cliente)
+    {
         if ($pedido == "" || $cliente == "") {
             $this->session->set_flashdata("error", "Se requieren datos del Cliente y del Pedido para ver las Gestiones.");
             redirect(base_url("Pagos/Admin/"));
@@ -325,7 +330,8 @@ class Cobradores extends CI_Controller {
         }
     }
 
-    public function Rellamar() {
+    public function Rellamar()
+    {
         $dataUsuarios = $this->Usuarios_model->obtenerUsuariosEP();
         $datosMotivos = $this->Cobradores_model->obtenerMotivosLlamadas();
 
@@ -340,14 +346,16 @@ class Cobradores extends CI_Controller {
         $this->load->view('frontend', $data);
     }
 
-    public function obtenerVolverLlamarJson() {
+    public function obtenerVolverLlamarJson()
+    {
         $fecha = date("Y-m-d");
         $fechaI = date("2020-03-12");
         $fechaF = date("2020-03-12");
-        echo $this->obtenerVolverLlamarJsonPara($fechaI, $fechaF); 
+        echo $this->obtenerVolverLlamarJsonPara($fechaI, $fechaF);
     }
 
-    public function obtenerVolverLlamarJsonPost() {
+    public function obtenerVolverLlamarJsonPost()
+    {
         $user = trim($this->input->post('pag_usu'));
         $fechaIni = trim($this->input->post('pag_fec1'));
         $date = str_replace('/', '-', $fechaIni);
@@ -355,17 +363,19 @@ class Cobradores extends CI_Controller {
         $fechaFin = trim($this->input->post('pag_fec2'));
         $date = str_replace('/', '-', $fechaFin);
         $fechaFin = date("Y-m-d", strtotime($date));
-       
+
         $fechaIni = date("2020-08-19");
         $fechaFin = date("2020-08-19");
 
         echo $this->obtenerVolverLlamarJsonPara($fechaIni, $fechaFin);
     }
 
-    public function obtenerVolverLlamarJsonPara($f1, $f2) {
+    public function obtenerVolverLlamarJsonPara($f1, $f2)
+    {
         $data = $this->obtenerVolverLlamar($f1, $f2);
-        var_dump($data); 
-        die();$arreglo["data"] = [];
+        var_dump($data);
+        die();
+        $arreglo["data"] = [];
 
         if ($data != FALSE) {
             $i = 0;
@@ -373,8 +383,7 @@ class Cobradores extends CI_Controller {
                 $fecha1 = trim($item["FechaCreacion"]);
                 $dataPagos = $this->Pagos_model->obtenerPagosProgramadosPorPedido($item["Pedido"], $fecha1);
                 //var_dump($dataPagos);
-                if ($dataPagos[0]["Cuotas"] <= 0)
-                {
+                if ($dataPagos[0]["Cuotas"] <= 0) {
                     $btn1 = '<a href = "#ModalCall" data-toggle = "modal" title = "Reportar Llamada" onclick = "DatosModal(\'' . $item["Codigo"] . '\', \'' . $item["Pedido"] . '\', \'' . $item["Cliente"] . '\', \'' . $item["Nombre"] . '\', \'' . $item["Direccion"] . '\', \'' . $item["telefono"] . '\');"><i class = "fa fa-phone" aria-hidden = "true" style = "padding:5px;"></i></a>';
                     $btn2 = '<a href = "' . base_url() . 'Cobradores/GestionHis/' . $item["Pedido"] . '/' . $item["Cliente"] . '/" target="_blank" title = "Gestión de Llamada"><i class = "fa fa-list-ul" aria-hidden = "true" style = "padding:5px;"></i></a>';
                     $btn3 = '<a href = "' . base_url() . 'Pagos/Generar/' . $item["Cliente"] . '/" target="_blank" title = "Pagar"><i class = "fa fa-motorcycle" aria-hidden = "true" style = "padding:5px;"></i></a>';
@@ -384,12 +393,12 @@ class Cobradores extends CI_Controller {
                         "Direccion" => $item["Direccion"],
                         "telefono" => $item["telefono"],
                         "cuota" => $item["cuota"],
-                        "saldo" => money_format("%.0n", $item["saldo"]),
+                        "saldo" => money_format_cop($item["saldo"]),
                         "UltimoPago" => $item["UltimoPago"],
                         "Fecha" => $item["Fecha"],
                         "Ubicacion" => $item["PaginaFisica"],
                         "Motivo" => $item["Motivo"],
-                        "btn" => ''//'<div class="btn-group text-center" style="margin: 0px auto;  width:100%;">' . $btn1 . $btn2 . $btn3 . '</div>'
+                        "btn" => '' //'<div class="btn-group text-center" style="margin: 0px auto;  width:100%;">' . $btn1 . $btn2 . $btn3 . '</div>'
                     );
                     $i++;
                 }
@@ -398,7 +407,8 @@ class Cobradores extends CI_Controller {
         echo json_encode($arreglo);
     }
 
-    public function obtenerVolverLlamar($f1, $f2) {
+    public function obtenerVolverLlamar($f1, $f2)
+    {
         //Datos Auditoría
         $user = $this->session->userdata('Usuario');
         $fecha1 = date($f1 . " 00:00:00");
@@ -410,8 +420,8 @@ class Cobradores extends CI_Controller {
         $dataVolver = $this->Cobradores_model->obtenerDevolucionLlamadasMotivoFechaPro($fecha1, $fecha2);
         if ($dataVolver == FALSE) {
             return false;
-//            $this->session->set_flashdata("error", "No se encontraron Clientes o Pedidos para VOLVER A LLAMAR el día de hoy.");
-//            redirect(base_url("Pagos/Admin/"));
+            //            $this->session->set_flashdata("error", "No se encontraron Clientes o Pedidos para VOLVER A LLAMAR el día de hoy.");
+            //            redirect(base_url("Pagos/Admin/"));
         } else {
             foreach ($dataVolver as $value) {
                 //var_dump($value);
@@ -460,7 +470,8 @@ class Cobradores extends CI_Controller {
         }
     }
 
-    public function valPagosGestion($dataPagos) {
+    public function valPagosGestion($dataPagos)
+    {
         $fecha = date("Y-m-d") . " 00:00:00";
         $i = 0;
         foreach ($dataPagos as $value) {
@@ -490,7 +501,8 @@ class Cobradores extends CI_Controller {
         return $dataPagos;
     }
 
-    public function valPagosGestionReCall($dataPagos) {
+    public function valPagosGestionReCall($dataPagos)
+    {
         $fecha = date("Y-m-d") . " 00:00:00";
         $i = 0;
         foreach ($dataPagos as $value) {
@@ -520,7 +532,8 @@ class Cobradores extends CI_Controller {
         return $dataPagos;
     }
 
-    public function programarPago($pag_ped, $pag_pag, $pag_fec, $pag_obs) {
+    public function programarPago($pag_ped, $pag_pag, $pag_fec, $pag_obs)
+    {
         $dataPedido = $this->Pedidos_model->obtenerPedidosClientePorPedido($pag_ped);
         if (isset($dataPedido) && $dataPedido == FALSE) {
             return "No se pudo Programar Pago. Por favor hacerlo manualmente.";
@@ -573,7 +586,8 @@ class Cobradores extends CI_Controller {
         }
     }
 
-    public function History($cliente, $pedido, $fecha, $usuario, $accion, $saldoAnt, $cuota, $saldoNue, $abono, $obs) {
+    public function History($cliente, $pedido, $fecha, $usuario, $accion, $saldoAnt, $cuota, $saldoNue, $abono, $obs)
+    {
         $historia = array(
             "Pedido" => $pedido,
             "Cliente" => $cliente,
@@ -590,7 +604,8 @@ class Cobradores extends CI_Controller {
         $this->Pagos_model->saveHistoria($historia);
     }
 
-    public function numCuotas($pedido) {
+    public function numCuotas($pedido)
+    {
         $dataPagos = $this->Pagos_model->obtenerPagosPedido($pedido);
         $num = 1;
         if (isset($dataPagos) && $dataPagos != FALSE) {
@@ -600,7 +615,4 @@ class Cobradores extends CI_Controller {
         }
         return $num;
     }
-
 }
-
-?>

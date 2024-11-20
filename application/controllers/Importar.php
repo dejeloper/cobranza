@@ -1,10 +1,12 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Importar extends CI_Controller {
+class Importar extends CI_Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->viewControl = 'Importar';
         $this->load->model('Clientes_model');
@@ -21,13 +23,14 @@ class Importar extends CI_Controller {
         $this->load->model('Cobradores_model');
 
         if (!$this->session->userdata('Login')) {
-            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI] );
+            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://" . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI]);
             $url = str_replace("/", "|", $_SERVER["REQUEST_URI"]);
             redirect(site_url("Login/index/" . substr($url, 1)));
         }
     }
 
-    public function Clientes() {
+    public function Clientes()
+    {
         $data = new stdClass();
         $data->Controller = "Clientes";
         $data->title = "Importar Clientes";
@@ -38,7 +41,8 @@ class Importar extends CI_Controller {
         $this->load->view('frontend', $data);
     }
 
-    public function ClientesUp() {
+    public function ClientesUp()
+    {
         $encabezado = trim($this->input->post('encabezado'));
         $csvMimes = array('application/vnd.ms-excel', 'text/plain', 'text/csv', 'text/tsv');
         if (!empty($_FILES['fileUp']['name']) && in_array($_FILES['fileUp']['type'], $csvMimes)) {
@@ -167,9 +171,9 @@ class Importar extends CI_Controller {
                                 "Saldo" => $cli_totalPag,
                                 "PaginaFisica" => $cli_PagEve,
                                 "Observaciones" => "Se crea Pedido desde el módulo de Importar. \nCliente: " . $cli_nom . "\nTarifa Aplicada: " . $cli_nomTar
-                                . "\nTotal a Pagar: " . money_format("%.0n", $cli_totalPag)
-                                . "\nSaldo: " . money_format("%.0n", $sal_ped) . "\n "
-                                . "\nObservación automática.",
+                                    . "\nTotal a Pagar: " . money_format_cop($cli_totalPag)
+                                    . "\nSaldo: " . money_format_cop($sal_ped) . "\n "
+                                    . "\nObservación automática.",
                                 "Habilitado" => 1,
                                 "UsuarioCreacion" => $user,
                                 "FechaCreacion" => $fecha
@@ -180,8 +184,8 @@ class Importar extends CI_Controller {
                                     $ped = $this->Pedidos_model->obtenerPedidoCliValUserFecLast($Cli[0]['Codigo'], $cli_priCobro, $user, $fecha);
 
                                     $dataCliUsu = array(
-                                        "Usuario"=> $cli_usu,
-                                        "Cliente"=> $Cli[0]['Codigo'],
+                                        "Usuario" => $cli_usu,
+                                        "Cliente" => $Cli[0]['Codigo'],
                                         "Habilitado" => 1,
                                         "UsuarioCreacion" => $user,
                                         "FechaCreacion" => $fecha
@@ -223,7 +227,7 @@ class Importar extends CI_Controller {
                             }
 
                             if (trim($pag_pag) != "" && trim($fec_pag) != "") {
-                                $pag_obs = "Pago de " . money_format("%.0n", $pag_pag) . " el día " . $fec_pag . ".\n\nSubida Automática.";
+                                $pag_obs = "Pago de " . money_format_cop($pag_pag) . " el día " . $fec_pag . ".\n\nSubida Automática.";
                                 $this->conf($Cli[0]['Codigo'], $ped[0]['Codigo'], $num_pag, $pag_pag, $fec_pag, $cli_totalPag, $pag_obs);
                             }
 
@@ -231,12 +235,12 @@ class Importar extends CI_Controller {
                         } else {
                             echo "Registro " . $i . ". Los datos no coinciden, por favor validar.<br>";
                             echo "Nombre: " . $cli_nom . "<br>Tipo Doc: " . $cli_tipdoc . "<br>Documento: " . $cli_doc .
-                            "<br>Dirección: " . $cli_dir . "<br>Barrio: " . $cli_bar . "<br>Tipo Vivienda: " . $cli_tipviv .
-                            "<br>Teléfono 1: " . $cli_tel1 . "<br>Teléfono 2: " . $cli_tel2 . "<br>Teléfono 3: " . $cli_tel3 .
-                            "<br>Ubicacion: " . $cli_PagEve . "<br>Evento: " . $cli_Eve . "<br>Fecha Pedido: " . $cli_FecEve .
-                            "<br>Valor Pedido: " . $cli_totalPag . "<br>Último Pago: " . $fec_ult_ped . "<br>Tarifa: " . $cli_tar1 .
-                            "<br>Saldo: " . $sal_ped . "<br>Fecha Cobro: " . $cli_priCobro . "<br>Observaciones: " . $cli_Obs .
-                            "<br>Número Pago: " . $num_pag . "<br>Valor Pago: " . $pag_pag . "<br>Fecha Pago: " . $fec_pag . "<br><br>";
+                                "<br>Dirección: " . $cli_dir . "<br>Barrio: " . $cli_bar . "<br>Tipo Vivienda: " . $cli_tipviv .
+                                "<br>Teléfono 1: " . $cli_tel1 . "<br>Teléfono 2: " . $cli_tel2 . "<br>Teléfono 3: " . $cli_tel3 .
+                                "<br>Ubicacion: " . $cli_PagEve . "<br>Evento: " . $cli_Eve . "<br>Fecha Pedido: " . $cli_FecEve .
+                                "<br>Valor Pedido: " . $cli_totalPag . "<br>Último Pago: " . $fec_ult_ped . "<br>Tarifa: " . $cli_tar1 .
+                                "<br>Saldo: " . $sal_ped . "<br>Fecha Cobro: " . $cli_priCobro . "<br>Observaciones: " . $cli_Obs .
+                                "<br>Número Pago: " . $num_pag . "<br>Valor Pago: " . $pag_pag . "<br>Fecha Pago: " . $fec_pag . "<br><br>";
                         }
                     }
                 }
@@ -247,7 +251,8 @@ class Importar extends CI_Controller {
         }
     }
 
-    public function conf($pag_cli, $pag_ped, $pag_cuo, $pag_pag, $pag_fec, $pag_tot, $pag_obs) {
+    public function conf($pag_cli, $pag_ped, $pag_cuo, $pag_pag, $pag_fec, $pag_tot, $pag_obs)
+    {
         //Datos Auditoría
         $user = $this->session->userdata('Usuario');
         $fecha = date("Y-m-d H:i:s");
@@ -286,8 +291,8 @@ class Importar extends CI_Controller {
                             "Saldo" => $saldo,
                             "Estado" => 114,
                             "FechaUltimoPago" => $fecha,
-                            "Observaciones" => "Actualización de Saldo del Pedido:\nSaldo Anterior: " . money_format("%.0n", ($dataPedido[0]["Valor"]))
-                            . "\nSaldo Actual: " . money_format("%.0n", ($saldo)) . "\nEstado: Paz y Salvo\n \nObservación automática.",
+                            "Observaciones" => "Actualización de Saldo del Pedido:\nSaldo Anterior: " . money_format_cop(($dataPedido[0]["Valor"]))
+                                . "\nSaldo Actual: " . money_format_cop(($saldo)) . "\nEstado: Paz y Salvo\n \nObservación automática.",
                             "UsuarioModificacion" => $user,
                             "FechaModificacion" => $fecha
                         );
@@ -296,8 +301,8 @@ class Importar extends CI_Controller {
                             "Saldo" => $saldo,
                             "Estado" => 111,
                             "FechaUltimoPago" => $fecha,
-                            "Observaciones" => "Actualización de Saldo del Pedido:\nSaldo Anterior: " . money_format("%.0n", ($dataPedido[0]["Valor"]))
-                            . "\nSaldo Actual: " . money_format("%.0n", ($saldo)) . "\nEstado: Pagado\n \nObservación automática.",
+                            "Observaciones" => "Actualización de Saldo del Pedido:\nSaldo Anterior: " . money_format_cop(($dataPedido[0]["Valor"]))
+                                . "\nSaldo Actual: " . money_format_cop(($saldo)) . "\nEstado: Pagado\n \nObservación automática.",
                             "UsuarioModificacion" => $user,
                             "FechaModificacion" => $fecha
                         );
@@ -349,7 +354,8 @@ class Importar extends CI_Controller {
         }
     }
 
-    public function History($cliente, $pedido, $fecha, $usuario, $accion, $saldoAnt, $cuota, $saldoNue, $abono, $obs) {
+    public function History($cliente, $pedido, $fecha, $usuario, $accion, $saldoAnt, $cuota, $saldoNue, $abono, $obs)
+    {
         $historia = array(
             "Pedido" => $pedido,
             "Cliente" => $cliente,
@@ -365,5 +371,4 @@ class Importar extends CI_Controller {
         );
         $this->Pagos_model->saveHistoria($historia);
     }
-
 }

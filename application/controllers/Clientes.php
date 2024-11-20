@@ -1,10 +1,12 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Clientes extends CI_Controller {
+class Clientes extends CI_Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->viewControl = 'Clientes';
         $this->load->model('Clientes_model');
@@ -22,7 +24,7 @@ class Clientes extends CI_Controller {
         $this->load->model('Usuarios_model');
 
         if (!$this->session->userdata('Login')) {
-            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] );
+            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
             $url = str_replace("/", "|", $_SERVER["REQUEST_URI"]);
             redirect(site_url("Login/index/" . substr($url, 1)));
         } else {
@@ -30,32 +32,33 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function index() {
+    public function index()
+    {
         redirect(site_url($this->viewControl . "/Admin/"));
-    } 
-      
-    public function Admin() {
+    }
+
+    public function Admin()
+    {
         $idPermiso = 12;
         $page = validarPermisoPagina($idPermiso);
 
         $dataCliente = $this->Clientes_model->obtenerClientesNR();
         $dataCobradores = $this->Cobradores_model->obtenerCobradores();
-        
         $PerfilId = "";
 
         if ($dataCliente != false) {
             $i = 0;
             $usuario = $this->session->userdata('Codigo');
             $PerfilId = $this->session->userdata('PerfilId');
-            $permisos = $this->SearchPermissions();  
+            $permisos = $this->SearchPermissions();
             foreach ($dataCliente as $value) {
-                $dataUserCliente = true;  
-                if (!$permisos["TodosClientes"]) 
+                $dataUserCliente = true;
+                if (!$permisos["TodosClientes"])
                     $dataUserCliente = $this->Clientes_model->ClienteUsuarioBool($value["Codigo"], $usuario);
                 else
-                    $dataUserCliente = true; 
- 
-                if ($dataUserCliente) { 
+                    $dataUserCliente = true;
+
+                if ($dataUserCliente) {
                     $pedido = $this->Pedidos_model->obtenerPedidoPorCliente($value["Codigo"]);
                     if ($pedido != false) {
                         $dataCliente[$i]["Pedido"] = $pedido[0]["Codigo"];
@@ -75,8 +78,7 @@ class Clientes extends CI_Controller {
                 }
                 $i++;
             }
-        }
-        else {
+        } else {
             if ($PerfilId >= 103) {
                 $this->session->set_flashdata("error", "Usted no tiene Clientes Asociados.");
             } else {
@@ -95,7 +97,8 @@ class Clientes extends CI_Controller {
         $this->load->view('frontend', $data);
     }
 
-    public function dataClienteHover() {
+    public function dataClienteHover()
+    {
         $id = trim($this->input->post('id'));
         $dataClientes = $this->Clientes_model->obtenerClienteDir($id);
         //var_dump($dataClientes);
@@ -114,10 +117,10 @@ class Clientes extends CI_Controller {
                 $telefono = ($cliente["Telefono3"] != "") ? $telefono . " - " . $cliente["Telefono3"] : $telefono;
 
                 $output = '<br><p>Nombre: ' . $cliente["Nombre"] . '</p>' .
-                        '<p>Direccion: ' . $direccion . '</p>' .
-                        '<p>Teléfono: ' . $telefono . '</p>' .
-                        '<p>Barrio: ' . $cliente["Barrio"] . '</p>' .
-                        '<p>Estado: ' . $cliente["EstNombre"] . '</p>';
+                    '<p>Direccion: ' . $direccion . '</p>' .
+                    '<p>Teléfono: ' . $telefono . '</p>' .
+                    '<p>Barrio: ' . $cliente["Barrio"] . '</p>' .
+                    '<p>Estado: ' . $cliente["EstNombre"] . '</p>';
             }
 
             echo $output;
@@ -126,11 +129,12 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function Buscar() {
+    public function Buscar()
+    {
         $idPermiso = 11;
         $page = validarPermisoPagina($idPermiso);
-        
-        $dataEstados = $this->Estados_model->obtenerEstadosPor(102); 
+
+        $dataEstados = $this->Estados_model->obtenerEstadosPor(102);
         $dataCobradores = $this->Cobradores_model->obtenerCobradores();
         if (isset($dataCobradores) && $dataCobradores != FALSE) {
             $data = new stdClass();
@@ -148,14 +152,15 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function SearchJsonAsignado() {
+    public function SearchJsonAsignado()
+    {
         $nombre = ucwords(strtolower(trim($this->input->post('nombre'))));
         $estado = trim($this->input->post('estado'));
-        $usuario = trim($this->input->post('usuario')); 
+        $usuario = trim($this->input->post('usuario'));
 
         $data = $this->Clientes_model->searchClienteAsignado($nombre, $estado, $usuario);
         $arreglo["data"] = [];
-        $permisos = $this->SearchPermissions(); 
+        $permisos = $this->SearchPermissions();
 
         if (isset($data) && $data != FALSE) {
             $i = 0;
@@ -167,7 +172,8 @@ class Clientes extends CI_Controller {
         echo json_encode($arreglo);
     }
 
-    public function SearchJson() {
+    public function SearchJson()
+    {
         $nombre = ucwords(strtolower(trim($this->input->post('nombre'))));
         $cedula = trim($this->input->post('cedula'));
         $direccion = trim($this->input->post('direccion'));
@@ -177,7 +183,7 @@ class Clientes extends CI_Controller {
 
         $data = $this->Clientes_model->searchCliente($nombre, $cedula, $direccion, $telefono, $estado, $ubicacion);
         $arreglo["data"] = [];
-        $permisos = $this->SearchPermissions();  
+        $permisos = $this->SearchPermissions();
 
         if (isset($data) && $data != FALSE) {
             $i = 0;
@@ -190,38 +196,38 @@ class Clientes extends CI_Controller {
     }
 
     public function SearchPermissions()
-    { 
-        $permisos = [];  
+    {
+        $permisos = [];
 
         //Consultar Cliente
         $idPermiso = 15;
-        $permisos["Consultar"] = validarPermisoAcciones($idPermiso);  
+        $permisos["Consultar"] = validarPermisoAcciones($idPermiso);
         //Cambio de Fecha de Cobro
         $idPermiso = 16;
-        $permisos["CambioFecha"] = validarPermisoAcciones($idPermiso);  
+        $permisos["CambioFecha"] = validarPermisoAcciones($idPermiso);
         //Cambio de Tarifa
         $idPermiso = 17;
-        $permisos["CambioTarifa"] = validarPermisoAcciones($idPermiso);  
+        $permisos["CambioTarifa"] = validarPermisoAcciones($idPermiso);
         //Hacer Recibo
         $idPermiso = 19;
-        $permisos["Generar"] = validarPermisoAcciones($idPermiso);  
+        $permisos["Generar"] = validarPermisoAcciones($idPermiso);
         //Pagos Realizados del Cliente
         $idPermiso = 23;
-        $permisos["Pagos"] = validarPermisoAcciones($idPermiso);  
+        $permisos["Pagos"] = validarPermisoAcciones($idPermiso);
         //Devolución del Cliente
         $idPermiso = 90;
         $permisos["Devolucion"] = validarPermisoAcciones($idPermiso);
         //Ver Log del Cliente
         $idPermiso = 26;
-        $permisos["LogCliente"] = validarPermisoAcciones($idPermiso);  
+        $permisos["LogCliente"] = validarPermisoAcciones($idPermiso);
         //Ver TODOS los Clientes (Si es falso, solo los propios)
         $idPermiso = 101;
-        $permisos["TodosClientes"] = validarPermisoAcciones($idPermiso);  
-            
+        $permisos["TodosClientes"] = validarPermisoAcciones($idPermiso);
+
         return $permisos;
     }
-    
-    public function crearArregloBuscar($item, $permisos) 
+
+    public function crearArregloBuscar($item, $permisos)
     {
         $btn1 = "";
         $btn2 = "";
@@ -253,33 +259,33 @@ class Clientes extends CI_Controller {
         $dataPedidos = $this->Pedidos_model->obtenerPedidosDeben();
         $dataCobradores = $this->Cobradores_model->obtenerCobradores();
         $dataUserCliente = true;
-        
-        if (!$permisos["TodosClientes"]) 
-            $dataUserCliente = $this->Clientes_model->ClienteUsuarioBool($item['Cliente'], $usuario); 
+
+        if (!$permisos["TodosClientes"])
+            $dataUserCliente = $this->Clientes_model->ClienteUsuarioBool($item['Cliente'], $usuario);
         else
             $dataUserCliente = true;
-          
+
         if ($permisos["Consultar"])
             $btn1 = "<a href='" . base_url() . "Clientes/Consultar/" . $item['Cliente'] . "/' target='_blank' title='Consultar Cliente'><i class='fa fa-search' aria-hidden='true' style='padding:5px;'></i></a>";
-        
+
         // $dataUserCliente = true; //Seguro para que muestre las opciones en todos los clientes
-        if ($dataUserCliente) { 
+        if ($dataUserCliente) {
             if ($permisos["CambioFecha"])
                 $btn2 = "<a href='" . base_url() . "Clientes/CambioFecha/" . $item['Cliente'] . "/' target='_blank' title='Cambio de Fecha de Cobro'><i class='fa fa-calendar' aria-hidden='true' style='padding:5px;'></i></a>";
-            if ($permisos["CambioTarifa"]) 
+            if ($permisos["CambioTarifa"])
                 $btn3 = "<a href='" . base_url() . "Clientes/CambioTarifa/" . $item['Cliente'] . "/' target='_blank' title='Cambio de Tarifa'><i class='fa fa-refresh' aria-hidden='true' style='padding:5px;'></i></a>";
-            if ($permisos["Generar"]) 
+            if ($permisos["Generar"])
                 $btn4 = "<a href='" . base_url() . "Pagos/Generar/" . $item['Cliente'] . "/' target='_blank' title='Hacer Recibo'><i class='fa fa-motorcycle' aria-hidden='true' style='padding:5px;'></i></a>";
             if ($permisos["Pagos"])
                 $btn5 = "<a href='" . base_url() . "Clientes/Pagos/" . $item['Cliente'] . "/' target='_blank' title='Pagos Realizados del Cliente'><i class='fa fa-usd' aria-hidden='true' style='padding:5px;'></i></a>";
-            if ($permisos["Devolucion"]){
+            if ($permisos["Devolucion"]) {
                 if ($item['Estado'] != '113') {
                     $btn6 = "<a href='#ModalDevol' data-toggle='modal' title='Devolución del Cliente' onclick='DatosModal(\"" . $item['Pedido'] . "\", \"" . $item['Cliente'] . "\", \"" . $item['Nombre'] . "\", \"" . $item['Saldo'] . "\", \"" . $cuota . "\");'><i class='fa fa-reply-all' aria-hidden='true' style='padding:5px;'></i></a>";
-                } 
+                }
             }
             if ($permisos["LogCliente"])
                 $btn7 = "<a href='" . base_url() . "Clientes/Log/" . $item['Cliente'] . "/' target='_blank' title='Registros del Cliente'><i class='fa fa-list-alt' aria-hidden='true' style='padding:5px;'></i></a>";
-        }    
+        }
 
         $diacobro = "";
         if ($item["DiaCobro"] != NULL || $item["DiaCobro"] != "") {
@@ -287,16 +293,16 @@ class Clientes extends CI_Controller {
         } else {
             $diacobro = "Sin Fecha";
         }
- 
-        if (trim($btn1) != "" or trim($btn2) != "" or trim($btn3) != "" or trim($btn4) != "" or trim($btn5) != "" or trim($btn6) != "" or trim($btn7) != "") { 
+
+        if (trim($btn1) != "" or trim($btn2) != "" or trim($btn3) != "" or trim($btn4) != "" or trim($btn5) != "" or trim($btn6) != "" or trim($btn7) != "") {
             $btnOpciones = $btn1 . $btn2 . $btn3 . $btn4 . $btn5 . $btn6 . $btn7;
-        } 
+        }
 
         $arreglo = array(
             "Nombre" => $item["Nombre"],
             "Direccion" => $direccion,
             "telefono" => $telefono,
-            "saldo" => money_format("%.0n", $item["Saldo"]),
+            "saldo" => money_format_cop($item["Saldo"]),
             "DiaCobro" => $diacobro,
             "Estado" => $item["EstNombre"],
             "PaginaFisica" => $item["PaginaFisica"],
@@ -306,7 +312,8 @@ class Clientes extends CI_Controller {
         return $arreglo;
     }
 
-    public function Crear() {
+    public function Crear()
+    {
         $idPermiso = 88;
         $page = validarPermisoPagina($idPermiso);
 
@@ -373,7 +380,8 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function NewClient() {
+    public function NewClient()
+    {
         $idPermiso = 91;
         $page = validarPermisoAcciones($idPermiso);
         if ($page) {
@@ -760,9 +768,9 @@ class Clientes extends CI_Controller {
                     "Saldo" => $cli_totalPag,
                     "PaginaFisica" => $cli_PagEve,
                     "Observaciones" => "Se crea Pedido desde el módulo de Clientes. \nCliente: " . $cli_nom . "\nTarifa Aplicada: " . $cli_nomTar
-                    . "\nTotal a Pagar: " . money_format("%.0n", $cli_totalPag) . "\nCuotas: " . $cli_numCuo
-                    . "\nValor Cuotas: " . money_format("%.0n", $cli_valCuo) . "\nPrimer Pago: " . $cli_priCobro . "\n "
-                    . "\nObservación automática.",
+                        . "\nTotal a Pagar: " . money_format_cop($cli_totalPag) . "\nCuotas: " . $cli_numCuo
+                        . "\nValor Cuotas: " . money_format_cop($cli_valCuo) . "\nPrimer Pago: " . $cli_priCobro . "\n "
+                        . "\nObservación automática.",
                     "Habilitado" => 1,
                     "UsuarioCreacion" => $user,
                     "FechaCreacion" => $fecha
@@ -812,10 +820,10 @@ class Clientes extends CI_Controller {
                         if ($pedPro1) {
                             $dataPedidoPro1['Codigo'] = $pedPro1[0]['Codigo'];
                             $dataPedidoPro1['Observaciones'] = "Se vincula el producto: " . $cli_nomprod1 . " al Pedido " . $pedPro1[0]['Codigo']
-                                    . " del Cliente " . $cli_nom . ". \n"
-                                    . "Cantidad del Producto: " . $cli_cant1 . ". \n"
-                                    . "Valor del Producto: " . money_format("%.0n", $cli_prod1) . ". \n"
-                                    . "\nObservación automática.";
+                                . " del Cliente " . $cli_nom . ". \n"
+                                . "Cantidad del Producto: " . $cli_cant1 . ". \n"
+                                . "Valor del Producto: " . money_format_cop($cli_prod1) . ". \n"
+                                . "\nObservación automática.";
                             $modulo = "Creación Cliente";
                             $tabla = "ProductosPedidos";
                             $accion = "Vincular Productos y Pedido";
@@ -848,10 +856,10 @@ class Clientes extends CI_Controller {
                         "Pago" => $cli_abono,
                         "FechaPago" => $fecha,
                         "TotalPago" => $cli_totalPag,
-                        "Observaciones" => "Abono por valor de: " . money_format("%.0n", $cli_abono) . "\n"
-                        . "Abono realizado al momento del pedido.\n"
-                        . "Saldo Actual: " . money_format("%.0n", ($saldo))
-                        . "\nObservación automática.",
+                        "Observaciones" => "Abono por valor de: " . money_format_cop($cli_abono) . "\n"
+                            . "Abono realizado al momento del pedido.\n"
+                            . "Saldo Actual: " . money_format_cop(($saldo))
+                            . "\nObservación automática.",
                         "Habilitado" => 1,
                         "UsuarioCreacion" => $user,
                         "FechaCreacion" => $fecha
@@ -907,7 +915,8 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function asignarClienteUsuario($usuario, $cliente) {
+    public function asignarClienteUsuario($usuario, $cliente)
+    {
         //Datos Auditoría
         $user = $this->session->userdata('Usuario');
         $fecha = date("Y-m-d H:i:s");
@@ -923,7 +932,8 @@ class Clientes extends CI_Controller {
         ($this->Clientes_model->saveCliUsu($dataCliUsu));
     }
 
-    public function Consultar($cliente) {
+    public function Consultar($cliente)
+    {
         $idPermiso = 15;
         $page = validarPermisoPagina($idPermiso);
 
@@ -1031,7 +1041,8 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function UpdateClientDataP() {
+    public function UpdateClientDataP()
+    {
         $idPermiso = 92;
         $page = validarPermisoAcciones($idPermiso);
         if ($page) {
@@ -1076,7 +1087,8 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function UpdateClientDir() {
+    public function UpdateClientDir()
+    {
         $idPermiso = 93;
         $page = validarPermisoAcciones($idPermiso);
         if ($page) {
@@ -1142,7 +1154,8 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function UpdateClientTel() {
+    public function UpdateClientTel()
+    {
         $idPermiso = 93;
         $page = validarPermisoAcciones($idPermiso);
         if ($page) {
@@ -1187,7 +1200,8 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function UpdateClientRef() {
+    public function UpdateClientRef()
+    {
         $idPermiso = 93;
         $page = validarPermisoAcciones($idPermiso);
         if ($page) {
@@ -1482,7 +1496,8 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function UpdateClientObs() {
+    public function UpdateClientObs()
+    {
         $idPermiso = 93;
         $page = validarPermisoAcciones($idPermiso);
         if ($page) {
@@ -1541,7 +1556,8 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function Pagos($cliente) {
+    public function Pagos($cliente)
+    {
         if (isset($cliente)) {
             redirect(base_url("Pagos/Cliente/" . $cliente . "/"));
         } else {
@@ -1550,7 +1566,8 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function Log($cliente) {        
+    public function Log($cliente)
+    {
         $idPermiso = 26;
         $page = validarPermisoPagina($idPermiso);
 
@@ -1580,7 +1597,8 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function VerLog($codigo) {
+    public function VerLog($codigo)
+    {
         $idPermiso = 110;
         $page = validarPermisoPagina($idPermiso);
 
@@ -1599,7 +1617,8 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function History($cliente, $pedido, $fecha, $usuario, $accion, $saldoAnt, $cuota, $saldoNue, $abono, $obs) {
+    public function History($cliente, $pedido, $fecha, $usuario, $accion, $saldoAnt, $cuota, $saldoNue, $abono, $obs)
+    {
         $historia = array(
             "Pedido" => $pedido,
             "Cliente" => $cliente,
@@ -1616,7 +1635,8 @@ class Clientes extends CI_Controller {
         $this->Pagos_model->saveHistoria($historia);
     }
 
-    public function CambioFecha($cliente) {
+    public function CambioFecha($cliente)
+    {
         $idPermiso = 16;
         $page = validarPermisoPagina($idPermiso);
 
@@ -1659,7 +1679,8 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function ChangePayDate() {
+    public function ChangePayDate()
+    {
         $idPermiso = 95;
         $accion = validarPermisoAcciones($idPermiso);
         if ($accion) {
@@ -1701,7 +1722,8 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function CambioTarifa($cliente) {
+    public function CambioTarifa($cliente)
+    {
         $idPermiso = 17;
         $page = validarPermisoPagina($idPermiso);
 
@@ -1755,7 +1777,8 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function changeRate() {
+    public function changeRate()
+    {
         $idPermiso = 96;
         $accion = validarPermisoAcciones($idPermiso);
         if ($accion) {
@@ -1828,7 +1851,8 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function Contador() {
+    public function Contador()
+    {
         $f1 = date("Y-m-d 00:00:00");
         $f2 = date("Y-m-d 23:59:59");
 
@@ -1843,7 +1867,8 @@ class Clientes extends CI_Controller {
         $this->load->view('frontend', $data);
     }
 
-    public function ConteoClientesPost() {
+    public function ConteoClientesPost()
+    {
         $fecha1 = trim($this->input->post('pag_fec1') . " 00:00:00");
         $fecha1 = preg_replace('#(\d{2})/(\d{2})/(\d{4})\s(.*)#', '$3-$2-$1 $4', $fecha1);
         $fecha2 = trim($this->input->post('pag_fec2') . " 23:59:59");
@@ -1853,7 +1878,8 @@ class Clientes extends CI_Controller {
         echo json_encode($Clientes);
     }
 
-    public function ConteoClientes($fecha1, $fecha2) {
+    public function ConteoClientes($fecha1, $fecha2)
+    {
         $Clientes = array();
         $Registrados = $this->Clientes_model->AllClients();
         $Clientes["Registrados"] = $Registrados[0]["Num"];
@@ -1877,7 +1903,8 @@ class Clientes extends CI_Controller {
         return $Clientes;
     }
 
-    public function Asignados() {
+    public function Asignados()
+    {
         $idPermiso = 108;
         $page = validarPermisoPagina($idPermiso);
 
@@ -1899,7 +1926,8 @@ class Clientes extends CI_Controller {
         $this->load->view('frontend', $data);
     }
 
-    public function Productos($pedido) {
+    public function Productos($pedido)
+    {
         if (isset($pedido)) {
             $dataProdPedido = $this->Pedidos_model->obtenerProductosPedidoClienteAll($pedido);
             if (isset($dataProdPedido) && $dataProdPedido != FALSE) {
@@ -1932,7 +1960,8 @@ class Clientes extends CI_Controller {
         }
     }
 
-    public function AddProducto() {
+    public function AddProducto()
+    {
         $pedido = trim($this->input->post('pedido'));
         $producto = trim($this->input->post('producto'));
         $nombre = trim($this->input->post('nombre'));
@@ -1988,7 +2017,7 @@ class Clientes extends CI_Controller {
                                     "Cantidad" => $item["Cantidad"] + $cantidad,
                                     "Valor" => $item["ValPP"] + $valor,
                                     "UsuarioModificacion" => $user,
-                                    "FechaModificacion" => $fecha   
+                                    "FechaModificacion" => $fecha
                                 );
 
                                 if ($this->Pedidos_model->updateProPedidoxPedido($pedido, $producto, $dataProductoPedido)) {
@@ -2029,7 +2058,7 @@ class Clientes extends CI_Controller {
                                 $sql = LogSave($data, $modulo, $tabla, $accion, $llave);
                             }
 
-                            $obs = "Se agregó  " . $cantidad . " unidad(es) de <b>" . $nombre . "</b> al Cliente <b>" . $item["NombreCliente"] . "</b> con un valor de <b>" . money_format("%.0n", $valor) . "</b>";
+                            $obs = "Se agregó  " . $cantidad . " unidad(es) de <b>" . $nombre . "</b> al Cliente <b>" . $item["NombreCliente"] . "</b> con un valor de <b>" . money_format_cop($valor) . "</b>";
                             $this->History($item["Cliente"], $pedido, $fecha, $user, "Agregar Producto", $item["Saldo"], 0, $item["Saldo"] + $valor, $valor, $obs);
                             echo 1;
                         }
@@ -2046,7 +2075,4 @@ class Clientes extends CI_Controller {
             echo "No se puede acceder a los datos del Pedido del Cliente";
         }
     }
-
 }
-
-?>

@@ -1,25 +1,28 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <style>
-    .green{
+    .green {
         background-color: green;
         color: white;
     }
-    .red{
+
+    .red {
         background-color: red;
         color: white;
     }
-    .orange{
+
+    .orange {
         background-color: orange;
         color: white;
     }
 </style>
 <div class="content">
-    <div class="header">        
-        <?php //$this->load->view('Modules/notifications'); ?>
-        <h1 class="page-title" style="font-size: 2em;"><?= $title; ?>  </h1>
-    </div>            
+    <div class="header">
+        <?php //$this->load->view('Modules/notifications'); 
+        ?>
+        <h1 class="page-title" style="font-size: 2em;"><?= $title; ?> </h1>
+    </div>
     <div class="main-content">
         <div class="row">
             <div class="col-md-12">
@@ -40,54 +43,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?php
                         if (count($datosPagos) > 0 && $datosPagos != false) {
                             foreach ($datosPagos as $pagos) {
-                                ?>
-                                <tr class="<?= $pagos ["Color"];?>">
-                                    <td class="<?= $pagos ["Color"];?>">
+                        ?>
+                                <tr class="<?= $pagos["Color"]; ?>">
+                                    <td class="<?= $pagos["Color"]; ?>">
                                         <p><?= $pagos["Nombre"]; ?></p>
                                     </td>
-                                    <td class="<?= $pagos ["Color"];?>">
+                                    <td class="<?= $pagos["Color"]; ?>">
                                         <p><?= $pagos["Direccion"]; ?></p>
                                     </td>
-                                    <td class="<?= $pagos ["Color"];?>">
+                                    <td class="<?= $pagos["Color"]; ?>">
                                         <p><?= $pagos["telefono"]; ?></p>
                                     </td>
-                                    <td class="<?= $pagos ["Color"];?>">
+                                    <td class="<?= $pagos["Color"]; ?>">
                                         <p><?= $pagos["cuota"]; ?></p>
                                     </td>
-                                    <td class="<?= $pagos ["Color"];?>">
-                                        <p><?= money_format("%.0n", $pagos["saldo"]); ?></p>
+                                    <td class="<?= $pagos["Color"]; ?>">
+                                        <p><?= money_format_cop($pagos["saldo"]); ?></p>
                                     </td>
-                                    <td class="<?= $pagos ["Color"];?>">
+                                    <td class="<?= $pagos["Color"]; ?>">
                                         <p><?= $pagos["fechaUltimoPago"]; ?></p>
                                     </td>
-                                    <td class="<?= $pagos ["Color"];?>">
+                                    <td class="<?= $pagos["Color"]; ?>">
                                         <p><?= $pagos["DiaCobro"]; ?></p>
                                     </td>
-                                    <td class="text-center dataTables_empty <?= $pagos ["Color"];?>">
+                                    <td class="text-center dataTables_empty <?= $pagos["Color"]; ?>">
                                         <div class="btn-group">
-                                            <a href="#ModalCall" data-toggle="modal" title="Reportar Llamada" onclick="DatosModal('<?= $pagos["Pedidos"]; ?>', '<?= $pagos["codCliente"]; ?>', '<?= $pagos["Nombre"]; ?>');"><i class="fa fa-phone <?= $pagos ["Color"];?>" aria-hidden="true" style="padding:5px;"></i></a>
-                                            <a href="<?= base_url() . "Cobradores/GestionHoy/" . $pagos["codCliente"] . "/"; ?>" title="Gestión de Llamada"><i class="fa fa-list-ul <?= $pagos ["Color"];?>" aria-hidden="true" style="padding:5px;"></i></a>
-                                            <a href="<?= base_url() . "Pagos/Generar/" . $pagos["codCliente"] . "/"; ?>" title="Pagar"><i class="fa fa-motorcycle <?= $pagos ["Color"];?>" aria-hidden="true" style="padding:5px;"></i></a>
-                                        </div>                                        
+                                            <a href="#ModalCall" data-toggle="modal" title="Reportar Llamada" onclick="DatosModal('<?= $pagos["Pedidos"]; ?>', '<?= $pagos["codCliente"]; ?>', '<?= $pagos["Nombre"]; ?>');"><i class="fa fa-phone <?= $pagos["Color"]; ?>" aria-hidden="true" style="padding:5px;"></i></a>
+                                            <a href="<?= base_url() . "Cobradores/GestionHoy/" . $pagos["codCliente"] . "/"; ?>" title="Gestión de Llamada"><i class="fa fa-list-ul <?= $pagos["Color"]; ?>" aria-hidden="true" style="padding:5px;"></i></a>
+                                            <a href="<?= base_url() . "Pagos/Generar/" . $pagos["codCliente"] . "/"; ?>" title="Pagar"><i class="fa fa-motorcycle <?= $pagos["Color"]; ?>" aria-hidden="true" style="padding:5px;"></i></a>
+                                        </div>
                                     </td>
                                 </tr>
-                                <?php
+                            <?php
                             }
                         } else {
-                            ?> 
+                            ?>
                             <tr>
                                 <td colspan="9" class="text-center">
                                     <div class="btn-group">
                                         <p>No se encontraron Clientes que deban pagar entre Hoy, Mañana y Pasado Mañana</p>
-                                    </div> 
+                                    </div>
                                 </td>
                             </tr>
-                            <?php
+                        <?php
                         }
                         ?>
                     </tbody>
                 </table>
-            </div>                            
+            </div>
         </div>
 
         <div class="modal  fade" id="ModalCall" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -98,7 +101,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <h3 id="myModalLabel">Confirmar Llamada</h3>
                         </div>
-                        <div class="modal-body">  
+                        <div class="modal-body">
                             <div class="row hidden">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -117,9 +120,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <input type="text" id="modal-nombre" name="modal-nombre" class="form-control" readonly>
                             </div>
                             <p class="error-text"><i class="fa fa-phone modal-icon"></i></p>
-                            <div class="row" >
+                            <div class="row">
                                 <div class="col-md-12">
-                                    <div class="form-group">                                
+                                    <div class="form-group">
                                         <label>Indique el motivo de la llamada realizada:</label>
                                         <select name="motivo" id="motivo" class="form-control">
                                             <?php
@@ -158,7 +161,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
 
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
                 var todayDate = new Date().getDate();
                 $('.datepicker8').datetimepicker({
                     format: 'DD/MM/YYYY',
@@ -175,12 +178,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                 });
 
-                $('#form-modal').submit(function (e) {
+                $('#form-modal').submit(function(e) {
                     e.preventDefault();
                     GuardarGestion();
                 });
 
-                $('#btn-modal').click(function (e) {
+                $('#btn-modal').click(function(e) {
                     e.preventDefault();
                     GuardarGestion();
                 });
@@ -207,28 +210,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 if (pedido.toString().length <= 0) {
                     $('#message').html(
-                            '<div class="alert alert-danger alert-dismissable fade in">\n\
+                        '<div class="alert alert-danger alert-dismissable fade in">\n\
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                 <strong>Error</strong><br />No existe Pedido\n\
                             </div>');
                 } else {
                     if (cliente.toString().length <= 0) {
                         $('#message').html(
-                                '<div class="alert alert-danger alert-dismissable fade in">\n\
+                            '<div class="alert alert-danger alert-dismissable fade in">\n\
                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                     <strong>Error</strong><br />No existe Cliente\n\
                                 </div>');
                     } else {
                         if (motivo == "" || motivo == null) {
                             $('#message').html(
-                                    '<div class="alert alert-danger alert-dismissable fade in">\n\
+                                '<div class="alert alert-danger alert-dismissable fade in">\n\
                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                         <strong>Error</strong><br />Debe indicar un motivo de llamada\n\
                                     </div>');
                         } else {
                             if (observaciones == "") {
                                 $('#message').html(
-                                        '<div class="alert alert-danger alert-dismissable fade in">\n\
+                                    '<div class="alert alert-danger alert-dismissable fade in">\n\
                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                             <strong>Error</strong><br />Debe indicar una Observación\n\
                                         </div>');
@@ -242,30 +245,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     type: 'post',
                                     url: method,
                                     data: {
-                                        pedido: pedido, cliente: cliente, motivo: motivo, nombremotivo: nombremotivo, fechaprogramada: fechaprogramada, observaciones: observaciones
+                                        pedido: pedido,
+                                        cliente: cliente,
+                                        motivo: motivo,
+                                        nombremotivo: nombremotivo,
+                                        fechaprogramada: fechaprogramada,
+                                        observaciones: observaciones
                                     },
                                     cache: false,
-                                    beforeSend: function () {
+                                    beforeSend: function() {
                                         $('#message').html("");
                                         $('#btn-modal').attr('disabled', 'disabled');
                                         $('#btn-modal').html('<i class="fa fa-save"></i> Guardando...');
                                     },
-                                    success: function (data) {
+                                    success: function(data) {
                                         $('#btn-modal').html('<i class="fa fa-save"></i> Guardar');
                                         if (data == 1) {
                                             $('#message').html(
-                                                    '<div class="alert alert-success alert-dismissable fade in">\n\
+                                                '<div class="alert alert-success alert-dismissable fade in">\n\
                                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                                         <strong>Se generó el reporte de la llamada. \nDireccionando...</strong>\n\
                                                     </div>');
-                                            setTimeout(function () {
+                                            setTimeout(function() {
                                                 $('#btn-modal-cerrar').click();
                                                 window.location.reload();
                                             }, 1500);
                                         } else {
                                             $('#btn-modal').prop("disabled", false);
                                             $('#message').html(
-                                                    '<div class="alert alert-danger alert-dismissable fade in">\n\
+                                                '<div class="alert alert-danger alert-dismissable fade in">\n\
                                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                                         <strong>Error</strong><br />' + data + '\n\
                                                     </div>');
@@ -283,7 +291,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                 }
             }
-
-
         </script>
-

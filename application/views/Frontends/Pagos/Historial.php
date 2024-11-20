@@ -1,19 +1,20 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <div class="content">
-    <div class="header">        
-        <?php //$this->load->view('Modules/notifications'); ?>
+    <div class="header">
+        <?php //$this->load->view('Modules/notifications'); 
+        ?>
         <h1 class="page-title" style="font-size: 2em;"><?= $title; ?> </h1>
-    </div>            
+    </div>
     <div class="main-content">
         <div class="panel panel-default">
             <a href="#" class="panel-heading" data-toggle="collapse"><?= $subtitle; ?></a>
             <div id="page-stats" class="panel-collapse panel-body collapse in">
-                <div class="row"> 
+                <div class="row">
                     <?php if ($this->session->flashdata("msg")): ?>
                         <div class="col-md-12">
-                            <div class="alert alert-success alert-dismissable fade in">                       
+                            <div class="alert alert-success alert-dismissable fade in">
                                 <?= $this->session->flashdata("msg"); ?>
                             </div>
                         </div>
@@ -29,16 +30,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                     <?php endif; ?>
                     <div class="col-md-12">
-                        <div class="btn-toolbar list-toolbar"> 
-                        <?php 
+                        <div class="btn-toolbar list-toolbar">
+                            <?php
                             $idPermiso = 23;
                             $accion = validarPermisoAcciones($idPermiso);
                             if ($accion) {
-                        ?>                            
-                            <a href="<?= base_url() . "Pagos/Cliente/" . $cliente . "/"; ?>" class="btn btn-default"><i class="fa fa-undo"></i> Pagos Cliente</a>
-                        <?php
+                            ?>
+                                <a href="<?= base_url() . "Pagos/Cliente/" . $cliente . "/"; ?>" class="btn btn-default"><i class="fa fa-undo"></i> Pagos Cliente</a>
+                            <?php
                             }
-                        ?>
+                            ?>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -51,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th>Cuota</th>
                                     <th>Abono</th>
                                     <th>Saldo Nuevo</th>
-                                    <th style="width: 33.33%;">Notas/Observaciones</th>                                    
+                                    <th style="width: 33.33%;">Notas/Observaciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -63,16 +64,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     if ($item["Abono"] == 0) {
                                         $item["Abono"] = "--";
                                     } else {
-                                        $item["Abono"] = money_format("%.0n", $item["Abono"]);
+                                        $item["Abono"] = money_format_cop($item["Abono"]);
                                     }
-                                    ?>
+                                ?>
                                     <tr title="<?= $item["Observaciones"]; ?>">
                                         <td><?= date("d/m/Y", strtotime($item["FechaHistorial"])); ?></td>
                                         <td><?= $item["Accion"]; ?></td>
-                                        <td><?= money_format("%.0n", $item["SaldoAnterior"]); ?></td>
+                                        <td><?= money_format_cop($item["SaldoAnterior"]); ?></td>
                                         <td><?= $item["Cuota"]; ?></td>
                                         <td><?= $item["Abono"]; ?></td>
-                                        <td><?= money_format("%.0n", $item["SaldoNuevo"]); ?></td>
+                                        <td><?= money_format_cop($item["SaldoNuevo"]); ?></td>
                                         <td style="width: 33.33%;">
                                             <?php
                                             $item["Observaciones"] = str_replace("\n", "<br>", $item["Observaciones"]);
@@ -83,12 +84,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <?php } ?>
                             </tbody>
                         </table>
-                    </div>                            
+                    </div>
                 </div>
             </div>
-        </div>  
+        </div>
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
                 $('#<?= $Controller; ?>').DataTable({
                     //lengthMenu: [25, 50, 100, -1],
                     responsive: true,

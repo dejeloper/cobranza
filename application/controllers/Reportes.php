@@ -1,10 +1,12 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Reportes extends CI_Controller {
+class Reportes extends CI_Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->viewControl = 'Reportes';
         $this->load->model('Reportes_model');
@@ -15,21 +17,23 @@ class Reportes extends CI_Controller {
         $this->load->model('Estados_model');
         $this->load->model('Cobradores_model');
         if (!$this->session->userdata('Login')) {
-            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI] );
+            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://" . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI]);
             $url = str_replace("/", "|", $_SERVER["REQUEST_URI"]);
             redirect(site_url("Login/index/" . substr($url, 1)));
         }
     }
 
-    public function index() {
+    public function index()
+    {
         $this->session->set_flashdata("error", "No existe ningún el Reporte Indicado.");
         redirect(site_url("Clientes/index/"));
     }
 
     /* Clientes */
 
-    public function Clientes() { 
-        $validationAdmin = validarPermisoAdmin('Reporte de Clientes'); 
+    public function Clientes()
+    {
+        $validationAdmin = validarPermisoAdmin('Reporte de Clientes');
         $idPermiso = 36;
         $page = validarPermisoPagina($idPermiso);
 
@@ -47,9 +51,10 @@ class Reportes extends CI_Controller {
         $this->load->view('frontend', $data);
     }
 
-    public function Pagos() {
-        $validationAdmin = validarPermisoAdmin('Reporte de Pagos'); 
-        $idPermiso = 37; 
+    public function Pagos()
+    {
+        $validationAdmin = validarPermisoAdmin('Reporte de Pagos');
+        $idPermiso = 37;
         $page = validarPermisoPagina($idPermiso);
 
         $f1 = date("Y-m-d 00:00:00");
@@ -66,21 +71,23 @@ class Reportes extends CI_Controller {
         $this->load->view('frontend', $data);
     }
 
-    public function Contador($tipo) {
+    public function Contador($tipo)
+    {
         switch ($tipo) {
             case "Clientes":
                 $this->Clientes();
                 break;
             case "Pagos":
-                    $this->Pagos();
-                    break;
+                $this->Pagos();
+                break;
 
             default:
                 break;
         }
     }
 
-    public function Cartera($tipo) {
+    public function Cartera($tipo)
+    {
         switch ($tipo) {
             case "Usuario":
                 $this->CarteraUsuarios();
@@ -92,8 +99,9 @@ class Reportes extends CI_Controller {
         }
     }
 
-    public function CarteraUsuarios() {
-        $validationAdmin = validarPermisoAdmin('Reporte de Cartera por Usuario'); 
+    public function CarteraUsuarios()
+    {
+        $validationAdmin = validarPermisoAdmin('Reporte de Cartera por Usuario');
         $idPermiso = 38;
         $page = validarPermisoPagina($idPermiso);
 
@@ -113,7 +121,8 @@ class Reportes extends CI_Controller {
         $this->load->view('frontend', $data);
     }
 
-    public function datosCarteraUsuariosPost() {
+    public function datosCarteraUsuariosPost()
+    {
         $usuario = trim($this->input->post('pag_usu'));
         $fecha1 = trim($this->input->post('pag_fec1') . " 00:00:00");
         $fecha1 = preg_replace('#(\d{2})/(\d{2})/(\d{4})\s(.*)#', '$3-$2-$1 $4', $fecha1);
@@ -124,7 +133,8 @@ class Reportes extends CI_Controller {
         echo json_encode($Pagos);
     }
 
-    public function datosCarteraUsuarios($usuario, $fecha1, $fecha2) {
+    public function datosCarteraUsuarios($usuario, $fecha1, $fecha2)
+    {
         $Pagos = array();
         try {
 
@@ -140,7 +150,7 @@ class Reportes extends CI_Controller {
             }
             $pag = array();
             $pag["numPag"] = $numPag;
-            $pag["valorPag"] = money_format("%.0n", $valorPag);
+            $pag["valorPag"] = money_format_cop($valorPag);
             $Pagos["pag"] = $pag;
             //Pagos Programados
             $pagopro = $this->Reportes_model->pagosProgramadosUsuarioFechas($usuario, $fecha1, $fecha2);
@@ -154,7 +164,7 @@ class Reportes extends CI_Controller {
             }
             $pagopro = array();
             $pagopro["numPagPro"] = $numPagPro;
-            $pagopro["valorPagPro"] = money_format("%.0n", $valorPagPro);
+            $pagopro["valorPagPro"] = money_format_cop($valorPagPro);
             $Pagos["pagopro"] = $pagopro;
             //Pagos Descartados
             $pagodes = $this->Reportes_model->pagosDescartadosUsuarioFechas($usuario, $fecha1, $fecha2);
@@ -168,7 +178,7 @@ class Reportes extends CI_Controller {
             }
             $pagodes = array();
             $pagodes["numPagDes"] = $numPagDes;
-            $pagodes["valorPagDes"] = money_format("%.0n", $valorPagDes);
+            $pagodes["valorPagDes"] = money_format_cop($valorPagDes);
             $Pagos["pagodes"] = $pagodes;
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage() . "<br>";
@@ -176,7 +186,8 @@ class Reportes extends CI_Controller {
         return $Pagos;
     }
 
-    public function reportesUsuarios() {
+    public function reportesUsuarios()
+    {
         $usuario = "*";
         $fecha1 = date('Y-m-d') . " 00:00:00";
         //$fecha1 = "2018-08-05 00:00:00";
@@ -195,13 +206,13 @@ class Reportes extends CI_Controller {
                     $fecha = date("d/m/Y  h:i:s A", strtotime($value["FechaPago"]));
                     $numPago = $value["Codigo"];
                     $btn = '<div style="text-align:center;margin:0px auto;">'
-                            . '<a href="' . base_url() . 'Pagos/Consultar/' . $numPago . '/" target="_blank" title="Ver más"><i class="fa fa-search" aria-hidden="true" style="padding:5px;"></i></a>'
-                            . '</div>';
+                        . '<a href="' . base_url() . 'Pagos/Consultar/' . $numPago . '/" target="_blank" title="Ver más"><i class="fa fa-search" aria-hidden="true" style="padding:5px;"></i></a>'
+                        . '</div>';
 
                     $p = array(
                         "pedido" => $value["Pedido"],
                         "cliente" => $nombre,
-                        "pago" => money_format("%.0n", $value["Pago"]),
+                        "pago" => money_format_cop($value["Pago"]),
                         "estado" => "Pagado",
                         "fecha" => $fecha,
                         "usuario" => $value["UsuarioCreacion"],
@@ -227,8 +238,8 @@ class Reportes extends CI_Controller {
                         $numPago = $this->Reportes_model->obtenerPago($value["Codigo"]);
                         $numPago = $numPago[0]["Codigo"];
                         $btn = '<div style="text-align:center;margin:0px auto;">'
-                                . '<a href="' . base_url() . 'Pagos/Consultar/' . $numPago . '/" target="_blank" title="Ver más"><i class="fa fa-search" aria-hidden="true" style="padding:5px;"></i></a>'
-                                . '</div>';
+                            . '<a href="' . base_url() . 'Pagos/Consultar/' . $numPago . '/" target="_blank" title="Ver más"><i class="fa fa-search" aria-hidden="true" style="padding:5px;"></i></a>'
+                            . '</div>';
                         $nombre = $value["NomCliente"];
 
                         if ($value["FechaModificacion"] == NULL) {
@@ -240,7 +251,7 @@ class Reportes extends CI_Controller {
                         $p = array(
                             "pedido" => $value["Pedido"],
                             "cliente" => $nombre,
-                            "pago" => money_format("%.0n", $value["Cuota"]),
+                            "pago" => money_format_cop($value["Cuota"]),
                             "estado" => $value["NomEstado"],
                             "fecha" => $fecha,
                             "usuario" => $value["UsuarioCreacion"],
@@ -258,7 +269,8 @@ class Reportes extends CI_Controller {
         }
     }
 
-    public function reportesUsuariosFiltro() {
+    public function reportesUsuariosFiltro()
+    {
         $usuario = trim($this->input->post('pag_usu'));
         $fecha1 = trim($this->input->post('pag_fec1') . " 00:00:00");
         $fecha1 = preg_replace('#(\d{2})/(\d{2})/(\d{4})\s(.*)#', '$3-$2-$1 $4', $fecha1);
@@ -277,13 +289,13 @@ class Reportes extends CI_Controller {
                     $fecha = date("d/m/Y  h:i:s A", strtotime($value["FechaPago"]));
                     $numPago = $value["Codigo"];
                     $btn = '<div style="text-align:center;margin:0px auto;">'
-                            . '<a href="' . base_url() . 'Pagos/Consultar/' . $numPago . '/" target="_blank" title="Ver más"><i class="fa fa-search" aria-hidden="true" style="padding:5px;"></i></a>'
-                            . '</div>';
+                        . '<a href="' . base_url() . 'Pagos/Consultar/' . $numPago . '/" target="_blank" title="Ver más"><i class="fa fa-search" aria-hidden="true" style="padding:5px;"></i></a>'
+                        . '</div>';
 
                     $p = array(
                         "pedido" => $value["Pedido"],
                         "cliente" => $nombre,
-                        "pago" => money_format("%.0n", $value["Pago"]),
+                        "pago" => money_format_cop($value["Pago"]),
                         "estado" => "Pagado",
                         "fecha" => $fecha,
                         "usuario" => $value["UsuarioCreacion"],
@@ -309,8 +321,8 @@ class Reportes extends CI_Controller {
                         $numPago = $this->Reportes_model->obtenerPago($value["Codigo"]);
                         $numPago = $numPago[0]["Codigo"];
                         $btn = '<div style="text-align:center;margin:0px auto;">'
-                                . '<a href="' . base_url() . 'Pagos/Consultar/' . $numPago . '/" target="_blank" title="Ver más"><i class="fa fa-search" aria-hidden="true" style="padding:5px;"></i></a>'
-                                . '</div>';
+                            . '<a href="' . base_url() . 'Pagos/Consultar/' . $numPago . '/" target="_blank" title="Ver más"><i class="fa fa-search" aria-hidden="true" style="padding:5px;"></i></a>'
+                            . '</div>';
 
                         $nombre = $value["NomCliente"];
 
@@ -323,7 +335,7 @@ class Reportes extends CI_Controller {
                         $p = array(
                             "pedido" => $value["Pedido"],
                             "cliente" => $nombre,
-                            "pago" => money_format("%.0n", $value["Cuota"]),
+                            "pago" => money_format_cop($value["Cuota"]),
                             "estado" => $value["NomEstado"],
                             "fecha" => $fecha,
                             "usuario" => $value["UsuarioCreacion"],
@@ -340,25 +352,26 @@ class Reportes extends CI_Controller {
         }
     }
 
-    public function reporteTotalValoresPorEstado() {
+    public function reporteTotalValoresPorEstado()
+    {
         try {
             $arreglo["data"] = [];
-            $i = 0; 
+            $i = 0;
 
             $estados = array(104, 105, 115, 124);
             $reporte = $this->Reportes_model->obtenerTotalValoresPorEstado($estados);
 
             if ($reporte != false) {
-                foreach ($reporte as $value) { 
+                foreach ($reporte as $value) {
                     $p = array(
                         "Estado" => $value["Nombre"],
                         "Clientes" => $value["Num_Clientes"],
-                        "Valor" => money_format("%.0n", $value["Total"])
+                        "Valor" => money_format_cop($value["Total"])
                     );
-                    $arreglo["data"][$i] = $p; 
+                    $arreglo["data"][$i] = $p;
 
                     $i++;
-                }  
+                }
             }
 
             echo json_encode($arreglo);
@@ -367,15 +380,16 @@ class Reportes extends CI_Controller {
         }
     }
 
-    public function reporteTotalValores() {
+    public function reporteTotalValores()
+    {
         try {
-            $arreglo = []; 
+            $arreglo = [];
 
             $estados = array(104, 105, 115, 124);
             $reporte = $this->Reportes_model->obtenerTotalValores($estados);
 
-            if ($reporte != false) { 
-                echo money_format("%.0n", $reporte[0]["Total"]);
+            if ($reporte != false) {
+                echo money_format_cop($reporte[0]["Total"]);
             } else {
                 echo 'Error: No se encontraron datos.';
             }
@@ -383,8 +397,9 @@ class Reportes extends CI_Controller {
             echo 'Error: ' . $e->getMessage() . "<br>";
         }
     }
-  
-    public function ConteoPagosPost() {
+
+    public function ConteoPagosPost()
+    {
         $fecha1 = trim($this->input->post('pag_fec1') . " 00:00:00");
         $fecha1 = preg_replace('#(\d{2})/(\d{2})/(\d{4})\s(.*)#', '$3-$2-$1 $4', $fecha1);
         $fecha2 = trim($this->input->post('pag_fec2') . " 23:59:59");
@@ -394,7 +409,8 @@ class Reportes extends CI_Controller {
         echo json_encode($Pagos);
     }
 
-    public function ConteoPagos($fecha1, $fecha2) {
+    public function ConteoPagos($fecha1, $fecha2)
+    {
         $Pagos = array();
         $progH = $this->Reportes_model->AllPayProg();
         $Pagos["ProgH"] = $progH[0]["Num"];
@@ -420,10 +436,11 @@ class Reportes extends CI_Controller {
         return $Pagos;
     }
 
-    public function ConteoClientesPost() {
-        $fecha1 = trim($this->input->post('pag_fec1') . " 00:00:00"); 
+    public function ConteoClientesPost()
+    {
+        $fecha1 = trim($this->input->post('pag_fec1') . " 00:00:00");
         $fecha1 = preg_replace('#(\d{2})/(\d{2})/(\d{4})\s(.*)#', '$3-$2-$1 $4', $fecha1);
-        $fecha2 = trim($this->input->post('pag_fec2') . " 23:59:59"); 
+        $fecha2 = trim($this->input->post('pag_fec2') . " 23:59:59");
         $fecha2 = preg_replace('#(\d{2})/(\d{2})/(\d{4})\s(.*)#', '$3-$2-$1 $4', $fecha2);
         $Clientes = $this->ConteoClientes($fecha1, $fecha2);
 
@@ -431,7 +448,8 @@ class Reportes extends CI_Controller {
         echo json_encode($out);
     }
 
-    public function ConteoClientes($fecha1, $fecha2) {
+    public function ConteoClientes($fecha1, $fecha2)
+    {
         $Clientes = array();
         $Registrados = $this->Clientes_model->AllClients();
         //$Nuevo = $this->Clientes_model->ClientsNew($fecha1, $fecha2);
@@ -440,10 +458,10 @@ class Reportes extends CI_Controller {
         $Mora = $this->Clientes_model->ClientsMora();
         $DataCredito = $this->Clientes_model->ClientsData();
         $Paz = $this->Clientes_model->ClientsPeace();
-        $Devoluciones = $this->Clientes_model->ClientsReturn(); 
-        $Reportados = $this->Clientes_model->ClientsReports();        
+        $Devoluciones = $this->Clientes_model->ClientsReturn();
+        $Reportados = $this->Clientes_model->ClientsReports();
         $Eliminados = $this->Clientes_model->ClientsDelete();
-        
+
         $Clientes = array(
             0 => intval($Registrados[0]["Num"]),
             1 => intval($Aldía[0]["Num"]),
@@ -456,10 +474,7 @@ class Reportes extends CI_Controller {
             // 7 => intval($Reportados[0]["Num"]),
             // 8 => intval($Eliminados[0]["Num"])
         );
-        
+
         return $Clientes;
     }
-
 }
-
-?>

@@ -1,11 +1,12 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <div class="content">
-    <div class="header">        
-        <?php //$this->load->view('Modules/notifications'); ?>
+    <div class="header">
+        <?php //$this->load->view('Modules/notifications'); 
+        ?>
         <h1 class="page-title" style="font-size: 2em;"><?= $title; ?> </h1>
-    </div>            
+    </div>
     <div class="main-content">
         <div class="panel panel-default">
             <a href="#page-stats" class="panel-heading" data-toggle="collapse"><?= $subtitle; ?></a>
@@ -24,32 +25,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="col-md-12">
                         <div class="btn-toolbar list-toolbar">
                             <?php
-                                $idPermiso = 19;
-                                $accion = validarPermisoAcciones($idPermiso);
-                                if ($accion) {
-                                    ?>                                    
-                                    <a href="<?= base_url() . "Pagos/Generar/" . $cliente; ?>" class="btn btn-primary"><i class="fa fa-plus"></i> Hacer nuevo Recibo</a>
-                                    <?php
-                                }
+                            $idPermiso = 19;
+                            $accion = validarPermisoAcciones($idPermiso);
+                            if ($accion) {
+                            ?>
+                                <a href="<?= base_url() . "Pagos/Generar/" . $cliente; ?>" class="btn btn-primary"><i class="fa fa-plus"></i> Hacer nuevo Recibo</a>
+                            <?php
+                            }
 
-                                $idPermiso = 23;
-                                $accion = validarPermisoAcciones($idPermiso);
-                                if ($accion) {
-                                    ?>
-                                    <a href="<?= base_url() . "Pagos/Cliente/" . $cliente; ?>" class="btn btn-default"><i class="fa fa-undo"></i> Pagos Cliente</a>
-                                    <?php
-                                }
+                            $idPermiso = 23;
+                            $accion = validarPermisoAcciones($idPermiso);
+                            if ($accion) {
+                            ?>
+                                <a href="<?= base_url() . "Pagos/Cliente/" . $cliente; ?>" class="btn btn-default"><i class="fa fa-undo"></i> Pagos Cliente</a>
+                            <?php
+                            }
 
-                                $idPermiso = 15;
-                                $accion = validarPermisoAcciones($idPermiso);
-                                if ($accion) {
-                                    ?>
-                                    <a href="<?= base_url() . "Clientes/Consultar/" . $cliente . "/"; ?>" class="btn btn-primary"><i class="fa fa-address-book"></i> Datos Cliente</a>
-                                    <?php
-                                }
+                            $idPermiso = 15;
+                            $accion = validarPermisoAcciones($idPermiso);
+                            if ($accion) {
+                            ?>
+                                <a href="<?= base_url() . "Clientes/Consultar/" . $cliente . "/"; ?>" class="btn btn-primary"><i class="fa fa-address-book"></i> Datos Cliente</a>
+                            <?php
+                            }
                             ?>
                         </div>
-                    </div>                            
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -72,11 +73,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         //var_dump($item);
                                         $item["Observaciones"] = str_replace("\n", "", $item["Observaciones"]);
                                         $item["Observaciones"] = str_replace("---", ". ", $item["Observaciones"]);
-                                        ?>
+                                ?>
                                         <tr>
                                             <td><?= $item["Codigo"]; ?></td>
                                             <td><?= $item["Pedido"]; ?></td>
-                                            <td><?= money_format("%.0n", $item["Cuota"]); ?></td>
+                                            <td><?= money_format_cop($item["Cuota"]); ?></td>
                                             <td><?= date("d/m/Y", strtotime($item["FechaProgramada"])); ?></td>
                                             <td><?= $item["NomEstado"]; ?></td>
                                             <td><?php
@@ -89,53 +90,53 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <td class="text-center">
                                                 <div class="btn-group">
                                                     <?php
-                                                        $idPermiso = 100;
-                                                        $accion = validarPermisoAcciones($idPermiso);
-                                                        if ($accion) {
-                                                            ?> 
-                                                            <a href="<?= base_url() . "Pagos/Validar/" . $item["Codigo"] . "/"; ?>" title="Ver Recibo de Pago"><i class="fa fa-search" aria-hidden="true" style="padding:5px;"></i></a>
-                                                            <?php
-                                                        }
- 
-                                                        if ($item["NomEstado"] == "Programado") {
-                                                            // Permiso Confirmar Pago
-                                                            $idPermiso = 21;
-                                                            $accion = validarPermisoAcciones($idPermiso);
-                                                            if ($accion) {
-                                                                ?> 
-                                                                <a href="<?= base_url() . "Pagos/Confirmar/" . $item["Codigo"] . "/"; ?>" title="Confirmar Pago"><i class="fa fa-check" aria-hidden="true" style="padding:5px;"></i></a>
-                                                                <?php
-                                                            }
-
-                                                            // Permiso Descartar Pago
-                                                            $idPermiso = 22;
-                                                            $accion = validarPermisoAcciones($idPermiso);
-                                                            if ($accion) {
-                                                                ?> 
-                                                                <a href="<?= base_url() . "Pagos/Descartar/" . $item["Codigo"] . "/"; ?>" title="Descartar Pago"><i class="fa fa-close" aria-hidden="true" style="padding:5px;"></i></a>
-                                                                <?php
-                                                            } 
-                                                        }
-
-                                                        // Permiso Imprimir Recibo
-                                                        $idPermiso = 32;
-                                                        $accion = validarPermisoAcciones($idPermiso);
-                                                        if ($accion) {
-                                                            if ($item["Copias"] == 0) {
-                                                                echo "<a href='#ModalPrintSolo' data-toggle='modal' title='Imprimir Recibo de Pago' onclick='dataModalSolo(\"1\",\"" . money_format("%.0n", $item["Cuota"]) . "\", \"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\");'><i class='fa fa-print' aria-hidden='true' style='padding:5px;'></i></a>"; 
-                                                            } else {
-                                                                $f1 = strtotime($item["FechaImpresion"]);
-                                                                $f2 = strtotime(date("d-m-Y 00:00:00", time()));
-                                                                if (($item["Copias"] > 1 && $item["Copias"] < 3) && $f1 != $f2) {
-                                                                    echo "<a href='#ModalPrintSolo' data-toggle='modal' title='Imprimir Recibo de Pago' onclick='dataModalSolo(\"1\",\"" . money_format("%.0n", $item["Cuota"]) . "\", \"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\");'><i class='fa fa-print' aria-hidden='true' style='padding:5px;'></i></a>"; 
-                                                                }
-                                                            }     
-                                                        }                                                         
+                                                    $idPermiso = 100;
+                                                    $accion = validarPermisoAcciones($idPermiso);
+                                                    if ($accion) {
                                                     ?>
-                                                </div>                                        
+                                                        <a href="<?= base_url() . "Pagos/Validar/" . $item["Codigo"] . "/"; ?>" title="Ver Recibo de Pago"><i class="fa fa-search" aria-hidden="true" style="padding:5px;"></i></a>
+                                                        <?php
+                                                    }
+
+                                                    if ($item["NomEstado"] == "Programado") {
+                                                        // Permiso Confirmar Pago
+                                                        $idPermiso = 21;
+                                                        $accion = validarPermisoAcciones($idPermiso);
+                                                        if ($accion) {
+                                                        ?>
+                                                            <a href="<?= base_url() . "Pagos/Confirmar/" . $item["Codigo"] . "/"; ?>" title="Confirmar Pago"><i class="fa fa-check" aria-hidden="true" style="padding:5px;"></i></a>
+                                                        <?php
+                                                        }
+
+                                                        // Permiso Descartar Pago
+                                                        $idPermiso = 22;
+                                                        $accion = validarPermisoAcciones($idPermiso);
+                                                        if ($accion) {
+                                                        ?>
+                                                            <a href="<?= base_url() . "Pagos/Descartar/" . $item["Codigo"] . "/"; ?>" title="Descartar Pago"><i class="fa fa-close" aria-hidden="true" style="padding:5px;"></i></a>
+                                                    <?php
+                                                        }
+                                                    }
+
+                                                    // Permiso Imprimir Recibo
+                                                    $idPermiso = 32;
+                                                    $accion = validarPermisoAcciones($idPermiso);
+                                                    if ($accion) {
+                                                        if ($item["Copias"] == 0) {
+                                                            echo "<a href='#ModalPrintSolo' data-toggle='modal' title='Imprimir Recibo de Pago' onclick='dataModalSolo(\"1\",\"" . money_format_cop($item["Cuota"]) . "\", \"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\");'><i class='fa fa-print' aria-hidden='true' style='padding:5px;'></i></a>";
+                                                        } else {
+                                                            $f1 = strtotime($item["FechaImpresion"]);
+                                                            $f2 = strtotime(date("d-m-Y 00:00:00", time()));
+                                                            if (($item["Copias"] > 1 && $item["Copias"] < 3) && $f1 != $f2) {
+                                                                echo "<a href='#ModalPrintSolo' data-toggle='modal' title='Imprimir Recibo de Pago' onclick='dataModalSolo(\"1\",\"" . money_format_cop($item["Cuota"]) . "\", \"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\");'><i class='fa fa-print' aria-hidden='true' style='padding:5px;'></i></a>";
+                                                            }
+                                                        }
+                                                    }
+                                                    ?>
+                                                </div>
                                             </td>
                                         </tr>
-                                        <?php
+                                    <?php
                                     }
                                 } else {
                                     ?>
@@ -146,16 +147,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             </div>
                                         </td>
                                     </tr>
-                                    <?php
+                                <?php
                                 }
                                 ?>
                             </tbody>
                         </table>
-                    </div>                            
+                    </div>
                 </div>
             </div>
         </div>
-        
+
         <div class="modal small fade" id="ModalPrintSolo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -164,8 +165,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <h3 id="myModalLabel">Imprimir Recibo de Pago - Único</h3>
                         </div>
-                        <div class="modal-body">  
-                            <div class="row hidden">                                
+                        <div class="modal-body">
+                            <div class="row hidden">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Pedido</label>
@@ -178,14 +179,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <input type="text" id="modal-ClienteSolo" name="modal-ClienteSolo" class="form-control" readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
-                            </div>     
-                            <div class="row">                                
+                            </div>
+                            <div class="row">
                                 <div class="col-md-12">
                                     <p class="error-text"><i class="fa fa-warning modal-icon"></i>¿Desea imprimir estos recibos de pago en este momento?</p>
                                 </div>
                             </div>
                             <br>
-                            <div class="row">                                
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Número de Recibos</label>
@@ -198,12 +199,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <input type="text" id="modal-pagSolo" name="modal-pagSolo" class="form-control" readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                         <div class="modal-footer" style="margin-top: -15px;">
                             <button class="btn btn-default" id="btn-modal-cerrar" name="btn-modal-cerrar" data-dismiss="modal" aria-hidden="true">Cerrar</button>
                             <button id="btn-modalSolo" name="btn-modalSolo" class="btn btn-info"><i class="fa fa-print"></i> Imprimir Recibo</button>
-                        </div>                        
+                        </div>
                         <div class="row">
                             <div class="col-md-12" id="message">
                             </div>
@@ -214,7 +215,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
 
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
                 $('#<?= $Controller; ?>').DataTable({
                     responsive: true,
                     scrollX: true,
@@ -223,14 +224,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         url: "<?= base_url('Public/assets/'); ?>/lib/Datetables.js/Spanish.json"
                     }
                 });
-                
-                $('#btn-modalSolo').click(function (e) { 
+
+                $('#btn-modalSolo').click(function(e) {
                     e.preventDefault();
-                    $('#message').html(""); 
-                    $('#ModalPrintSolo').modal('toggle'); 
+                    $('#message').html("");
+                    $('#ModalPrintSolo').modal('toggle');
                     imprimirReciboSolo();
                 });
-            }); 
+            });
 
             function dataModalSolo(num, pageTotal, cliente, pedido) {
                 $('#modal-numSolo').val(num);
@@ -238,8 +239,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $('#modal-ClienteSolo').val(cliente);
                 $('#modal-PedidoSolo').val(pedido);
             }
-            
-            function imprimirReciboSolo() { 
+
+            function imprimirReciboSolo() {
                 $('#message').html("");
                 $('#btn-modalSolo').removeClass('disabled');
                 var method = "<?= base_url(); ?>Pagos/PermisosImprimirRecibos/";
@@ -250,13 +251,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $.ajax({
                     type: 'post',
                     url: method,
-                    data: { 
-                    },
+                    data: {},
                     cache: false,
-                    beforeSend: function () {
-                        $('#message').html(""); 
+                    beforeSend: function() {
+                        $('#message').html("");
                     },
-                    success: function (data) {
+                    success: function(data) {
                         console.log(data);
                         if (data != 1) {
                             $('#message').html(
@@ -264,20 +264,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                     <strong>No tiene permisos para imprimir recibos</strong><br />\n\
                                 </div>');
-                            
+
                             $('#ModalPrintSolo').modal('hide');
                             $('#btn-modalSolo').addClass('disabled');
                             $("body").css({
                                 'cursor': 'Default'
                             });
-                            
+
                             return false;
                         } else {
                             $('#btn-modalSolo').removeClass('disabled');
                             $("body").css({
                                 'cursor': 'Default'
                             });
-                            
+
                             var cliente = $('#modal-ClienteSolo').val();
                             var pedido = $('#modal-PedidoSolo').val();
                             var margen = prompt("¿Quiere subir o bajar la impresión?\n0: Normal\n1: Arriba 1 punto\n2: Arriba 2 puntos\n3: Abajo 1 punto\n4: Abajo 2 puntos");
@@ -286,19 +286,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             $("body").css({
                                 'cursor': 'wait'
                             })
-                            window.open('<?= base_url(); ?>Pagos/ImprimirReciboSolo/' + pedido + '/' + cliente + '/' +  margen, '_blank');
+                            window.open('<?= base_url(); ?>Pagos/ImprimirReciboSolo/' + pedido + '/' + cliente + '/' + margen, '_blank');
 
                             $("body").css({
                                 'cursor': 'Default'
-                            }) 
+                            })
                         }
-                    } 
-                });  
+                    }
+                });
 
 
 
 
 
-               
+
             }
         </script>

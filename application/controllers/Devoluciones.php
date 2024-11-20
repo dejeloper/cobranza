@@ -1,10 +1,12 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Devoluciones extends CI_Controller {
+class Devoluciones extends CI_Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->viewControl = 'Devoluciones';
         $this->load->model('Devoluciones_model');
@@ -14,17 +16,19 @@ class Devoluciones extends CI_Controller {
         $this->load->model('Estados_model');
         $this->load->model('Cobradores_model');
         if (!$this->session->userdata('Login')) {
-            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI] );
+            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://" . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI]);
             $url = str_replace("/", "|", $_SERVER["REQUEST_URI"]);
             redirect(site_url("Login/index/" . substr($url, 1)));
         }
     }
 
-    public function index() {
+    public function index()
+    {
         redirect(site_url($this->viewControl . "/Admin/"));
     }
 
-    public function Admin() {
+    public function Admin()
+    {
         $data = new stdClass();
         $data->Controller = "Devoluciones";
         $data->title = "Listado de Devoluciones";
@@ -34,7 +38,8 @@ class Devoluciones extends CI_Controller {
         $this->load->view('frontend', $data);
     }
 
-    public function listadoDevoluviones() {
+    public function listadoDevoluviones()
+    {
         $user = "*";
         $fechaIni = date('Y-m-d') . " 00:00:00";
         $fechaFin = date('Y-m-d') . " 23:59:59";
@@ -43,7 +48,8 @@ class Devoluciones extends CI_Controller {
         echo json_encode($arreglo);
     }
 
-    public function consultarDevolucion($user, $fechaIni, $fechaFin) {
+    public function consultarDevolucion($user, $fechaIni, $fechaFin)
+    {
         try {
             $dataDevolucion = $this->Devoluciones_model->obtenerDevolucionesFechaUser($user, $fechaIni, $fechaFin);
             $arreglo["data"] = [];
@@ -65,7 +71,7 @@ class Devoluciones extends CI_Controller {
                     $arreglo["data"][$i] = array(
                         "pedido" => $item["Pedido"],
                         "cliente" => $item["NomCliente"],
-                        "Saldo" => money_format("%.0n", $item["Saldo"]),
+                        "Saldo" => money_format_cop($item["Saldo"]),
                         "fecha" => date("d/m/Y", strtotime($item["FechaCreacion"])),
                         "observacion" => $osb,
                         "btn" => '<div class="btn-group text-center" style="margin: 0px auto;  width:100%;">' . $btn1 . $btn2 . $btn3 . $btn4 . '</div>'
@@ -79,7 +85,8 @@ class Devoluciones extends CI_Controller {
         }
     }
 
-    public function FiltroDevol() {
+    public function FiltroDevol()
+    {
         $user = "*"; //trim($this->input->post('pag_usu'));
         $fechaIni = trim($this->input->post('pag_fec1'));
         $date = str_replace('/', '-', $fechaIni);
@@ -93,7 +100,8 @@ class Devoluciones extends CI_Controller {
         echo json_encode($arreglo);
     }
 
-    public function Generar() {
+    public function Generar()
+    {
         $idPermiso = 97;
         $accion = validarPermisoAcciones($idPermiso);
         if ($accion) {
@@ -147,7 +155,7 @@ class Devoluciones extends CI_Controller {
                                     try {
                                         if ($this->Devoluciones_model->save($devolucion)) {
                                             $dataDevoluciones = $this->Devoluciones_model->obtenerDevolución($pedido, $cliente, $user, $fecha);
-                                            $codDevolucion = $dataDevoluciones [0]["Codigo"];
+                                            $codDevolucion = $dataDevoluciones[0]["Codigo"];
                                             $devolucion["Observaciones"] = "Se genera Devolución\nCliente: " . $nombre . "\n" . $observaciones;
                                             $modulo = "Devolución Pedido";
                                             $tabla = "Devoluciones";
@@ -229,7 +237,8 @@ class Devoluciones extends CI_Controller {
         }
     }
 
-    public function History($cliente, $pedido, $fecha, $usuario, $accion, $saldoAnt, $cuota, $saldoNue, $abono, $obs) {
+    public function History($cliente, $pedido, $fecha, $usuario, $accion, $saldoAnt, $cuota, $saldoNue, $abono, $obs)
+    {
         $historia = array(
             "Pedido" => $pedido,
             "Cliente" => $cliente,
@@ -246,14 +255,15 @@ class Devoluciones extends CI_Controller {
         $this->Pagos_model->saveHistoria($historia);
     }
 
-    public function Consultar($codigo) {
+    public function Consultar($codigo)
+    {
         $dataDevolucion = $this->Devoluciones_model->obtenerDevoluciónCod($codigo);
         if (isset($dataDevolucion) && $dataDevolucion != FALSE) {
             $dataClientes = $this->Clientes_model->obtenerClienteDir($dataDevolucion[0]["Cliente"]);
             if (isset($dataClientes) && $dataClientes != FALSE) {
                 $dataCobradores = $this->Cobradores_model->obtenerCobrador($dataDevolucion[0]["Cobrador"]);
                 if (isset($dataCobradores) && $dataCobradores != FALSE) {
-                    $dataDevolucion[0]["NomCobrador"] = $dataCobradores [0]["Nombre"];
+                    $dataDevolucion[0]["NomCobrador"] = $dataCobradores[0]["Nombre"];
 
 
                     $data = new stdClass();
@@ -279,7 +289,8 @@ class Devoluciones extends CI_Controller {
         }
     }
 
-    public function Contador() {
+    public function Contador()
+    {
         $f1 = date("Y-m-d 00:00:00");
         $f2 = date("Y-m-d 23:59:59");
 
@@ -293,7 +304,4 @@ class Devoluciones extends CI_Controller {
 
         $this->load->view('frontend', $data);
     }
-
 }
-
-?>

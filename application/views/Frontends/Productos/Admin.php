@@ -1,11 +1,12 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <div class="content">
-    <div class="header">        
-        <?php //$this->load->view('Modules/notifications'); ?>
+    <div class="header">
+        <?php //$this->load->view('Modules/notifications'); 
+        ?>
         <h1 class="page-title" style="font-size: 2em;"><?= $title; ?> </h1>
-    </div>            
+    </div>
     <div class="main-content">
         <div class="panel panel-default">
             <a href="#page-stats" class="panel-heading" data-toggle="collapse"><?= $subtitle; ?></a>
@@ -13,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="row">
                     <?php if ($this->session->flashdata("msg")): ?>
                         <div class="col-md-12">
-                            <div class="alert alert-success alert-dismissable fade in">                       
+                            <div class="alert alert-success alert-dismissable fade in">
                                 <?= $this->session->flashdata("msg"); ?>
                             </div>
                         </div>
@@ -27,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <?= $this->session->flashdata("error"); ?>
                             </div>
                         </div>
-                    <?php endif; ?>                                            
+                    <?php endif; ?>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -44,35 +45,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <?php
                                 if (count($ListaDatos) > 0 && $ListaDatos != false) {
                                     foreach ($ListaDatos as $item) {
-//                                        var_dump($item);
-//                                        echo "<br><br>";
-                                        ?>
+                                        //                                        var_dump($item);
+                                        //                                        echo "<br><br>";
+                                ?>
                                         <tr>
                                             <td><?= $item["Codigo"]; ?></td>
                                             <td><?= $item["Nombre"]; ?></td>
-                                            <td><?= money_format("%.0n", $item["Valor"]); ?></td>
+                                            <td><?= money_format_cop($item["Valor"]); ?></td>
                                             <td class="text-center">
                                                 <div class="btn-group">
                                                     <a href="<?= base_url() . "Productos/Consultar/" . $item["Codigo"] . "/"; ?>" title="Consultar Producto"><i class="fa fa-search" aria-hidden="true" style="padding:5px;"></i></a>
                                                     <a href="<?= base_url() . "Tarifas/Producto/" . $item["Codigo"] . "/"; ?>" title="Tarifa de Producto"><i class="fa fa-tags" aria-hidden="true" style="padding:5px;"></i></a>
-                                                </div>                                        
+                                                </div>
                                             </td>
                                         </tr>
-                                        <?php
+                                <?php
                                     }
                                 }
-                                ?>                                     
+                                ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-        </div>  
+        </div>
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
                 $('#<?= $Controller; ?>').DataTable({
                     responsive: true,
-                    scrollX: true, 
+                    scrollX: true,
                     language: {
                         url: "<?= base_url('Public/assets/'); ?>/lib/Datetables.js/Spanish.json"
                     }

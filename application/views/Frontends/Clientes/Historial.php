@@ -1,11 +1,12 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <div class="content">
-    <div class="header">        
-        <?php //$this->load->view('Modules/notifications'); ?>
+    <div class="header">
+        <?php //$this->load->view('Modules/notifications'); 
+        ?>
         <h1 class="page-title" style="font-size: 2em;"><?= $title; ?> </h1>
-    </div>            
+    </div>
     <div class="main-content">
         <div class="panel panel-default">
             <a href="#" class="panel-heading"><?= $subtitle; ?></a>
@@ -34,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label>Dirección</label>
                                     <input type="text" value="<?= $DatosCliente["Direccion"]; ?>" class="form-control" disabled style="background-color: #ffffff;">
                                 </div>
-                            </div>                        
+                            </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Barrio</label>
@@ -45,10 +46,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="form-group">
                                     <label>Teléfonos</label>
                                     <input type="text" value="<?= $DatosCliente["Telefono"]; ?>" class="form-control" disabled style="background-color: #ffffff;">
-                                </div> 
+                                </div>
                             </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -63,10 +64,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
-                            <tbody>                                
+                            <tbody>
                                 <?php
                                 if (!isset($ListaDatos)) {
-                                    ?>
+                                ?>
                                     <tr>
                                         <td colspan="6" class="dataTables_empty">
                                             El Cliente no ha generado ningún pago todavía.
@@ -75,12 +76,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <?php
                                 } else {
                                     foreach ($ListaDatos as $item) {
-                                        ?>
+                                    ?>
                                         <tr>
                                             <td><?= $item["Pedido"]; ?></td>
                                             <td><?= $item["Cuota"]; ?></td>
-                                            <td><?= money_format("%.0n", $item["Pago"]); ?></td>
-                                            <td><?= money_format("%.0n", $item["TotalPago"]); ?></td>
+                                            <td><?= money_format_cop($item["Pago"]); ?></td>
+                                            <td><?= money_format_cop($item["TotalPago"]); ?></td>
                                             <td><?= date("d/m/Y", strtotime($item["FechaPago"])); ?></td>
                                             <td class="text-center">
                                                 <div class="btn-group">
@@ -89,18 +90,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 </div>
                                             </td>
                                         </tr>
-                                        <?php
+                                <?php
                                     }
                                 }
                                 ?>
                             </tbody>
                         </table>
-                    </div>                            
+                    </div>
                 </div>
-            </div>                            
+            </div>
         </div>
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
                 $('#<?= $Controller; ?>').DataTable({
                     responsive: true,
                     scrollX: true,

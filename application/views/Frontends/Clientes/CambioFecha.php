@@ -65,7 +65,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Valor Total</label>
-                                    <input type="text" placeholder="Valor Total" value="<?= money_format("%.0n", intval($item["Valor1"])); ?>" readonly style="background-color: #fff;" class="form-control" id="valorTotal1" name="valorTotal1">
+                                    <input type="text" placeholder="Valor Total" value="<?= money_format_cop(intval($item["Valor1"])); ?>" readonly style="background-color: #fff;" class="form-control" id="valorTotal1" name="valorTotal1">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -91,13 +91,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Valor de la Cuota</label>
-                                    <input type="text" min="0" placeholder="Valor de la Cuota" value="<?= money_format("%.0n", $ValorCuota); ?>" readonly style="background-color: #fff;" class="form-control required" id="valorCuota" name="valorCuota" onchange="tarifaManual(2)">
+                                    <input type="text" min="0" placeholder="Valor de la Cuota" value="<?= money_format_cop($ValorCuota); ?>" readonly style="background-color: #fff;" class="form-control required" id="valorCuota" name="valorCuota" onchange="tarifaManual(2)">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Saldo</label>
-                                    <input type="text" placeholder="Saldo" value="<?= money_format("%.0n", $item["Saldo"]); ?>" readonly style="background-color: #fff;" class="form-control" id="Saldo" name="Saldo">
+                                    <input type="text" placeholder="Saldo" value="<?= money_format_cop($item["Saldo"]); ?>" readonly style="background-color: #fff;" class="form-control" id="Saldo" name="Saldo">
                                 </div>
                             </div>
                         </div>

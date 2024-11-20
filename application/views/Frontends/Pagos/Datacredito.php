@@ -1,29 +1,33 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <style>
-    .black{
+    .black {
         background-color: #525252 !important;
         color: white;
     }
-    .green{
+
+    .green {
         background-color: #5cb85c !important;
         color: white;
     }
-    .red{
+
+    .red {
         background-color: #f34a4a !important;
         color: white;
     }
-    .orange{
+
+    .orange {
         background-color: #ffc61d !important;
         color: white;
     }
 </style>
 <div class="content">
-    <div class="header">        
-        <?php //$this->load->view('Modules/notifications'); ?>
+    <div class="header">
+        <?php //$this->load->view('Modules/notifications'); 
+        ?>
         <h1 class="page-title" style="font-size: 2em;"><?= $title; ?> </h1>
-    </div>            
+    </div>
     <div class="main-content">
         <div class="panel panel-default">
             <a href="#page-stats" class="panel-heading" data-toggle="collapse"><?= $subtitle; ?></a>
@@ -45,11 +49,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <?= $this->session->flashdata("error"); ?>
                             </div>
                         </div>
-                    <?php endif; 
-                    
-                        $idPermiso = 97;
-                        $btnD = validarPermisoBoton($idPermiso);
-                    ?>                 
+                    <?php endif;
+
+                    $idPermiso = 97;
+                    $btnD = validarPermisoBoton($idPermiso);
+                    ?>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -70,9 +74,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <?php
                                 if ($ListaDatos != false && count($ListaDatos) > 0) {
                                     foreach ($ListaDatos as $item) {
-//                                        var_dump($item);
-//                                        echo "<br><br>";                                    
-                                        ?>
+                                        //                                        var_dump($item);
+                                        //                                        echo "<br><br>";                                    
+                                ?>
                                         <tr>
                                             <td><a href="#" class="hoverData" style="color:#333;" id="<?= $item["Cliente"]; ?>"><?= $item["Nombre"]; ?></a></td>
                                             <td><a href="#" class="hoverData" style="color:#333;" id="<?= $item["Cliente"]; ?>"><?= $item["Direccion"]; ?></a></td>
@@ -80,16 +84,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <td><a href="#" class="hoverData" style="color:#333;" id="<?= $item["Cliente"]; ?>"><?= $item["Barrio"]; ?></a></td>
                                             <td><a href="#" class="hoverData" style="color:#333;" id="<?= $item["Cliente"]; ?>"><?= $item["PaginaFisica"]; ?></a></td>
                                             <td><a href="#" class="hoverData" style="color:#333;" id="<?= $item["Cliente"]; ?>"><?= $item["EstNombre"]; ?></a></td>
-                                            <td><a href="#" class="hoverData" style="color:#333;" id="<?= $item["Cliente"]; ?>"><?= money_format("%.0n", $item["Saldo"]); ?></a></td>
+                                            <td><a href="#" class="hoverData" style="color:#333;" id="<?= $item["Cliente"]; ?>"><?= money_format_cop($item["Saldo"]); ?></a></td>
                                             <td class="text-center">
                                                 <div class="btn-group">
                                                     <?php
                                                     $idPermiso = 15;
                                                     $accion = validarPermisoAcciones($idPermiso);
                                                     if ($accion) {
-                                                        ?>
+                                                    ?>
                                                         <a href="<?= base_url() . "Clientes/Consultar/" . $item["Codigo"] . "/"; ?>" title="Consultar Cliente"><i class="fa fa-search" aria-hidden="true" style="padding:5px;"></i></a>
-                                                        <?php
+                                                    <?php
                                                     }
                                                     ?>
                                                     <a href="<?= base_url() . "Pagos/PagarMora/" . $item["Codigo"] . "/"; ?>" title="Pagar Saldo"><i class="fa fa-motorcycle" aria-hidden="true" style="padding:5px;"></i></a>
@@ -98,16 +102,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                         $idPermiso = 105;
                                                         $accion = validarPermisoAcciones($idPermiso);
                                                         if ($accion) {
-                                                            ?>
+                                                    ?>
                                                             <a href="<?= base_url() . "Pagos/CartaData/" . $item["Codigo"] . "/"; ?>" target="_blank" title="Generar Reporte a Datacrédito"><i class="fa fa-book" aria-hidden="true" style="padding:5px;"></i></a>
-                                                            <?php
+                                                        <?php
                                                         }
                                                         $idPermiso = 106;
                                                         $accion = validarPermisoAcciones($idPermiso);
-                                                        if ($accion) { 
-                                                            ?>
+                                                        if ($accion) {
+                                                        ?>
                                                             <a href="#ModalReport" data-toggle="modal" title="Reportar Datacrédito" onclick="dataModalReport('<?= $item["Codigo"]; ?>');"><i class="fa fa-balance-scale" aria-hidden="true" style="padding:5px;"></i></a>
-                                                            <?php
+                                                        <?php
                                                         }
                                                     }
                                                     $idPermiso = 90;
@@ -115,30 +119,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                     if ($accion) {
                                                         ?>
                                                         <a href="#ModalDevol" data-toggle="modal" title="Devolución del Cliente" onclick="DatosModal('<?= $item["Codigo"]; ?>', '<?= $item["Cliente"]; ?>', '<?= $item["Nombre"]; ?>', '<?= $item["Saldo"]; ?>', '<?= $item["Cuotas"]; ?>');"><i class="fa fa-reply-all" aria-hidden="true" style="padding:5px;"></i></a>
-                                                        <?php
+                                                    <?php
                                                     }
 
                                                     $idPermiso = 26;
                                                     $accion = validarPermisoAcciones($idPermiso);
                                                     if ($accion) {
-                                                        ?>
-                                                        <a href = "<?= base_url() . "Clientes/Log/" . $item["Codigo"] . "/"; ?>" title = "Registros del Cliente"><i class = "fa fa-list-alt" aria-hidden = "true" style = "padding:5px;"></i></a>
-                                                        <?php
+                                                    ?>
+                                                        <a href="<?= base_url() . "Clientes/Log/" . $item["Codigo"] . "/"; ?>" title="Registros del Cliente"><i class="fa fa-list-alt" aria-hidden="true" style="padding:5px;"></i></a>
+                                                    <?php
                                                     }
                                                     ?>
-                                                </div>                                        
+                                                </div>
                                             </td>
                                         </tr>
-                                        <?php
+                                <?php
                                     }
                                 }
                                 ?>
                             </tbody>
                         </table>
-                    </div>                            
+                    </div>
                 </div>
             </div>
-        </div>  
+        </div>
 
         <div class="modal small fade" id="validandoPagos" tabindex="-1" role="dialog" aria-labelledby="validandoLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -166,19 +170,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <h3 id="myModalLabel">Reportar Cliente</h3>
                         </div>
-                        <div class="modal-body">  
-                            <div class="row">                                
+                        <div class="modal-body">
+                            <div class="row">
                                 <div class="col-md-12 hidden">
                                     <div class="form-group">
                                         <label>Pedido</label>
                                         <input type="text" id="modal-Pedido" name="modal-Pedido" class="form-control" readonly style="background-color:#ffffff;">
                                     </div>
-                                </div> 
+                                </div>
                                 <div class="col-md-12">
                                     <p class="error-text"><i class="fa fa-balance-scale modal-icon"></i>¿Desea Reportar en el Sistema a este Cliente en este momento?</p>
                                     <br>
                                 </div>
-                            </div>                         
+                            </div>
                         </div>
                         <div class="modal-footer" style="margin-top: -15px;">
                             <button class="btn btn-default" id="btn-modal-cerrar" name="btn-modal-cerrar" data-dismiss="modal" aria-hidden="true">Cerrar</button>
@@ -198,8 +202,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <h3 id="myModalLabel">Devolución Cliente/Pedido</h3>
                         </div>
-                        <div class="modal-body">     
-                            <div class="row hidden">                                
+                        <div class="modal-body">
+                            <div class="row hidden">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Pedido</label>
@@ -212,8 +216,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <input type="text" id="modal-cliente" name="modal-cliente" class="form-control" readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
-                            </div>                              
-                            <div class="row">                                
+                            </div>
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Nombre</label>
@@ -221,7 +225,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">                                
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Cuotas Pagadas</label>
@@ -234,13 +238,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <input type="text" id="modal-saldo" name="modal-saldo" class="form-control" readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
-                            </div>  
+                            </div>
                             <hr>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Valor a Pagar</label>
-                                        <input type="number" id="modal-val" name="modal-val" class="form-control" <?php if (!$btnD) { ?> readonly="true" <?php } ?>  style="background-color:#ffffff;">
+                                        <input type="number" id="modal-val" name="modal-val" class="form-control" <?php if (!$btnD) { ?> readonly="true" <?php } ?> style="background-color:#ffffff;">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -248,8 +252,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <label>Tipo:</label>
                                         <select name="modal-tipo" id="modal-tipo" class="form-control required" <?php if (!$btnD) { ?> disabled <?php } ?> style="background-color:#ffffff;">
                                             <option value=""></option>
-                                            <option value="Voluntaria">Voluntaria</option>  
-                                            <option value="Robada">Robada</option> 
+                                            <option value="Voluntaria">Voluntaria</option>
+                                            <option value="Robada">Robada</option>
                                         </select>
                                     </div>
                                 </div>
@@ -267,15 +271,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">                                
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Notas/Observaciones</label>
-                                        <textarea rows="6" class="form-control" name="modal-obs" id="modal-obs" style="resize: none;"></textarea>                                        
+                                        <textarea rows="6" class="form-control" name="modal-obs" id="modal-obs" style="resize: none;"></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">                                
+                            <div class="row">
                                 <div class="col-md-12">
                                     <p class="error-text" style="color:red;"><i class="fa fa-warning modal-icon"></i>¿Desea hacer la devolución de este Cliente? <br><i>*Recuerde que no se podrá revertir esta acción*</i></p>
                                 </div>
@@ -297,14 +301,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
 
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
                 $('#<?= $Controller; ?>').DataTable({
                     responsive: true,
                     scrollX: true,
                     language: {
                         url: "<?= base_url('Public/assets/'); ?>/lib/Datetables.js/Spanish.json"
                     },
-                    createdRow: function (row, data, dataIndex) {
+                    createdRow: function(row, data, dataIndex) {
                         if (data[4] == "Reportado") {
                             $('td', row).addClass('black');
                             $('i', row).addClass('black');
@@ -312,18 +316,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                 });
 
-                $('#btn-modalR').click(function (e) {
+                $('#btn-modalR').click(function(e) {
                     e.preventDefault();
                     $('#ModalReport').modal('toggle');
                     reportarCliente();
                 });
 
-                $('#form-modal').submit(function (e) {
+                $('#form-modal').submit(function(e) {
                     e.preventDefault();
                     devolucion();
                 });
 
-                $('#btn-modal').submit(function (e) {
+                $('#btn-modal').submit(function(e) {
                     e.preventDefault();
                     devolucion();
                 });
@@ -344,8 +348,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     url: method,
                     method: "POST",
                     async: false,
-                    data: {id: id},
-                    success: function (data) {
+                    data: {
+                        id: id
+                    },
+                    success: function(data) {
                         hoverdata = data;
                     }
                 });
@@ -367,11 +373,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     type: 'post',
                     url: method,
                     cache: false,
-                    beforeSend: function () {
+                    beforeSend: function() {
                         $('#message').html("");
                         $('#btn-modal').html('<i class="fa fa-print"></i> Reportando...');
                     },
-                    success: function (data) {
+                    success: function(data) {
                         $('#btn-modal').html('<i class="fa fa-balance-scale"></i> Reportar Cliente');
                         if (data == 1) {
                             location.reload(true);
@@ -400,7 +406,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
 
             function devolucion() {
-                var valor = $('#modal-val').val();             
+                var valor = $('#modal-val').val();
                 var pedido = $('#modal-pedido').val();
                 var cliente = $('#modal-cliente').val();
                 var nombre = $('#modal-nombre').val();
@@ -416,23 +422,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                             <strong>Error</strong><br />Debe Indicar el tipo de la devolución que hará. \n\
                         </div>');
-                }
-                else { 
+                } else {
                     if (cobrador.toString().length <= 0) {
                         $('#modal-message').html(
-                                '<div class="alert alert-danger alert-dismissable fade in">\n\
+                            '<div class="alert alert-danger alert-dismissable fade in">\n\
                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                     <strong>Error</strong><br />Debe Indicar el Cobrador que hará la devolución. \n\
                                 </div>');
                     } else {
                         if (observaciones.toString().length <= 0) {
                             $('#modal-message').html(
-                                    '<div class="alert alert-danger alert-dismissable fade in">\n\
+                                '<div class="alert alert-danger alert-dismissable fade in">\n\
                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                         <strong>Error</strong><br />Debe Indicar una Nota para la devolución. \n\
                                     </div>');
                         } else {
-                            var method = "<?=base_url() . 'Devoluciones/Generar/';?>";
+                            var method = "<?= base_url() . 'Devoluciones/Generar/'; ?>";
                             $("body").css({
                                 'cursor': 'wait'
                             })
@@ -441,30 +446,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 type: 'POST',
                                 url: method,
                                 data: {
-                                    pedido: pedido, cliente: cliente, nombre: nombre, saldo: saldo, cuotas: cuotas,
-                                    tipo: tipo, valor: valor, cobrador: cobrador, observaciones: observaciones
+                                    pedido: pedido,
+                                    cliente: cliente,
+                                    nombre: nombre,
+                                    saldo: saldo,
+                                    cuotas: cuotas,
+                                    tipo: tipo,
+                                    valor: valor,
+                                    cobrador: cobrador,
+                                    observaciones: observaciones
                                 },
                                 cache: false,
-                                beforeSend: function () {
+                                beforeSend: function() {
                                     $('#modal-message').html("");
                                     $("#btn-modal").html('Devolviendo...');
                                     $('#btn-modal').attr("disabled", "true");
                                 },
-                                success: function (data) {
+                                success: function(data) {
                                     $("#btn-modal").html('<i class="fa fa-reply-all"></i> Devolver');
                                     if (data == 1) {
                                         $('#modal-message').html(
-                                                '<div class="alert alert-success alert-dismissable fade in">\n\
+                                            '<div class="alert alert-success alert-dismissable fade in">\n\
                                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                                     <strong>Devolución Exitosa</strong><br />\n\
                                                 </div>');
-                                        setTimeout(function () {
+                                        setTimeout(function() {
                                             $('#btn-modal-cerrar').click();
                                             window.location.reload();
                                         }, 1000);
                                     } else {
                                         $('#modal-message').html(
-                                                '<div class="alert alert-danger alert-dismissable fade in">\n\
+                                            '<div class="alert alert-danger alert-dismissable fade in">\n\
                                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                                     <strong>Error</strong><br />' + data + '\n\
                                                 </div>');
@@ -480,7 +492,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         }
                     }
                 }
-            
-            }
 
+            }
         </script>
