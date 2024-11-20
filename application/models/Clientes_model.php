@@ -1,10 +1,12 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Clientes_model extends CI_Model {
+class Clientes_model extends CI_Model
+{
 
-    public function obtenerClientes() {
+    public function obtenerClientes()
+    {
         $this->db->where('Codigo !=', '100');
         $this->db->where('Estado', '101');
         $this->db->where('Habilitado', '1');
@@ -16,7 +18,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function obtenerCliente($cod) {
+    public function obtenerCliente($cod)
+    {
         $this->db->where('Codigo', $cod);
         $this->db->where('Habilitado', '1');
         $query = $this->db->get("Clientes");
@@ -27,7 +30,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function obtenerClienteDoc($documento, $order = null) {
+    public function obtenerClienteDoc($documento, $order = null)
+    {
         $this->db->where('Documento', $documento);
         if ($order = 'DESC') {
             $this->db->order_by("Codigo", "DESC");
@@ -41,33 +45,37 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function searchCliente($nombre, $cedula, $direccion, $telefono, $estado, $ubicacion) {
+    public function searchCliente($nombre, $cedula, $direccion, $evento, $telefono, $estado, $ubicacion)
+    {
         $where = "c.Habilitado = 1 AND c.Nombre LIKE '%" . $nombre . "%' AND c.Documento LIKE '%" . $cedula . "%' AND (d.Direccion LIKE '%" . $direccion . "%' OR d.Etapa LIKE '%" . $direccion . "%' " .
-                "OR d.Torre LIKE '%" . $direccion . "%' OR d.Apartamento LIKE '%" . $direccion . "%' OR d.Manzana LIKE '%" . $direccion . "%' OR d.Casa LIKE '%" . $direccion . "%' " .
-                "OR d.Barrio LIKE '%" . $direccion . "%') AND (c.Telefono1 LIKE '%" . $telefono . "%' OR c.Telefono2 LIKE '%" . $telefono . "%' " .
-                "OR c.Telefono3 LIKE '%" . $telefono . "%') AND c.estado  LIKE '%" . $estado . "%' AND p.PaginaFisica LIKE '%" . $ubicacion . "%'";
+            "OR d.Torre LIKE '%" . $direccion . "%' OR d.Apartamento LIKE '%" . $direccion . "%' OR d.Manzana LIKE '%" . $direccion . "%' OR d.Casa LIKE '%" . $direccion . "%' " .
+            "OR d.Barrio LIKE '%" . $direccion . "%') AND (c.Telefono1 LIKE '%" . $telefono . "%' OR c.Telefono2 LIKE '%" . $telefono . "%' " .
+            "OR c.Telefono3 LIKE '%" . $telefono . "%') AND c.estado  LIKE '%" . $estado . "%' AND p.PaginaFisica LIKE '%" . $ubicacion . "%'" .
+            "AND ev.Iglesia LIKE '%" . $evento . "%'";
 
-        $this->db->select('c.*, e.Nombre as EstNombre, d.Direccion as Dir, d.Etapa, d.Torre, d.Apartamento, d.Manzana, d.Interior, d.Casa, d.Barrio, p.Codigo as Pedido, p.*');
+        $this->db->select('c.*, e.Nombre as EstNombre, d.Direccion as Dir, d.Etapa, d.Torre, d.Apartamento, d.Manzana, d.Interior, d.Casa, d.Barrio, p.Codigo as Pedido, ev.Iglesia, p.*');
         $this->db->from('Clientes as c');
         $this->db->join('Pedidos as p', 'p.Cliente = c.Codigo');
         $this->db->join('Estados as e', 'c.Estado = e.Codigo');
         $this->db->join('Direcciones as d', 'c.Direccion = d.Codigo');
+        $this->db->join('Eventos as ev', 'p.Evento = ev.Codigo');
         $this->db->where($where);
         $query = $this->db->get();
-        //echo $this->db->last_query()."<br><br>";
+        // echo $this->db->last_query()."<br><br>"; 
         if ($query->num_rows() <= 0) {
             return false;
         } else {
             return $query->result_array();
         }
     }
-    
-    public function searchClienteAsignado($nombre, $estado, $usuario){
+
+    public function searchClienteAsignado($nombre, $estado, $usuario)
+    {
         $where = "c.Habilitado = 1 AND c.Nombre LIKE '%" . $nombre . "%' AND c.estado LIKE '%" . $estado . "%'";
         if ($usuario != "") {
             $where = "c.Habilitado = 1 AND c.Nombre LIKE '%" . $nombre . "%' AND c.estado LIKE '%" . $estado . "%' AND u.Codigo = '" . $usuario . "'";
-        } 
-        
+        }
+
         $this->db->distinct();
         $this->db->select('c.*, e.Nombre as EstNombre, d.Direccion as Dir, d.Etapa, d.Torre, d.Apartamento, d.Manzana, d.Interior, d.Casa, d.Barrio, p.Codigo as Pedido, p.*, u.Usuario as UsuAsign, u.Nombre as NombreUsuAsign');
         $this->db->from('Clientes as c');
@@ -86,7 +94,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function obtenerClienteDocLast($documento) {
+    public function obtenerClienteDocLast($documento)
+    {
         $this->db->where('Documento', $documento);
         $this->db->where('Habilitado', '1');
         $this->db->order_by("Codigo", "DESC");
@@ -98,7 +107,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function obtenerClientesNR() {
+    public function obtenerClientesNR()
+    {
         $this->db->select('c.*, td.Nombre as TipDocNombre, e.Nombre as EstNombre, d.Direccion, d.Etapa, d.Torre, d.Apartamento, d.Manzana, d.Interior, d.Casa, d.Barrio');
         $this->db->from('Clientes as c');
         $this->db->join('TiposDocumentos as td', 'c.TipoDocumento = td.Codigo');
@@ -117,7 +127,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function obtenerClientesNRDebe() {
+    public function obtenerClientesNRDebe()
+    {
         $this->db->select('c.*, td.Nombre as TipDocNombre, e.Nombre as EstNombre, d.Direccion, d.Etapa, d.Torre, d.Apartamento, d.Manzana, d.Interior, d.Casa, d.Barrio');
         $this->db->from('Clientes as c');
         $this->db->join('TiposDocumentos as td', 'c.TipoDocumento = td.Codigo');
@@ -136,7 +147,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function obtenerClientesNRAll() {
+    public function obtenerClientesNRAll()
+    {
         $this->db->select('c.*, td.Nombre as TipDocNombre, e.Nombre as EstNombre, d.Direccion, d.Etapa, d.Torre, d.Apartamento, d.Manzana, d.Interior, d.Casa, d.Barrio');
         $this->db->from('Clientes as c');
         $this->db->join('TiposDocumentos as td', 'c.TipoDocumento = td.Codigo');
@@ -153,7 +165,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function obtenerClienteDir($cliente) {
+    public function obtenerClienteDir($cliente)
+    {
         $this->db->select('c.*, td.Nombre as TipDocNombre, e.Nombre as EstNombre, d.Codigo as Coddir, d.Direccion as Dir, d.Etapa, d.Torre, d.Apartamento, d.Manzana, d.Interior, d.Casa, d.Barrio as Barrio, d.TipoVivienda');
         $this->db->from('Clientes as c');
         $this->db->join('TiposDocumentos as td', 'c.TipoDocumento = td.Codigo');
@@ -169,7 +182,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function obtenerClientesDir() {
+    public function obtenerClientesDir()
+    {
         $this->db->select('c.*, td.Nombre as TipDocNombre, e.Nombre as EstNombre, d.Direccion as Dir, d.Etapa, d.Torre, d.Apartamento, d.Manzana, d.Interior, d.Casa, d.Barrio');
         $this->db->from('Clientes as c');
         $this->db->join('TiposDocumentos as td', 'c.TipoDocumento = td.Codigo');
@@ -184,7 +198,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function obtenerNomClientesDir($EstExcep1 = 0, $EstExcep2 = 0, $EstExcep3 = 0) {
+    public function obtenerNomClientesDir($EstExcep1 = 0, $EstExcep2 = 0, $EstExcep3 = 0)
+    {
         $this->db->select('c.Codigo, c.Nombre, c.Telefono1, c.Telefono2, c.Telefono3, td.Nombre as TipDocNombre, e.Nombre as EstNombre, d.Direccion as Dir, d.Etapa, d.Torre, d.Apartamento, d.Manzana, d.Interior, d.Casa, d.Barrio');
         $this->db->from('Clientes as c');
         $this->db->join('TiposDocumentos as td', 'c.TipoDocumento = td.Codigo');
@@ -209,7 +224,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function obtenerClientesUsuario($cod) {
+    public function obtenerClientesUsuario($cod)
+    {
         $this->db->where('Codigo', $cod);
         $this->db->where('Habilitado', '1');
         $query = $this->db->get("ClientesUsuarios");
@@ -220,7 +236,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function confirmarClientesDelUsuario($usuario, $cliente) {
+    public function confirmarClientesDelUsuario($usuario, $cliente)
+    {
         $this->db->where('Usuario', $usuario);
         $this->db->where('Cliente', $cliente);
         $this->db->where('Habilitado', '1');
@@ -232,7 +249,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function save($data) {
+    public function save($data)
+    {
         if ($this->db->insert("Clientes", $data)) {
             return $error = $this->db->error();
         } else {
@@ -240,7 +258,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function saveCliUsu($data) {
+    public function saveCliUsu($data)
+    {
         if ($this->db->insert("ClientesUsuarios", $data)) {
             return $error = $this->db->error();
         } else {
@@ -248,7 +267,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function update($codigo, $data) {
+    public function update($codigo, $data)
+    {
         $this->db->where("Codigo", $codigo);
         if ($this->db->update("Clientes", $data)) {
             $error = $this->db->error();
@@ -262,7 +282,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function LogCliente($cliente) {
+    public function LogCliente($cliente)
+    {
         $where = "(Tabla = 'Clientes' OR Tabla = 'Referencias' OR Tabla = 'ReferenciasCliente' OR Tabla = 'Direcciones' OR Tabla = 'Eventos' OR Tabla = 'Pedidos' OR Tabla = 'ProductosPedidos' ) AND Llave = " . $cliente;
         $this->db->where($where);
         $this->db->order_by('Codigo', 'DESC');
@@ -277,7 +298,8 @@ class Clientes_model extends CI_Model {
 
     //Conteo
     //Registrados
-    public function AllClients() {
+    public function AllClients()
+    {
         $this->db->select('Count(*) as Num');
         $query = $this->db->get('Clientes');
         if ($query->num_rows() <= 0) {
@@ -288,7 +310,8 @@ class Clientes_model extends CI_Model {
     }
 
     //Eliminados
-    public function ClientsDelete() {
+    public function ClientsDelete()
+    {
         $this->db->select('Count(*) as Num');
         $this->db->where('Habilitado', 0);
         $query = $this->db->get('Clientes');
@@ -300,7 +323,8 @@ class Clientes_model extends CI_Model {
     }
 
     //Al día
-    public function ClientsOk() {
+    public function ClientsOk()
+    {
         $this->db->select('Count(*) as Num');
         $this->db->where('Estado', 104);  //Al día
         $query = $this->db->get('Clientes');
@@ -312,7 +336,8 @@ class Clientes_model extends CI_Model {
     }
 
     //Deben
-    public function ClientsDeb() {
+    public function ClientsDeb()
+    {
         $this->db->select('Count(*) as Num');
         $this->db->where('Estado', 105);  //Deben
         $query = $this->db->get('Clientes');
@@ -324,7 +349,8 @@ class Clientes_model extends CI_Model {
     }
 
     //En mora
-    public function ClientsMora() {
+    public function ClientsMora()
+    {
         $this->db->select('Count(*) as Num');
         $this->db->where('Estado', 124);  //En mora
         $query = $this->db->get('Clientes');
@@ -336,7 +362,8 @@ class Clientes_model extends CI_Model {
     }
 
     //DataCredito
-    public function ClientsData() {
+    public function ClientsData()
+    {
         $this->db->select('Count(*) as Num');
         $this->db->where('Estado', 115);  //DataCredito
         $query = $this->db->get('Clientes');
@@ -346,9 +373,10 @@ class Clientes_model extends CI_Model {
             return $query->result_array();
         }
     }
-    
+
     //Devoluciones
-    public function ClientsReturn() {
+    public function ClientsReturn()
+    {
         $this->db->select('Count(*) as Num');
         $this->db->where('Estado', 106);  //Devolución
         $query = $this->db->get('Clientes');
@@ -360,7 +388,8 @@ class Clientes_model extends CI_Model {
     }
 
     //Reportados
-    public function ClientsReports() {
+    public function ClientsReports()
+    {
         $this->db->select('Count(*) as Num');
         $this->db->where('Estado', 126);  //Reportados
         $query = $this->db->get('Clientes');
@@ -372,7 +401,8 @@ class Clientes_model extends CI_Model {
     }
 
     //Paz y Salvo
-    public function ClientsPeace() {
+    public function ClientsPeace()
+    {
         $this->db->select('Count(*) as Num');
         $this->db->where('Estado', 123);  //Paz y Salvo
         $query = $this->db->get('Clientes');
@@ -384,7 +414,8 @@ class Clientes_model extends CI_Model {
     }
 
     //Nuevo
-    public function ClientsNew($fechaI, $fechaF) {
+    public function ClientsNew($fechaI, $fechaF)
+    {
         $this->db->select('Count(*) as Num');
         $this->db->where('FechaCreacion >=', $fechaI);
         $this->db->where('FechaCreacion <=', $fechaF);
@@ -396,7 +427,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function ClienteUsuario($cliente, $usuario) {
+    public function ClienteUsuario($cliente, $usuario)
+    {
         $this->db->where('Usuario', $usuario);
         $this->db->where('Cliente', $cliente);
         $this->db->where('Habilitado', 1);
@@ -409,7 +441,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function ClienteUsuarioBool($cliente, $usuario) {
+    public function ClienteUsuarioBool($cliente, $usuario)
+    {
         $this->db->where('Usuario', $usuario);
         $this->db->where('Cliente', $cliente);
         $this->db->where('Habilitado', 1);
@@ -422,7 +455,8 @@ class Clientes_model extends CI_Model {
         }
     }
 
-    public function obtenerClientesAsignados() {
+    public function obtenerClientesAsignados()
+    {
         $this->db->select('c.Codigo, c.Nombre, c.Telefono1, c.Telefono2, c.Telefono3, e.Nombre as EstNombre, d.Direccion as Dir, d.Etapa, d.Torre, d.Apartamento, d.Manzana, d.Interior, d.Casa, d.Barrio, cu.codigo as ccu, cu.usuario as ucu, cu.cliente as clcu, u.Nombre');
         //$this->db->select('c.Codigo, c.Nombre, cu.codigo as ccu, cu.usuario as ucu, cu.cliente as clcu, u.Nombre');
         $this->db->from('Clientes as c');
@@ -442,7 +476,4 @@ class Clientes_model extends CI_Model {
         }
         //SELECT cu.*, c.* FROM Clientes as c LEFT JOIN ClientesUsuarios as cu ON c.Codigo = cu.Cliente
     }
-
 }
-
-?>

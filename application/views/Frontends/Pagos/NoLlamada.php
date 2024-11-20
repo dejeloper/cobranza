@@ -1,29 +1,33 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <style>
-    .black{
+    .black {
         background-color: #525252 !important;
         color: white;
     }
-    .green{
+
+    .green {
         background-color: #5cb85c !important;
         color: white;
     }
-    .red{
+
+    .red {
         background-color: #f34a4a !important;
         color: white;
     }
-    .orange{
+
+    .orange {
         background-color: #ffc61d !important;
         color: white;
     }
 </style>
 <div class="content">
-    <div class="header">        
-        <?php //$this->load->view('Modules/notifications'); ?>
-        <h1 class="page-title" style="font-size: 2em;"><?= $title; ?>  </h1>
-    </div>            
+    <div class="header">
+        <?php //$this->load->view('Modules/notifications'); 
+        ?>
+        <h1 class="page-title" style="font-size: 2em;"><?= $title; ?> </h1>
+    </div>
     <div class="main-content">
         <div class="row">
             <?php if ($this->session->flashdata("error")): ?>
@@ -35,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?= $this->session->flashdata("error"); ?>
                     </div>
                 </div>
-            <?php endif; ?>                           
+            <?php endif; ?>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -47,16 +51,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <th>Saldo</th>
                             <th>Último Pago</th>
                             <th>Próximo Pago</th>
-                            <th>Ubicación Física</th>
+                            <th>Factura</th>
                             <th>Gestión</th>
                             <th>Opciones</th>
                         </tr>
-                    </thead>                    
+                    </thead>
                 </table>
-            </div>                            
+            </div>
         </div>
 
-        <div class="modal  fade" id="ModalCall" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal  fade" id="ModalCall" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form method="POST" name="form-modal" id="form-modal">
@@ -64,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <h3 id="myModalLabel">Confirmar Llamada</h3>
                         </div>
-                        <div class="modal-body">  
+                        <div class="modal-body">
                             <div class="row hidden">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -79,40 +84,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" >
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <input type="text" id="modal-nombre" name="modal-nombre" class="form-control" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">                                
+                                    <div class="form-group">
                                         <label>Dirección:</label>
-                                        <input type="text" value="" class="form-control" readonly id="modal-Direccion" name="modal-Direccion">
+                                        <input type="text" value="" class="form-control" readonly id="modal-Direccion"
+                                            name="modal-Direccion">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">                                
+                                    <div class="form-group">
                                         <label>Teléfonos:</label>
                                         <input type="text" value="" class="form-control" readonly id="modal-Telefono" name="modal-Telefono">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">                                
+                                    <div class="form-group">
                                         <label>Barrio:</label>
                                         <input type="text" value="" class="form-control" readonly id="modal-Barrio" name="modal-Barrio">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">                                
+                                    <div class="form-group">
                                         <label>Saldo:</label>
                                         <input type="text" value="" class="form-control" readonly id="modal-Saldo" name="modal-Saldo">
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" >
+                            <div class="row">
                                 <div class="col-md-12">
-                                    <div class="form-group">                                
+                                    <div class="form-group">
                                         <label>Indique el motivo de la llamada realizada:</label>
                                         <select name="motivo" id="motivo" class="form-control">
                                             <?php
@@ -128,7 +134,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Programar Llamada para:</label>
-                                        <input type="text" value="" class="form-control datepicker8" id="FechaProgramada" name="FechaProgramada">
+                                        <input type="text" value="" class="form-control datepicker8" id="FechaProgramada"
+                                            name="FechaProgramada">
                                     </div>
                                 </div>
                             </div>
@@ -146,11 +153,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" >
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Observaciones</label>
-                                        <textarea value="" rows="6" class="form-control" name="Observaciones" id="Observaciones" style="resize: none;"></textarea>
+                                        <textarea value="" rows="6" class="form-control" name="Observaciones" id="Observaciones"
+                                            style="resize: none;"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -160,8 +168,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                         </div>
                         <div class="modal-footer" style="margin-top: -15px;">
-                            <button class="btn btn-default" id="btn-modal-cerrar" name="btn-modal-cerrar" data-dismiss="modal" aria-hidden="true">Cerrar</button>
-                            <button class="btn btn-primary" id="btn-modal" name="btn-modal"><i class="fa fa-save"></i> Guardar</button>
+                            <button class="btn btn-default" id="btn-modal-cerrar" name="btn-modal-cerrar" data-dismiss="modal"
+                                aria-hidden="true">Cerrar</button>
+                            <button class="btn btn-primary" id="btn-modal" name="btn-modal"><i class="fa fa-save"></i>
+                                Guardar</button>
                         </div>
                     </form>
                 </div>
@@ -169,7 +179,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
 
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
                 var todayDate = new Date().getDate();
                 $('.datepicker10').datetimepicker({
                     format: 'DD/MM/YYYY',
@@ -186,17 +196,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 listar();
 
-                $('#form-modal').submit(function (e) {
+                $('#form-modal').submit(function(e) {
                     e.preventDefault();
                     GuardarGestion();
                 });
 
-                $('#btn-modal').click(function (e) {
+                $('#btn-modal').click(function(e) {
                     e.preventDefault();
                     GuardarGestion();
                 });
 
-                $('#motivo').on('change', function () {
+                $('#motivo').on('change', function() {
                     $('#FechaProgramada').val("");
                     $('#FechaPago').val("");
                     $('#valorPago').val("");
@@ -214,23 +224,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                     $('#Observaciones').val("");
                 });
-            
-                $('#valorPago').on('change', function(){
-                     getObserPago();                  
-                });  
 
-                $("#FechaPago").on("change",function(){
-                    getObserPago();   
-                }); 
+                $('#valorPago').on('change', function() {
+                    getObserPago();
+                });
+
+                $("#FechaPago").on("change", function() {
+                    getObserPago();
+                });
             });
 
-            function getObserPago(){
+            function getObserPago() {
                 var valorPago = $('#valorPago').val();
                 valorPago = valorPago.replace(".", "");
                 valorPago = valorPago.replace(",", "");
                 var fechaPago = $('#FechaPago').val();
                 if (fechaPago != "") {
-                    if (valorPago != "" || Number(valorPago) > 0){
+                    if (valorPago != "" || Number(valorPago) > 0) {
                         var mon = new Intl.NumberFormat().format(valorPago);
                         var ob = "Cliente indica que quiere pagar $" + mon + " el día " + fechaPago + ".";
                         $('#Observaciones').val(ob);
@@ -239,7 +249,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                 } else {
                     $('#Observaciones').val("");
-                }     
+                }
             }
 
             function listar() {
@@ -247,16 +257,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     bDestroy: true,
                     responsive: true,
                     scrollX: true,
-                    bSort: false,
-                    columns: [
-                        {data: "Nombre"},
-                        {data: "cuota"},
-                        {data: "saldo"},
-                        {data: "UltimoPago"},
-                        {data: "DiaCobro"},
-                        {data: "Ubicacion"},
-                        {data: "Motivo"},
-                        {data: "btn"}
+                    bSort: true,
+                    columns: [{
+                            data: "Nombre"
+                        },
+                        {
+                            data: "cuota"
+                        },
+                        {
+                            data: "saldo"
+                        },
+                        {
+                            data: "UltimoPago"
+                        },
+                        {
+                            data: "DiaCobro"
+                        },
+                        {
+                            data: "Ubicacion"
+                        },
+                        {
+                            data: "Motivo"
+                        },
+                        {
+                            data: "btn"
+                        }
                     ],
                     ajax: {
                         method: 'post',
@@ -265,7 +290,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     language: {
                         url: "<?= base_url('Public/assets/'); ?>/lib/Datetables.js/Spanish.json"
                     },
-                    createdRow: function (row, data, dataIndex) {
+                    createdRow: function(row, data, dataIndex) {
                         if (data["Motivo"] == "Pago Programado") {
                             $('td', row).addClass('green');
                             $('i', row).addClass('green');
@@ -313,28 +338,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 if (pedido.toString().length <= 0) {
                     $('#message').html(
-                            '<div class="alert alert-danger alert-dismissable fade in">\n\
+                        '<div class="alert alert-danger alert-dismissable fade in">\n\
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                 <strong>Error</strong><br />No existe Pedido\n\
                             </div>');
                 } else {
                     if (cliente.toString().length <= 0) {
                         $('#message').html(
-                                '<div class="alert alert-danger alert-dismissable fade in">\n\
+                            '<div class="alert alert-danger alert-dismissable fade in">\n\
                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                     <strong>Error</strong><br />No existe Cliente\n\
                                 </div>');
                     } else {
                         if (motivo == "" || motivo == null) {
                             $('#message').html(
-                                    '<div class="alert alert-danger alert-dismissable fade in">\n\
+                                '<div class="alert alert-danger alert-dismissable fade in">\n\
                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                         <strong>Error</strong><br />Debe indicar un motivo de llamada\n\
                                     </div>');
                         } else {
                             if (observaciones == "") {
                                 $('#message').html(
-                                        '<div class="alert alert-danger alert-dismissable fade in">\n\
+                                    '<div class="alert alert-danger alert-dismissable fade in">\n\
                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                             <strong>Error</strong><br />Debe indicar una Observación\n\
                                         </div>');
@@ -348,31 +373,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     type: 'post',
                                     url: method,
                                     data: {
-                                        pedido: pedido, cliente: cliente, motivo: motivo, nombremotivo: nombremotivo,
-                                        fechaPago: fechaPago, valorPago: valorPago, fechaprogramada: fechaprogramada, observaciones: observaciones
+                                        pedido: pedido,
+                                        cliente: cliente,
+                                        motivo: motivo,
+                                        nombremotivo: nombremotivo,
+                                        fechaPago: fechaPago,
+                                        valorPago: valorPago,
+                                        fechaprogramada: fechaprogramada,
+                                        observaciones: observaciones
                                     },
                                     cache: false,
-                                    beforeSend: function () {
+                                    beforeSend: function() {
                                         $('#message').html("");
                                         $('#btn-modal').attr('disabled', 'disabled');
                                         $('#btn-modal').html('<i class="fa fa-save"></i> Guardando...');
                                     },
-                                    success: function (data) {
+                                    success: function(data) {
                                         $('#btn-modal').html('<i class="fa fa-save"></i> Guardar');
                                         if (data == 1) {
                                             $('#message').html(
-                                                    '<div class="alert alert-success alert-dismissable fade in">\n\
+                                                '<div class="alert alert-success alert-dismissable fade in">\n\
                                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                                         <strong>Se generó el reporte de la llamada. \nDireccionando...</strong>\n\
                                                     </div>');
-                                            setTimeout(function () {
+                                            setTimeout(function() {
                                                 $('#btn-modal-cerrar').click();
                                                 window.location.reload();
                                             }, 1000);
                                         } else {
                                             $('#btn-modal').prop("disabled", false);
                                             $('#message').html(
-                                                    '<div class="alert alert-danger alert-dismissable fade in">\n\
+                                                '<div class="alert alert-danger alert-dismissable fade in">\n\
                                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                                         <strong>Error</strong><br />' + data + '\n\
                                                     </div>');
@@ -391,4 +422,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             }
         </script>
-

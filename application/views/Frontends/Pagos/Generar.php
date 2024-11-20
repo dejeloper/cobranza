@@ -28,25 +28,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Cliente</label>
-                                <input type="text" value="<?= $ListaDatos2[0]["Nombre"]; ?>" class="form-control" disabled style="background-color: #ffffff;">
+                                <input type="text" value="<?= $ListaDatos2[0]["Nombre"]; ?>" class="form-control" disabled
+                                    style="background-color: #ffffff;">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Dirección</label>
-                                <input type="text" value="<?= $ListaDatos2[0]["Dir"]; ?>" class="form-control" disabled style="background-color: #ffffff;">
+                                <input type="text" value="<?= $ListaDatos2[0]["Dir"]; ?>" class="form-control" disabled
+                                    style="background-color: #ffffff;">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Barrio</label>
-                                <input type="text" value="<?= $ListaDatos2[0]["Barrio"]; ?>" class="form-control" disabled style="background-color: #ffffff;">
+                                <input type="text" value="<?= $ListaDatos2[0]["Barrio"]; ?>" class="form-control" disabled
+                                    style="background-color: #ffffff;">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>Teléfonos</label>
-                                <input type="text" value="<?= $ListaDatos2[0]["Telefono1"] . "  " . $ListaDatos2[0]["Telefono2"] . "  " . $ListaDatos2[0]["Telefono3"]; ?>" class="form-control" disabled style="background-color: #ffffff;">
+                                <input type="text"
+                                    value="<?= $ListaDatos2[0]["Telefono1"] . "  " . $ListaDatos2[0]["Telefono2"] . "  " . $ListaDatos2[0]["Telefono3"]; ?>"
+                                    class="form-control" disabled style="background-color: #ffffff;">
                             </div>
                         </div>
                     </div>
@@ -57,50 +62,61 @@ defined('BASEPATH') or exit('No direct script access allowed');
         foreach ($ListaDatos as $item) {
         ?>
             <div class="panel panel-default">
-                <a href="#page-stats-<?= $item["Codigo"] ?>" class="panel-heading" data-toggle="collapse">Pedido <label id="Pedido" name="Pedido"><?= $item["Codigo"]; ?></label></a>
+                <a href="#page-stats-<?= $item["Codigo"] ?>" class="panel-heading" data-toggle="collapse">Pedido <label
+                        id="Pedido" name="Pedido"><?= $item["Codigo"]; ?></label></a>
                 <div id="page-stats-<?= $item["Codigo"] ?>" class="panel-collapse panel-body collapse in">
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Estado</label>
-                                    <input type="text" value="<?= $item["EstNombre"]; ?>" class="form-control" disabled style="background-color: #ffffff;">
+                                    <input type="text" value="<?= $item["EstNombre"]; ?>" class="form-control" disabled
+                                        style="background-color: #ffffff;">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Saldo Actual</label>
-                                    <input type="text" value="<?= money_format_cop($ListaDatos3[$item["Codigo"]]["saldo"]); ?>" class="form-control" disabled style="background-color: #ffffff;" id="SaldoActual_<?= $item["Codigo"]; ?>" name="SaldoActual_<?= $item["Codigo"]; ?>">
+                                    <input type="text" value="<?= money_format_cop($item["Saldo"]); ?>" class="form-control" disabled
+                                        style="background-color: #ffffff;" id="SaldoActual_<?= $item["Codigo"]; ?>"
+                                        name="SaldoActual_<?= $item["Codigo"]; ?>">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Valor Pedido</label>
-                                    <input type="text" value="<?= money_format_cop($item["Valor"]); ?>" class="form-control" disabled style="background-color: #ffffff;">
+                                    <input type="text" value="<?= money_format_cop($item["Valor"]); ?>" class="form-control" disabled
+                                        style="background-color: #ffffff;">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Fecha de Compra</label>
-                                    <input type="text" value="<?= date("d/m/Y", strtotime($item["FechaPedido"])); ?>" class="form-control" disabled style="background-color: #ffffff;">
+                                    <input type="text" value="<?= date("d/m/Y", strtotime($item["FechaPedido"])); ?>" class="form-control"
+                                        disabled style="background-color: #ffffff;">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Valor Cuota</label>
-                                    <input type="text" value="<?= money_format_cop($item["ValCuota"]); ?>" class="form-control" disabled style="background-color: #ffffff;" id="SaldoActual_<?= $item["Codigo"]; ?>" name="SaldoActual_<?= $item["Codigo"]; ?>">
+                                    <input type="text" value="<?= money_format_cop($item["ValCuota"]); ?>" class="form-control" disabled
+                                        style="background-color: #ffffff;" id="SaldoActual_<?= $item["Codigo"]; ?>"
+                                        name="SaldoActual_<?= $item["Codigo"]; ?>">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Cuota Actual</label>
-                                    <input type="text" value="<?= intval($ListaDatos3[$item["Codigo"]]["cuota"]) + 1; ?>" class="form-control" disabled style="background-color: #ffffff;" id="CuotaActual_<?= $item["Codigo"]; ?>" name="CuotaActual_<?= $item["Codigo"]; ?>">
+                                    <input type="text" value="<?= intval($ListaDatos3[$item["Codigo"]]["cuota"]) + 1; ?>"
+                                        class="form-control" disabled style="background-color: #ffffff;"
+                                        id="CuotaActual_<?= $item["Codigo"]; ?>" name="CuotaActual_<?= $item["Codigo"]; ?>">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Valor última Cuota</label>
-                                    <input type="text" value="<?= money_format_cop($ListaDatos3[$item["Codigo"]]["UltimoPago"]); ?>" class="form-control" disabled style="background-color: #ffffff;">
+                                    <input type="text" value="<?= money_format_cop($ListaDatos3[$item["Codigo"]]["UltimoPago"]); ?>"
+                                        class="form-control" disabled style="background-color: #ffffff;">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -112,7 +128,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                 } else {
                                                                     echo date("d/m/Y", strtotime($ListaDatos3[$item["Codigo"]]["fechaUltimoPago"]));
                                                                 }
-                                                                ?>" class="form-control" disabled style="background-color: #ffffff;">
+                                                                ?>" class="form-control" disabled
+                                        style="background-color: #ffffff;">
                                 </div>
                             </div>
                             <br />
@@ -126,25 +143,34 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Valor de Cuota (Abono)</label>
-                                            <input type="number" <?php if (!$btn) { ?> readonly="true" <?php } ?> value="" style="background-color: #ffffff;" class="form-control" min="1" max="<?= $ListaDatos3[$item["Codigo"]]["saldo"]; ?>" id="NuevoAbono_<?= $item["Codigo"]; ?>" name="NuevoAbono_<?= $item["Codigo"]; ?>" onchange="saldo(<?= $item["Codigo"]; ?>, document.getElementById('SaldoActual_<?= $item["Codigo"]; ?>').value, this.value);">
+                                            <input type="number" <?php if (!$btn) { ?> readonly="true" <?php } ?> value=""
+                                                style="background-color: #ffffff;" class="form-control" min="1"
+                                                max="<?= $ListaDatos3[$item["Codigo"]]["saldo"]; ?>" id="NuevoAbono_<?= $item["Codigo"]; ?>"
+                                                name="NuevoAbono_<?= $item["Codigo"]; ?>"
+                                                onchange="saldo(<?= $item["Codigo"]; ?>, document.getElementById('SaldoActual_<?= $item["Codigo"]; ?>').value, this.value);">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Nuevo Saldo</label>
-                                            <input type="text" value="" class="form-control" disabled style="background-color: #ffffff;" id="NuevoSaldo_<?= $item["Codigo"]; ?>" name="NuevoSaldo_<?= $item["Codigo"]; ?>">
+                                            <input type="text" value="" class="form-control" disabled style="background-color: #ffffff;"
+                                                id="NuevoSaldo_<?= $item["Codigo"]; ?>" name="NuevoSaldo_<?= $item["Codigo"]; ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Programar para:</label>
-                                            <input type="text" <?php if (!$btn) { ?> readonly="true" <?php } ?> value="" style="background-color: #ffffff;" class="form-control datepicker8" id="FechaPrograma_<?= $item["Codigo"]; ?>" name="FechaPrograma_<?= $item["Codigo"]; ?>">
+                                            <input type="text" <?php if (!$btn) { ?> readonly="true" <?php } ?> value=""
+                                                style="background-color: #ffffff;" class="form-control datepicker8"
+                                                id="FechaPrograma_<?= $item["Codigo"]; ?>" name="FechaPrograma_<?= $item["Codigo"]; ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Notas/Observaciones</label>
-                                            <textarea value="" <?php if (!$btn) { ?> readonly="true" <?php } ?> rows="6" class="form-control" style="resize: none; background-color: #fff;" id="Observacion_<?= $item["Codigo"]; ?>" name="Observacion_<?= $item["Codigo"]; ?>"></textarea>
+                                            <textarea value="" <?php if (!$btn) { ?> readonly="true" <?php } ?> rows="6" class="form-control"
+                                                style="resize: none; background-color: #fff;" id="Observacion_<?= $item["Codigo"]; ?>"
+                                                name="Observacion_<?= $item["Codigo"]; ?>"></textarea>
                                         </div>
                                     </div>
                                     <?php
@@ -152,7 +178,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     ?>
                                         <div class="col-md-12">
                                             <div class="pull-right btn-toolbar list-toolbar">
-                                                <button id="btn-programaPago-<?= $item["Codigo"]; ?>" name="btn-programaPago-<?= $item["Codigo"]; ?>" class="btn btn-primary"><i class="fa fa-save"></i> Programar Pago</button>
+                                                <button id="btn-programaPago-<?= $item["Codigo"]; ?>"
+                                                    name="btn-programaPago-<?= $item["Codigo"]; ?>" class="btn btn-primary"><i class="fa fa-save"></i>
+                                                    Programar Pago</button>
                                             </div>
                                         </div>
                                     <?php
@@ -276,7 +304,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                     $('#message').html(
                                                         '<div class="alert alert-success alert-dismissable fade in">\n\
                                                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
-                                                                <strong>Se programó el pago de <b>$ ' + new Intl.NumberFormat("es-CO").format(pag_pag) + '</b> para el día ' + pag_fec + '</strong>\n\
+                                                                <strong>Se programó el pago de <b>$ ' + new Intl
+                                                        .NumberFormat("es-CO").format(pag_pag) + '</b> para el día ' + pag_fec + '</strong>\n\
                                                             </div>');
                                                     location.href = "<?= base_url("Pagos/Programados/"); ?>" + pag_ped + "/";
                                                 } else {

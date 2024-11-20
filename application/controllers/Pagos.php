@@ -1145,24 +1145,8 @@ class Pagos extends CI_Controller
                             $datetime2 = date_create($hoy);
                             $interval = date_diff($datetime1, $datetime2);
                             $val = intval($interval->format('%R%a'));
-                            if ($val == 0) {
-                                $diaCobroPedido = "Hoy";
-                            } else if ($val == -1) {
-                                $diaCobroPedido = "Mañana";
-                            } else if ($val == -2) {
-                                $diaCobroPedido = "Pasado Mañana";
-                            } else if ($val == -3) {
-                                $diaCobroPedido = "En 3 días";
-                            } else if ($val == -4) {
+                            if ($val >= -5 && $val <= 5) {
                                 $diaCobroPedido = date("d/m/Y", strtotime($item["DiaCobro"]));
-                            } else if ($val == -5) {
-                                $diaCobroPedido = date("d/m/Y", strtotime($item["DiaCobro"]));
-                            } else if ($val == 1) {
-                                $diaCobroPedido = "Ayer";
-                            } else if ($val == 2) {
-                                $diaCobroPedido = "Anteayer";
-                            } else if ($val >= 3 && $val <= 5) {
-                                $diaCobroPedido = "Hace " . $val . " días.";
                             }
 
                             $i = intval($item['Codigo']);
@@ -1244,7 +1228,7 @@ class Pagos extends CI_Controller
                                 $dataPagosP["cuota"] = $cuota;
                                 $dataPagosP["abonado"] = $abonado;
                                 $dataPagosP["valor"] = $item1["Valor"];
-                                $dataPagosP["saldo"] = intval($item1["Valor"]) - intval($abonado);
+                                $dataPagosP["saldo"] = intval($item1["Saldo"]);
                                 $dataPagosP["DiaCobro"] = $diaCobroPedido;
                                 $dataPagosP["telefono"] = $telefono;
                                 $dataPagosP["barrio"] = $barrio;
@@ -1330,17 +1314,8 @@ class Pagos extends CI_Controller
                             $datetime2 = date_create($hoy);
                             $interval = date_diff($datetime1, $datetime2);
                             $val = intval($interval->format('%R%a'));
-                            if ($val == 1) {
-                                $diaCobroPedido = "Ayer";
-                            } else if ($val == 2) {
-                                $diaCobroPedido = "Anteayer";
-                            } else if ($val >= 3) {
-                                if ($val % 30 == 0) {
-                                    $d = $val / 30;
-                                    $diaCobroPedido = "Hace " . $d . " meses.";
-                                } else {
-                                    $diaCobroPedido = "Hace " . $val . " días.";
-                                }
+                            if ($val > 1) {
+                                $diaCobroPedido = date("d/m/Y", strtotime($item["DiaCobro"]));
                             }
 
                             $i = intval($item['Codigo']);
@@ -1420,7 +1395,7 @@ class Pagos extends CI_Controller
                                 $dataPagosP["cuota"] = $cuota;
                                 $dataPagosP["abonado"] = $abonado;
                                 $dataPagosP["valor"] = $item1["Valor"];
-                                $dataPagosP["saldo"] = intval($item1["Valor"]) - intval($abonado);
+                                $dataPagosP["saldo"] = intval($item1["Saldo"]);
                                 $dataPagosP["DiaCobro"] = $diaCobroPedido;
                                 $dataPagosP["telefono"] = $telefono;
                                 $dataPagosP["barrio"] = $barrio;
@@ -2147,10 +2122,13 @@ class Pagos extends CI_Controller
         }
     }
 
-    public function numPagosProgramados($user = "*", $fechaIni = "", $fechaFin = "")
+    public function numPagosProgramados($user = "*", $fechaIni = "", $fechaFin = "", $estado = "*")
     {
         if ($user == "") {
             $user = "*";
+        }
+        if ($estado == "") {
+            $estado = "*";
         }
         if ($fechaIni == "") {
             $fechaIni = date('Y-m-d') . " 00:00:00";
@@ -2159,7 +2137,7 @@ class Pagos extends CI_Controller
             $fechaFin = date('Y-m-d') . " 23:59:59";
         }
         try {
-            $dataProgramados = $this->Pagos_model->obtenerPagosProgramaFechaUser($user, $fechaIni, $fechaFin);
+            $dataProgramados = $this->Pagos_model->obtenerPagosProgramaFechaUser($user, $fechaIni, $fechaFin, $estado);
             return count($dataProgramados);
         } catch (Exception $e) {
             return 'Error';
@@ -2172,11 +2150,12 @@ class Pagos extends CI_Controller
         $fecha = date("Y-m-d H:i:s");
 
         $user = "*";
+        $$estado = "*";
         $fechaIni = date('Y-m-d') . " 00:00:00";
         $fechaFin = date('Y-m-d') . " 23:59:59";
 
         try {
-            $dataProgramados = $this->Pagos_model->obtenerPagosProgramaFechaUser($user, $fechaIni, $fechaFin);
+            $dataProgramados = $this->Pagos_model->obtenerPagosProgramaFechaUser($user, $fechaIni, $fechaFin, $estado);
             $arreglo["data"] = [];
             if (isset($dataProgramados) && $dataProgramados != FALSE) {
                 $i = 0;
@@ -2257,6 +2236,7 @@ class Pagos extends CI_Controller
     public function FiltroProg()
     {
         $user = trim($this->input->post('pag_usu'));
+        $estado = trim($this->input->post('pag_est'));
         // $user = "*";
         $fechaIni = trim($this->input->post('pag_fec1'));
         // $fechaIni = date("Y-m-d");
@@ -2272,7 +2252,7 @@ class Pagos extends CI_Controller
         // echo $fechaFin."<br>";
 
         try {
-            $dataProgramados = $this->Pagos_model->obtenerPagosProgramaFechaUser($user, $fechaIni, $fechaFin);
+            $dataProgramados = $this->Pagos_model->obtenerPagosProgramaFechaUser($user, $fechaIni, $fechaFin, $estado);
             // var_dump($dataProgramados);
             // die();
             $arreglo["data"] = [];
@@ -2310,21 +2290,6 @@ class Pagos extends CI_Controller
                         if ($accion) {
                             $btn3 = html_entity_decode("<a href='#ModalDescartarPago' data-toggle='modal' onclick='dataModalDescartar(\"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\", \"" . $pedidosClientes[0]['Cliente'] . "\", \"" . $pedidosClientes[0]['Nombre'] . "\", \"" . money_format_cop($item["Cuota"]) . "\", \"" . money_format_cop($pedidosClientes[0]["Saldo"]) . "\", \"" . $item["Valor"] . "\", \"" . $item["Observaciones"] . "\");' title='Descartar Pago'><i class='fa fa-close' aria-hidden='true' style='padding:5px;'></i></a>");
                         }
-
-                        $idPermiso = 32;
-                        $accion = validarPermisoAcciones($idPermiso);
-                        if ($accion) {
-                            $f1 = strtotime($item["FechaImpresion"]);
-                            $f2 = strtotime(date("d-m-Y 00:00:00", time()));
-
-                            if ($item["Copias"] == 0) {
-                                $btn4 = "<a href='#ModalPrintSolo' data-toggle='modal' title='Imprimir Recibo de Pago' onclick='dataModalSolo(\"1\",\"" . money_format_cop($item["Cuota"]) . "\", \"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\");'><i class='fa fa-print' aria-hidden='true' style='padding:5px;'></i></a>";
-                            } else {
-                                if (($item["Copias"] > 1 && $item["Copias"] < 3) && $f1 != $f2) {
-                                    $btn4 = "<a href='#ModalPrintSolo' data-toggle='modal' title='Imprimir Recibo de Pago' onclick='dataModalSolo(\"1\",\"" . money_format_cop($item["Cuota"]) . "\", \"" . $item['Codigo'] . "\", \"" . $item["Pedido"] . "\");'><i class='fa fa-print' aria-hidden='true' style='padding:5px;'></i></a>";
-                                }
-                            }
-                        }
                     }
 
                     if (strlen($item["Observaciones"]) > 50) {
@@ -2341,11 +2306,18 @@ class Pagos extends CI_Controller
                     $direccion = ($pedidosClientes["0"]["Manzana"] != "") ? $direccion . " MZ " . $pedidosClientes["0"]["Manzana"] : $direccion;
                     $direccion = ($pedidosClientes["0"]["Interior"] != "") ? $direccion . " IN " . $pedidosClientes["0"]["Interior"] : $direccion;
                     $direccion = ($pedidosClientes["0"]["Casa"] != "") ? $direccion . " CA " . $pedidosClientes["0"]["Casa"] : $direccion;
-                    $direccion = $direccion . "-- Ubicación: " . $pedidosClientes["0"]["PaginaFisica"];
+                    if ($direccion == "") {
+                        $direccion = "Sin dirección -- Factura: " . $pedidosClientes["0"]["PaginaFisica"];
+                    } else {
+                        $direccion = $direccion . "-- Factura: " . $pedidosClientes["0"]["PaginaFisica"];
+                    }
                     $telefono = $pedidosClientes["0"]["Telefono1"];
                     $telefono = ($pedidosClientes["0"]["Telefono2"] != "") ? $telefono . " - " . $pedidosClientes["0"]["Telefono2"] : $telefono;
                     $num = $this->Pagos_model->ultimaCuota($item["Pedido"]);
-                    $numCuotas = $num[0]["Cuota"] + 1;
+                    $numCuotas = "1";
+                    if ($num != NULL) {
+                        $numCuotas = $num[0]["Cuota"] + 1;
+                    }
 
                     $totalPago += $item["Cuota"];
 
@@ -2374,6 +2346,7 @@ class Pagos extends CI_Controller
     public function ImprimirRecibosPP()
     {
         $user = trim($this->input->post('pag_usu'));
+        $estado = trim($this->input->post('pag_est'));
         $fechaIni = trim($this->input->post('pag_fec1'));
         $date = str_replace('/', '-', $fechaIni);
         $fechaIni = date('Y-m-d', strtotime($date));
@@ -2382,7 +2355,7 @@ class Pagos extends CI_Controller
         $fechaFin = date("Y-m-d", strtotime($date));
 
         try {
-            $dataProgramados = $this->Pagos_model->obtenerPagosProgramaFechaUser($user, $fechaIni, $fechaFin);
+            $dataProgramados = $this->Pagos_model->obtenerPagosProgramaFechaUser($user, $fechaIni, $fechaFin, $estado);
             if (isset($dataProgramados) && $dataProgramados != FALSE) {
                 $this->session->set_flashdata("dataProgramados", $dataProgramados);
                 echo 1;

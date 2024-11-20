@@ -349,8 +349,8 @@ class Cobradores extends CI_Controller
     public function obtenerVolverLlamarJson()
     {
         $fecha = date("Y-m-d");
-        $fechaI = date("2020-03-12");
-        $fechaF = date("2020-03-12");
+        $fechaI = date("Y-m-d");
+        $fechaF = date("Y-m-d");
         echo $this->obtenerVolverLlamarJsonPara($fechaI, $fechaF);
     }
 
@@ -364,8 +364,8 @@ class Cobradores extends CI_Controller
         $date = str_replace('/', '-', $fechaFin);
         $fechaFin = date("Y-m-d", strtotime($date));
 
-        $fechaIni = date("2020-08-19");
-        $fechaFin = date("2020-08-19");
+        //$fechaIni = date("2020-08-19");
+        //$fechaFin = date("2020-08-19");
 
         echo $this->obtenerVolverLlamarJsonPara($fechaIni, $fechaFin);
     }
@@ -373,8 +373,8 @@ class Cobradores extends CI_Controller
     public function obtenerVolverLlamarJsonPara($f1, $f2)
     {
         $data = $this->obtenerVolverLlamar($f1, $f2);
-        var_dump($data);
-        die();
+        //var_dump($data);
+        //die();
         $arreglo["data"] = [];
 
         if ($data != FALSE) {

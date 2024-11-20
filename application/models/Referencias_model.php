@@ -1,10 +1,12 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Referencias_model extends CI_Model {
+class Referencias_model extends CI_Model
+{
 
-    public function obtenerReferencias() {
+    public function obtenerReferencias()
+    {
         $this->db->where('Habilitado', '1');
         $query = $this->db->get("Referencias");
         if ($query->num_rows() <= 0) {
@@ -14,7 +16,8 @@ class Referencias_model extends CI_Model {
         }
     }
 
-    public function obtenerReferencia($codigo) {
+    public function obtenerReferencia($codigo)
+    {
         $this->db->where('Codigo', $codigo);
         $this->db->where('Habilitado', '1');
         $query = $this->db->get("Referencias");
@@ -25,7 +28,8 @@ class Referencias_model extends CI_Model {
         }
     }
 
-    public function obtenerReferenciasCodUserFec($Nombres, $user, $fecha) {
+    public function obtenerReferenciasCodUserFec($Nombres, $user, $fecha)
+    {
         $this->db->where('Nombres', $Nombres);
         $this->db->where('UsuarioCreacion', $user);
         $this->db->where('FechaCreacion', $fecha);
@@ -37,8 +41,9 @@ class Referencias_model extends CI_Model {
             return $query->result_array();
         }
     }
-    
-    public function obtenerReferenciasCodUserFecLast($Nombres, $user, $fecha) {
+
+    public function obtenerReferenciasCodUserFecLast($Nombres, $user, $fecha)
+    {
         $this->db->where('Nombres', $Nombres);
         $this->db->where('UsuarioCreacion', $user);
         $this->db->where('FechaCreacion', $fecha);
@@ -52,7 +57,8 @@ class Referencias_model extends CI_Model {
         }
     }
 
-    public function obtenerRefClienteCodUserFec($cliente, $Referencia, $user, $fecha) {
+    public function obtenerRefClienteCodUserFec($cliente, $Referencia, $user, $fecha)
+    {
         $this->db->where('Cliente', $cliente);
         $this->db->where('Referencia', $Referencia);
         $this->db->where('UsuarioCreacion', $user);
@@ -65,8 +71,9 @@ class Referencias_model extends CI_Model {
             return $query->result_array();
         }
     }
-    
-    public function obtenerRefClienteCodUserFecLast($cliente, $Referencia, $user, $fecha) {
+
+    public function obtenerRefClienteCodUserFecLast($cliente, $Referencia, $user, $fecha)
+    {
         $this->db->where('Cliente', $cliente);
         $this->db->where('Referencia', $Referencia);
         $this->db->where('UsuarioCreacion', $user);
@@ -81,10 +88,12 @@ class Referencias_model extends CI_Model {
         }
     }
 
-    public function obtenerRefClienteData($cliente) {
+    public function obtenerRefClienteData($cliente)
+    {
         $this->db->where('Cliente', $cliente);
         $this->db->where('Habilitado', '1');
         $query = $this->db->get("ReferenciasCliente");
+        // echo $this->db->last_query()."<br><br>"; 
         if ($query->num_rows() <= 0) {
             return false;
         } else {
@@ -93,13 +102,14 @@ class Referencias_model extends CI_Model {
             $i = 0;
             foreach ($ref as $item) {
                 $i++;
-                $referencia[$i] = $this->obtenerReferencia($item["Codigo"]);
+                $referencia[$i] = $this->obtenerReferencia($item["Referencia"]);
             }
             return $referencia;
         }
     }
 
-    public function save($data) {
+    public function save($data)
+    {
         if ($this->db->insert("Referencias", $data)) {
             return $error = $this->db->error();
         } else {
@@ -107,7 +117,8 @@ class Referencias_model extends CI_Model {
         }
     }
 
-    public function saveRefCli($data) {
+    public function saveRefCli($data)
+    {
         if ($this->db->insert("ReferenciasCliente", $data)) {
             return $error = $this->db->error();
         } else {
@@ -115,7 +126,8 @@ class Referencias_model extends CI_Model {
         }
     }
 
-    public function update($codigo, $data) {
+    public function update($codigo, $data)
+    {
         $this->db->where("Codigo", $codigo);
         if ($this->db->update("Referencias", $data)) {
             return $error = $this->db->error();
@@ -123,7 +135,4 @@ class Referencias_model extends CI_Model {
             return 1;
         }
     }
-
 }
-
-?>

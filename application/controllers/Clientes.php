@@ -177,11 +177,12 @@ class Clientes extends CI_Controller
         $nombre = ucwords(strtolower(trim($this->input->post('nombre'))));
         $cedula = trim($this->input->post('cedula'));
         $direccion = trim($this->input->post('direccion'));
+        $evento = trim($this->input->post('evento'));
         $telefono = trim($this->input->post('telefono'));
         $estado = trim($this->input->post('estado'));
         $ubicacion = trim($this->input->post('ubicacion'));
 
-        $data = $this->Clientes_model->searchCliente($nombre, $cedula, $direccion, $telefono, $estado, $ubicacion);
+        $data = $this->Clientes_model->searchCliente($nombre, $cedula, $direccion, $evento, $telefono, $estado, $ubicacion);
         $arreglo["data"] = [];
         $permisos = $this->SearchPermissions();
 
@@ -304,6 +305,7 @@ class Clientes extends CI_Controller
             "telefono" => $telefono,
             "saldo" => money_format_cop($item["Saldo"]),
             "DiaCobro" => $diacobro,
+            "Iglesia" => $item["Iglesia"],
             "Estado" => $item["EstNombre"],
             "PaginaFisica" => $item["PaginaFisica"],
             "btn" => '<div class="btn-group text-center" style="margin: 0px auto;  width:100%;">' . $btnOpciones . '</div>'
@@ -450,7 +452,7 @@ class Clientes extends CI_Controller
                 "Nombre" => $cli_nom,
                 "TipoDocumento" => $cli_tipdoc,
                 "Documento" => $cli_doc,
-                "Direccion" => 1,
+                "Direccion" => 100,
                 "Telefono1" => $cli_tel1,
                 "Telefono2" => $cli_tel2,
                 "Telefono3" => $cli_tel3,
@@ -600,44 +602,49 @@ class Clientes extends CI_Controller
             if ($errores > 0) {
                 echo $lblErrores;
             } else {
-                //Crear Referencias 2
-                $dataReferencia2 = array(
-                    "Nombres" => $cli_nomrf2,
-                    "Telefono" => $cli_telrf2,
-                    "Parentesco" => $cli_paren2,
-                    "Habilitado" => 1,
-                    "UsuarioCreacion" => $user,
-                    "FechaCreacion" => $fecha
-                );
+                if ($cli_nomrf2 != "") {
+                    //Crear Referencias 2
+                    $dataReferencia2 = array(
+                        "Nombres" => $cli_nomrf2,
+                        "Telefono" => $cli_telrf2,
+                        "Parentesco" => $cli_paren2,
+                        "Habilitado" => 1,
+                        "UsuarioCreacion" => $user,
+                        "FechaCreacion" => $fecha
+                    );
 
-                try {
-                    if ($this->Referencias_model->save($dataReferencia2)) {
-                        $Ref2 = $this->Referencias_model->obtenerReferenciasCodUserFec($cli_nomrf2, $user, $fecha);
-                        if ($Ref2) {
-                            $dataReferencia2['Codigo'] = $Ref2[0]['Codigo'];
-                            $modulo = "Creación Cliente";
-                            $tabla = "Referencias";
-                            $accion = "Crear Referencia";
-                            $llave = $Cli[0]['Codigo'];
-                            $sql = LogSave($dataReferencia2, $modulo, $tabla, $accion, $llave);
+                    try {
+                        if ($this->Referencias_model->save($dataReferencia2)) {
+                            $Ref2 = $this->Referencias_model->obtenerReferenciasCodUserFec($cli_nomrf2, $user, $fecha);
+                            if ($Ref2) {
+                                $dataReferencia2['Codigo'] = $Ref2[0]['Codigo'];
+                                $modulo = "Creación Cliente";
+                                $tabla = "Referencias";
+                                $accion = "Crear Referencia";
+                                $llave = $Cli[0]['Codigo'];
+                                $sql = LogSave($dataReferencia2, $modulo, $tabla, $accion, $llave);
 
-                            $dataRefCliente2 = array(
-                                "Cliente" => $Cli[0]['Codigo'],
-                                "Referencia" => $Ref2[0]['Codigo'],
-                                "Habilitado" => 1,
-                                "UsuarioCreacion" => $user,
-                                "FechaCreacion" => $fecha
-                            );
+                                $dataRefCliente2 = array(
+                                    "Cliente" => $Cli[0]['Codigo'],
+                                    "Referencia" => $Ref2[0]['Codigo'],
+                                    "Habilitado" => 1,
+                                    "UsuarioCreacion" => $user,
+                                    "FechaCreacion" => $fecha
+                                );
 
-                            if ($this->Referencias_model->saveRefCli($dataRefCliente2)) {
-                                $RefCli2 = $this->Referencias_model->obtenerRefClienteCodUserFec($Cli[0]['Codigo'], $Ref2[0]['Codigo'], $user, $fecha);
-                                if ($RefCli2) {
-                                    $dataRefCliente2['Codigo'] = $RefCli2[0]['Codigo'];
-                                    $modulo = "Creación Cliente";
-                                    $tabla = "ReferenciasCliente";
-                                    $accion = "Vincular Cliente y Referencia";
-                                    $llave = $Cli[0]['Codigo'];
-                                    $sql = LogSave($dataRefCliente2, $modulo, $tabla, $accion, $llave);
+                                if ($this->Referencias_model->saveRefCli($dataRefCliente2)) {
+                                    $RefCli2 = $this->Referencias_model->obtenerRefClienteCodUserFec($Cli[0]['Codigo'], $Ref2[0]['Codigo'], $user, $fecha);
+                                    if ($RefCli2) {
+                                        $dataRefCliente2['Codigo'] = $RefCli2[0]['Codigo'];
+                                        $modulo = "Creación Cliente";
+                                        $tabla = "ReferenciasCliente";
+                                        $accion = "Vincular Cliente y Referencia";
+                                        $llave = $Cli[0]['Codigo'];
+                                        $sql = LogSave($dataRefCliente2, $modulo, $tabla, $accion, $llave);
+                                    } else {
+                                        $errores++;
+                                        $lblErrores = "No se pudo guardar, por favor intentelo de nuevo.";
+                                    }
                                 } else {
                                     $errores++;
                                     $lblErrores = "No se pudo guardar, por favor intentelo de nuevo.";
@@ -650,13 +657,10 @@ class Clientes extends CI_Controller
                             $errores++;
                             $lblErrores = "No se pudo guardar, por favor intentelo de nuevo.";
                         }
-                    } else {
+                    } catch (Exception $e) {
                         $errores++;
-                        $lblErrores = "No se pudo guardar, por favor intentelo de nuevo.";
+                        $lblErrores = 'Ha habido una excepción: ' . $e->getMessage() . "<br>";
                     }
-                } catch (Exception $e) {
-                    $errores++;
-                    $lblErrores = 'Ha habido una excepción: ' . $e->getMessage() . "<br>";
                 }
             }
 

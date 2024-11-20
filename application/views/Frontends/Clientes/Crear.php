@@ -41,7 +41,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <form id="FrmNuevoCliente" name="FrmNuevoCliente" method="POST" role="form">
                                 <div>
                                     <h3>Datos Personales</h3>
-                                    <section style="margin-top:-15px;">
+                                    <section style="margin-top:-15px;" style="background-color:red;">
                                         <div class="form-group hidden">
                                             <label>Orden de Pedido</label>
                                             <input type="text" readonly placeholder="Orden de Pedido" value="" class="form-control" id="Orden"
@@ -196,8 +196,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label>Nombre Referencia *</label>
-                                                    <input type="text" placeholder="Nombre" value="" class="form-control required" minlength="5"
+                                                    <label>Nombre Referencia</label>
+                                                    <input type="text" placeholder="Nombre" value="" class="form-control" minlength="5"
                                                         maxlength="50" id="NombreRef2" name="NombreRef2">
                                                 </div>
                                             </div>
@@ -205,16 +205,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Teléfono Referencia *</label>
-                                                    <input type="text" placeholder="Teléfono" value="" class="form-control required" minlength="7"
+                                                    <label>Teléfono Referencia</label>
+                                                    <input type="text" placeholder="Teléfono" value="" class="form-control" minlength="7"
                                                         maxlength="30" id="TelefonoRef2" name="TelefonoRef2">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Parentesco Referencia *</label>
-                                                    <input type="text" placeholder="Parentesco" value="" class="form-control required"
-                                                        minlength="3" maxlength="20" id="ParentescoRef2" name="ParentescoRef2">
+                                                    <label>Parentesco Referencia</label>
+                                                    <input type="text" placeholder="Parentesco" value="" class="form-control" minlength="3"
+                                                        maxlength="20" id="ParentescoRef2" name="ParentescoRef2">
                                                 </div>
                                             </div>
                                         </div>
@@ -377,26 +377,27 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <div class="form-group ui-widget">
-                                                    <label>Iglesia *</label>
-                                                    <input type="text" id="IglesiaEvento" name="IglesiaEvento" class="form-control required">
+                                                    <label>Domingo *</label>
+                                                    <input type="text" value='Domingo ' id="IglesiaEvento" name="IglesiaEvento"
+                                                        class="form-control required">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label>Barrio *</label>
+                                                    <label>Barrio Venta*</label>
                                                     <input type="text" id="BarrioEvento" name="BarrioEvento" class="form-control required">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label>Fecha Evento *</label>
+                                                    <label>Fecha Venta *</label>
                                                     <input type="text" id="FechaEvento" name="FechaEvento"
                                                         class="form-control datepickerAll required">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label>Ubicación Física *</label>
+                                                    <label>Factura *</label>
                                                     <input type="text" id="PaginaEvento" name="PaginaEvento" maxlength="20"
                                                         class="form-control required">
                                                 </div>
@@ -493,6 +494,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     /*Validaciones*/
                     //Referencias
                     var ref = 0;
+                    if (cli_nomrf2 != "")
+                        ref++;
+                    if (cli_telrf2 != "")
+                        ref++;
+                    if (cli_paren2 != "")
+                        ref++;
+                    if (ref != 0 && ref != 3) {
+                        $('#msgErrors').html(
+                            '<div class="alert alert-danger alert-dismissable fade in">\n\
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
+                                <strong>Error</strong><br />Si desea agregar una referencia, por favor indique los 3 datos: Nombre, Teléfono y Parentesco\n\
+                            </div>');
+                        numErrores++;
+                    }
+
                     if (cli_nomrf3 != "")
                         ref++;
                     if (cli_telrf3 != "")

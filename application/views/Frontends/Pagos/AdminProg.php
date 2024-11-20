@@ -3,8 +3,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <div class="content">
     <div class="header">
-        <?php //$this->load->view('Modules/notifications'); ?>
-        <h1 class="page-title" style="font-size: 2em;"><?=$title;?> </h1>
+        <?php //$this->load->view('Modules/notifications'); 
+        ?>
+        <h1 class="page-title" style="font-size: 2em;"><?= $title; ?> </h1>
     </div>
     <div class="main-content">
         <div class="panel panel-default">
@@ -20,82 +21,107 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                 <strong>Error</strong>
                                 <br />
-                                <?=$this->session->flashdata("error");?>
+                                <?= $this->session->flashdata("error"); ?>
                             </div>
                         </div>
-                    <?php endif;?>
+                    <?php endif; ?>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <form id="form-FiltrarPagos" name="form-FiltrarPagos" method="POST" >
-                            <div class="col-md-3">
+                        <form id="form-FiltrarPagos" name="form-FiltrarPagos" method="POST">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Usuario</label>
-                                    <select id="dropUsuario" name="dropUsuario" class="form-control" >
+                                    <select id="dropUsuario" name="dropUsuario" class="form-control">
                                         <option value="*">Todos</option>
                                         <?php
-foreach ($ListaUsuarios as $value) {
-    ?>
-                                            <option value="<?=$value["Usuario"];?>"><?=$value["Nombre"];?></option>
-                                            <?php
-}
-?>
-
+                                        foreach ($ListaUsuarios as $value) {
+                                        ?>
+                                            <option value="<?= $value["Usuario"]; ?>"><?= $value["Nombre"]; ?></option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Estado</label>
+                                    <select id="dropEstados" name="dropEstados" class="form-control">
+                                        <option value="*">Todos</option>
+                                        <option value="116">Programado</option>
+                                        <option value="117">Pagado</option>
+                                        <option value="118">No Pagado</option>
+                                        <option value="122">Descartado</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Fecha Inicial</label>
-                                    <input type="text" id="FechaIni" name="FechaIni" class="form-control datepicker1" required style="background-color: #ffffff;">
+                                    <input type="text" id="FechaIni" name="FechaIni" class="form-control datepicker1" required
+                                        style="background-color: #ffffff;">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Fecha Final</label>
-                                    <input type="text" id="FechaFin" name="FechaFin" class="form-control datepicker1" required style="background-color: #ffffff;">
+                                    <input type="text" id="FechaFin" name="FechaFin" class="form-control datepicker1" required
+                                        style="background-color: #ffffff;">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Filtrar</label>
-                                    <div class="btn-toolbar list-toolbar">
-                                        <button id="btn-FiltrarPagos" name="btn-FiltrarPagos" class="btn btn-primary"><i class="fa fa-search"></i> Filtrar Fechas</button>
+                                    <div class="btn-toolbar list-toolbar" style="display: flex;">
+                                        <button id="btn-FiltrarPagos" name="btn-FiltrarPagos" class="btn btn-primary"><i
+                                                class="fa fa-search"></i> Filtrar Fechas</button>
+                                        <button id="btn-limpiar-filtro" name="btn-limpiar-filtro" class="btn btn-default"><i
+                                                class="fa fa-eraser"></i> Limpiar</button>
                                     </div>
                                 </div>
                             </div>
                         </form>
                         <div class="col-md-3">
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <label>Recibo de Pago</label>
                                 <div class="btn-toolbar list-toolbar">
-<!--                                    <button id="btn-imprimirPagos" name="btn-imprimirPagos" class="btn btn-info"><i class="fa fa-print"></i> Imprimir Recibos</button>-->
-                                    <a href="#ModalPrint" data-toggle="modal" title="Imprimir Recibos" class="btn btn-info"><i class="fa fa-print"></i> Imprimir Recibos</a>
+                                    <!-- <button id="btn-imprimirPagos" name="btn-imprimirPagos" class="btn btn-info"><i class="fa fa-print"></i> Imprimir Recibos</button> -->
+                                    <a href="#ModalPrint" data-toggle="modal" title="Imprimir Recibos" class="btn btn-info"><i
+                                            class="fa fa-print"></i> Imprimir Recibos</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <table id="<?=$Controller;?>" class="table table-striped table-bordered" style="width:100%;">
-                            <thead>
-                                <tr>
-                                    <th>Cliente</th>
-                                    <th style="width:300px;">Dirección</th>
-                                    <th>Cuota</th>
-                                    <th style="width:70px;">Saldo</th>
-                                    <th style="width:70px;">Valor</th>
-                                    <th style="width:70px;">Fecha Programada</th>
-                                    <th style="width:70px;">Estado</th>
-                                    <th style="width:150px;">Opciones</th>
-                                </tr>
-                            </thead>
-                        </table>
+                    <div class="panel panel-default hidden" id="panel-result">
+                        <a href="#page-result" class="panel-heading" data-toggle="collapse">Resultado de Búsqueda</a>
+                        <div id="page-result" class="panel-collapse panel-body collapse in">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table id="<?= $Controller; ?>" class="table table-striped table-bordered" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Cliente</th>
+                                                <th style="width:300px;">Dirección</th>
+                                                <th>Cuota</th>
+                                                <th style="width:70px;">Saldo</th>
+                                                <th style="width:70px;">Valor</th>
+                                                <th style="width:70px;">Fecha Programada</th>
+                                                <th style="width:70px;">Estado</th>
+                                                <th style="width:150px;">Opciones</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="modal fade " id="ModalConfirmarPago" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade " id="ModalConfirmarPago" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form method="POST" name="form-modal" id="form-modal">
@@ -108,7 +134,8 @@ foreach ($ListaUsuarios as $value) {
                                 <div class="col-md-6 ">
                                     <div class="form-group">
                                         <label>Codigo</label>
-                                        <input type="text" id="modal-codigo-confirmar" name="modal-codigo-confirmar" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-codigo-confirmar" name="modal-codigo-confirmar" class="form-control"
+                                            readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
                             </div>
@@ -116,49 +143,57 @@ foreach ($ListaUsuarios as $value) {
                                 <div class="col-md-6 hidden">
                                     <div class="form-group">
                                         <label>Pedido</label>
-                                        <input type="text" id="modal-pedido-confirmar" name="modal-pedido-confirmar" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-pedido-confirmar" name="modal-pedido-confirmar" class="form-control"
+                                            readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
                                 <div class="col-md-6 hidden">
                                     <div class="form-group">
                                         <label>Cliente</label>
-                                        <input type="text" id="modal-cliente-confirmar" name="modal-cliente-confirmar" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-cliente-confirmar" name="modal-cliente-confirmar" class="form-control"
+                                            readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Nombre</label>
-                                        <input type="text" id="modal-nombre-confirmar" name="modal-nombre-confirmar" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-nombre-confirmar" name="modal-nombre-confirmar" class="form-control"
+                                            readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Recibo de Pago</label>
-                                        <input type="text" id="modal-Pago-confirmar1" name="modal-Pago-confirmar1" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-Pago-confirmar1" name="modal-Pago-confirmar1" class="form-control"
+                                            readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Saldo Programado</label>
-                                        <input type="text" id="modal-Saldo-confirmar1" name="modal-Saldo-confirmar1" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-Saldo-confirmar1" name="modal-Saldo-confirmar1" class="form-control"
+                                            readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
                                 <div class="col-md-12 hidden">
                                     <div class="form-group">
                                         <label>Valor</label>
-                                        <input type="number" id="modal-Valor-confirmar" name="modal-Valor-confirmar" class="form-control" style="background-color:#ffffff;">
+                                        <input type="number" id="modal-Valor-confirmar" name="modal-Valor-confirmar" class="form-control"
+                                            style="background-color:#ffffff;">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Pago Real</label>
-                                        <input type="number" id="modal-Pago-confirmar" name="modal-Valor-confirmar" class="form-control" style="background-color:#ffffff;">
+                                        <input type="number" id="modal-Pago-confirmar" name="modal-Valor-confirmar" class="form-control"
+                                            style="background-color:#ffffff;">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Saldo Real</label>
-                                        <input type="text" id="modal-Saldo-confirmar" name="modal-Saldo-confirmar" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-Saldo-confirmar" name="modal-Saldo-confirmar" class="form-control"
+                                            readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -167,43 +202,48 @@ foreach ($ListaUsuarios as $value) {
                                         <select name="Cobrador-confirmar" id="Cobrador-confirmar" class="form-control required">
                                             <option value=""></option>
                                             <?php
-foreach ($Lista1 as $item):
-    echo '<option value="' . $item['Codigo'] . '">' . $item['Nombre'] . '</option>';
-endforeach;
-?>
+                                            foreach ($Lista1 as $item):
+                                                echo '<option value="' . $item['Codigo'] . '">' . $item['Nombre'] . '</option>';
+                                            endforeach;
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Fecha de Pago:</label>
-                                        <input type="text" id="FechaPago-confirmar" name="FechaPago-confirmar" class="form-control datepicker8">
+                                        <input type="text" id="FechaPago-confirmar" name="FechaPago-confirmar"
+                                            class="form-control datepicker8">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group hidden">
                                         <label><span class="label label-success ">Fecha Actual Pago: </span></label>
-                                        <input type="text" id="FechaPago-actual" name="FechaPago-actual" class="form-control datepicker45" readonly>
+                                        <input type="text" id="FechaPago-actual" name="FechaPago-actual" class="form-control datepicker45"
+                                            readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label><span class="label label-danger">Fecha Próximo Pago: </span></label>
-                                        <input type="text" id="FechaPago-proximo" name="FechaPago-proximo" class="form-control datepicker45">
+                                        <input type="text" id="FechaPago-proximo" name="FechaPago-proximo"
+                                            class="form-control datepicker45">
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" >
+                            <div class="row">
                                 <div class="col-md-12 hidden">
                                     <div class="form-group">
                                         <label>Observaciones Anteriores</label>
-                                        <textarea value="" rows="6" class="form-control" name="ObservacionesAnt-confirmar" id="ObservacionesAnt-confirmar" style="resize: none;"></textarea>
+                                        <textarea value="" rows="6" class="form-control" name="ObservacionesAnt-confirmar"
+                                            id="ObservacionesAnt-confirmar" style="resize: none;"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Observaciones</label>
-                                        <textarea value="" rows="2" class="form-control" name="Observaciones-confirmar" id="Observaciones-confirmar" style="resize: none;"></textarea>
+                                        <textarea value="" rows="2" class="form-control" name="Observaciones-confirmar"
+                                            id="Observaciones-confirmar" style="resize: none;"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -220,15 +260,18 @@ endforeach;
                             </div>
                         </div>
                         <div class="modal-footer" style="margin-top: -15px;">
-                            <button class="btn btn-default" id="btn-modal-cerrar-confirmar" name="btn-modal-cerrar-confirmar" data-dismiss="modal" aria-hidden="true">Cerrar</button>
-                            <button id="btn-modal-confirmar" name="btn-modal-confirmar" class="btn btn-primary"><i class="fa fa-check"></i> Confirmar Pago</button>
+                            <button class="btn btn-default" id="btn-modal-cerrar-confirmar" name="btn-modal-cerrar-confirmar"
+                                data-dismiss="modal" aria-hidden="true">Cerrar</button>
+                            <button id="btn-modal-confirmar" name="btn-modal-confirmar" class="btn btn-primary"><i
+                                    class="fa fa-check"></i> Confirmar Pago</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <div class="modal fade" id="ModalDescartarPago" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="ModalDescartarPago" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form method="POST" name="form-modal" id="form-modal">
@@ -241,7 +284,8 @@ endforeach;
                                 <div class="col-md-6 hidden">
                                     <div class="form-group">
                                         <label>Codigo</label>
-                                        <input type="text" id="modal-codigo-descartar" name="modal-codigo-descartar" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-codigo-descartar" name="modal-codigo-descartar" class="form-control"
+                                            readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
                             </div>
@@ -249,57 +293,66 @@ endforeach;
                                 <div class="col-md-6 hidden">
                                     <div class="form-group">
                                         <label>Pedido</label>
-                                        <input type="text" id="modal-pedido-descartar" name="modal-pedido-descartar" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-pedido-descartar" name="modal-pedido-descartar" class="form-control"
+                                            readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
                                 <div class="col-md-6 hidden">
                                     <div class="form-group">
                                         <label>Cliente</label>
-                                        <input type="text" id="modal-cliente-descartar" name="modal-cliente-descartar" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-cliente-descartar" name="modal-cliente-descartar" class="form-control"
+                                            readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Nombre</label>
-                                        <input type="text" id="modal-nombre-descartar" name="modal-nombre-descartar" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-nombre-descartar" name="modal-nombre-descartar" class="form-control"
+                                            readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Pago</label>
-                                        <input type="text" id="modal-Pago-descartar" name="modal-Pago-descartar" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-Pago-descartar" name="modal-Pago-descartar" class="form-control"
+                                            readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Saldo:</label>
-                                        <input type="text" id="modal-saldo-descartar" name="modal-saldo-descartar" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-saldo-descartar" name="modal-saldo-descartar" class="form-control"
+                                            readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
                                 <div class="col-md-12 hidden">
                                     <div class="form-group">
                                         <label>Valor</label>
-                                        <input type="text" id="modal-Valor-descartar" name="modal-Valor-descartar" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-Valor-descartar" name="modal-Valor-descartar" class="form-control"
+                                            readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 hidden">
                                     <div class="form-group">
                                         <label>Volver a llamar:</label>
-                                        <input type="text" id="Fecha-volverLlamar-descartar" name="Fecha-volverLlamar-descartar" class="form-control datepicker8">
+                                        <input type="text" id="Fecha-volverLlamar-descartar" name="Fecha-volverLlamar-descartar"
+                                            class="form-control datepicker8">
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" >
+                            <div class="row">
                                 <div class="col-md-12 hidden">
                                     <div class="form-group">
                                         <label>Observaciones Anteriores</label>
-                                        <textarea value="" rows="6" class="form-control" name="ObservacionesAnt-descartar" id="ObservacionesAnt-descartar" style="resize: none;"></textarea>
+                                        <textarea value="" rows="6" class="form-control" name="ObservacionesAnt-descartar"
+                                            id="ObservacionesAnt-descartar" style="resize: none;"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Observaciones</label>
-                                        <textarea value="" rows="6" class="form-control" name="Observaciones-descartar" id="Observaciones-descartar" style="resize: none;"></textarea>
+                                        <textarea value="" rows="6" class="form-control" name="Observaciones-descartar"
+                                            id="Observaciones-descartar" style="resize: none;"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -316,16 +369,18 @@ endforeach;
                             </div>
                         </div>
                         <div class="modal-footer" style="margin-top: -15px;">
-                            <button class="btn btn-default" id="btn-modal-cerrar-descartar" name="btn-modal-cerrar-descartar" data-dismiss="modal" aria-hidden="true">Cerrar</button>
-                            <button id="btn-modal-descartar" name="btn-modal-descartar" class="btn btn-danger"><i class="fa fa-close"></i> Descartar Pago</button>
+                            <button class="btn btn-default" id="btn-modal-cerrar-descartar" name="btn-modal-cerrar-descartar"
+                                data-dismiss="modal" aria-hidden="true">Cerrar</button>
+                            <button id="btn-modal-descartar" name="btn-modal-descartar" class="btn btn-danger"><i
+                                    class="fa fa-close"></i> Descartar Pago</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-
-        <div class="modal small fade" id="ModalPrint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal small fade" id="ModalPrint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form method="POST" name="form-modal" id="form-modal">
@@ -336,7 +391,8 @@ endforeach;
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <p class="error-text"><i class="fa fa-warning modal-icon"></i>¿Desea imprimir estos recibos de pago en este momento?</p>
+                                    <p class="error-text"><i class="fa fa-warning modal-icon"></i>¿Desea imprimir estos recibos de pago en
+                                        este momento?</p>
                                 </div>
                             </div>
                             <br>
@@ -344,27 +400,32 @@ endforeach;
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Número de Recibos</label>
-                                        <input type="text" id="modal-num" name="modal-num" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-num" name="modal-num" class="form-control" readonly
+                                            style="background-color:#ffffff;">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Total de Pagos</label>
-                                        <input type="text" id="modal-pag" name="modal-pag" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-pag" name="modal-pag" class="form-control" readonly
+                                            style="background-color:#ffffff;">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer" style="margin-top: -15px;">
-                            <button class="btn btn-default" id="btn-modal-cerrar" name="btn-modal-cerrar" data-dismiss="modal" aria-hidden="true">Cerrar</button>
-                            <button id="btn-modal" name="btn-modal" class="btn btn-info"><i class="fa fa-print"></i> Imprimir Recibos</button>
+                            <button class="btn btn-default" id="btn-modal-cerrar" name="btn-modal-cerrar" data-dismiss="modal"
+                                aria-hidden="true">Cerrar</button>
+                            <button id="btn-modal" name="btn-modal" class="btn btn-info"><i class="fa fa-print"></i> Imprimir
+                                Recibos</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <div class="modal small fade" id="ModalPrintSolo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal small fade" id="ModalPrintSolo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form method="POST" name="form-modal" id="form-modal">
@@ -377,19 +438,22 @@ endforeach;
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Pedido</label>
-                                        <input type="text" id="modal-PedidoSolo" name="modal-PedidoSolo" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-PedidoSolo" name="modal-PedidoSolo" class="form-control" readonly
+                                            style="background-color:#ffffff;">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Cliente</label>
-                                        <input type="text" id="modal-ClienteSolo" name="modal-ClienteSolo" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-ClienteSolo" name="modal-ClienteSolo" class="form-control" readonly
+                                            style="background-color:#ffffff;">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <p class="error-text"><i class="fa fa-warning modal-icon"></i>¿Desea imprimir estos recibos de pago en este momento?</p>
+                                    <p class="error-text"><i class="fa fa-warning modal-icon"></i>¿Desea imprimir estos recibos de pago en
+                                        este momento?</p>
                                 </div>
                             </div>
                             <br>
@@ -397,21 +461,25 @@ endforeach;
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Número de Recibos</label>
-                                        <input type="text" id="modal-numSolo" name="modal-numSolo" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-numSolo" name="modal-numSolo" class="form-control" readonly
+                                            style="background-color:#ffffff;">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Total de Pagos</label>
-                                        <input type="text" id="modal-pagSolo" name="modal-pagSolo" class="form-control" readonly style="background-color:#ffffff;">
+                                        <input type="text" id="modal-pagSolo" name="modal-pagSolo" class="form-control" readonly
+                                            style="background-color:#ffffff;">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer" style="margin-top: -15px;">
-                            <button class="btn btn-default" id="btn-modal-cerrar" name="btn-modal-cerrar" data-dismiss="modal" aria-hidden="true">Cerrar</button>
-                            <button id="btn-modalSolo" name="btn-modalSolo" class="btn btn-info"><i class="fa fa-print"></i> Imprimir Recibo</button>
-                        </div>                       
+                            <button class="btn btn-default" id="btn-modal-cerrar" name="btn-modal-cerrar" data-dismiss="modal"
+                                aria-hidden="true">Cerrar</button>
+                            <button id="btn-modalSolo" name="btn-modalSolo" class="btn btn-info"><i class="fa fa-print"></i> Imprimir
+                                Recibo</button>
+                        </div>
                         <div class="row">
                             <div class="col-md-12" id="message">
                             </div>
@@ -421,9 +489,16 @@ endforeach;
             </div>
         </div>
 
-        <script src="<?=base_url();?>Public/assets/lib/Datetables.js/sum().js" type="text/javascript"></script>
+
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
+                $('#<?= $Controller; ?>').DataTable({
+                    responsive: true,
+                    scrollX: true,
+                    language: {
+                        url: "<?= base_url('Public/assets/'); ?>/lib/Datetables.js/Spanish.json"
+                    }
+                });
                 $('#message').html("");
                 $('#message-confirmar').html("");
                 var todayDate = new Date();
@@ -455,48 +530,47 @@ endforeach;
                     maxDate: MaxDate
                 });
 
-                $('#form-FiltrarPagos').submit(function (e) {
+                $('#form-FiltrarPagos').submit(function(e) {
                     e.preventDefault();
                     filtrar();
                 });
 
-                $('#btn-FiltrarPagos').click(function (e) {
+                $('#btn-FiltrarPagos').click(function(e) {
                     e.preventDefault();
                     filtrar();
                 });
 
-                listar();
 
-                $('#btn-imprimirPagos').click(function (e) {
+                $('#btn-imprimirPagos').click(function(e) {
                     e.preventDefault();
                     $('#ModalPrint').modal('toggle');
                     imprimirRecibos();
                 });
 
-                $('#btn-modal').click(function (e) {
+                $('#btn-modal').click(function(e) {
                     e.preventDefault();
                     $('#ModalPrint').modal('toggle');
                     imprimirRecibos();
                 });
 
-                $('#btn-modalSolo').click(function (e) { 
+                $('#btn-modalSolo').click(function(e) {
                     e.preventDefault();
-                    $('#message').html(""); 
-                    $('#ModalPrintSolo').modal('toggle'); 
+                    $('#message').html("");
+                    $('#ModalPrintSolo').modal('toggle');
                     imprimirReciboSolo();
                 });
 
-                $('#btn-modal-confirmar').click(function (e) {
+                $('#btn-modal-confirmar').click(function(e) {
                     e.preventDefault();
                     confirmarPago();
                 });
 
-                $('#btn-modal-descartar').click(function (e) {
+                $('#btn-modal-descartar').click(function(e) {
                     e.preventDefault();
                     descartarPago();
                 });
 
-                $('#modal-Pago-confirmar').focusout(function () {
+                $('#modal-Pago-confirmar').focusout(function() {
                     var pagoActual = $('#modal-Pago-confirmar1').val();
                     var saldoActual = $('#modal-Saldo-confirmar1').val();
                     pagoActual = pagoActual.replace("$", '').replace("", '').replace(".", '').replace(",", '').trim();
@@ -513,7 +587,7 @@ endforeach;
                     $('#modal-Saldo-confirmar').val('$ ' + saldo);
                 });
 
-                $('#Observaciones-confirmar').focus(function () {
+                $('#Observaciones-confirmar').focus(function() {
                     var abono = $('#modal-Pago-confirmar').val();
                     var fechaPago = $('#FechaPago-confirmar').val();
                     if (abono.toString().length > 0 && fechaPago.toString().length > 0) {
@@ -524,43 +598,85 @@ endforeach;
                         $('#Observaciones-confirmar').val("");
                     }
                 });
+
+                $('#btn-limpiar-filtro').click(function(e) {
+                    e.preventDefault();
+                    var today = new Date();
+                    const yyyy = today.getFullYear();
+                    let mm = today.getMonth() + 1;
+                    let dd = today.getDate();
+
+                    if (dd < 10) dd = '0' + dd;
+                    if (mm < 10) mm = '0' + mm;
+
+                    const formattedToday = dd + '/' + mm + '/' + yyyy;
+
+
+                    $('#dropUsuario').val("*");
+                    $('#dropEstados').val("*");
+                    $('#FechaIni').val(formattedToday);
+                    $('#FechaFin').val(formattedToday);
+
+                    $('#panel-result').addClass("hidden");
+                });
             });
 
-           function listar() {
+            function listar() {
+                var table = $('#<?= $Controller; ?>').DataTable();
+                table.clear().draw();
                 var pag_usu = $('#dropUsuario').val();
+                var pag_est = $('#dropEstados').val();
                 var pag_fec1 = $('#FechaIni').val();
                 var pag_fec2 = $('#FechaFin').val();
 
-                $('#<?=$Controller;?>').DataTable({
+                $('#<?= $Controller; ?>').DataTable({
                     bDestroy: true,
                     responsive: true,
                     scrollX: true,
-                    bSort: false,
-                    columns: [
-                        {data: "pedido"},
-                        {data: "direccion"},
-                        {data: "numCuota"},
-                        {data: "saldo"},
-                        {data: "cuota"},
-                        {data: "fecha"},
-                        {data: "estado"},
-                        {data: "btn"}
+                    bSort: true,
+                    columns: [{
+                            data: "pedido"
+                        },
+                        {
+                            data: "direccion"
+                        },
+                        {
+                            data: "numCuota"
+                        },
+                        {
+                            data: "saldo"
+                        },
+                        {
+                            data: "cuota"
+                        },
+                        {
+                            data: "fecha"
+                        },
+                        {
+                            data: "estado"
+                        },
+                        {
+                            data: "btn"
+                        }
                     ],
                     ajax: {
                         method: 'post',
-                        url: "<?=base_url();?>Pagos/FiltroProg/",
+                        url: "<?= base_url(); ?>Pagos/FiltroProg/",
                         data: {
-                            pag_usu: pag_usu, pag_fec1: pag_fec1, pag_fec2: pag_fec2
+                            pag_usu: pag_usu,
+                            pag_est: pag_est,
+                            pag_fec1: pag_fec1,
+                            pag_fec2: pag_fec2
                         }
                     },
                     language: {
-                        url: "<?=base_url('Public/assets/');?>/lib/Datetables.js/Spanish.json"
+                        url: "<?= base_url('Public/assets/'); ?>/lib/Datetables.js/Spanish.json"
                     },
-                    initComplete: function (row, data, start, end, display) {
+                    initComplete: function(row, data, start, end, display) {
                         var table = $('#Pagos').DataTable();
                         var num = table.rows().count();
-                        $('#modal-num').val(num); 
- 
+                        $('#modal-num').val(num);
+
                         pageTotal = data["totalPago"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                         $('#modal-pag').val('$ ' + pageTotal);
                     }
@@ -568,44 +684,66 @@ endforeach;
             }
 
             function filtrar() {
+                var table = $('#<?= $Controller; ?>').DataTable();
+                table.clear().draw();
                 var pag_usu = $('#dropUsuario').val();
+                var pag_est = $('#dropEstados').val();
                 var pag_fec1 = $('#FechaIni').val();
                 var pag_fec2 = $('#FechaFin').val();
 
-                $('#<?=$Controller;?>').DataTable({
+                $('#<?= $Controller; ?>').DataTable({
                     bDestroy: true,
                     responsive: true,
                     scrollX: true,
-                    bSort: false,
-                    columns: [
-                        {data: "pedido"},
-                        {data: "direccion"},
-                        {data: "numCuota"},
-                        {data: "saldo"},
-                        {data: "cuota"},
-                        {data: "fecha"},
-                        {data: "estado"},
-                        {data: "btn"}
+                    bSort: true,
+                    columns: [{
+                            data: "pedido"
+                        },
+                        {
+                            data: "direccion"
+                        },
+                        {
+                            data: "numCuota"
+                        },
+                        {
+                            data: "saldo"
+                        },
+                        {
+                            data: "cuota"
+                        },
+                        {
+                            data: "fecha"
+                        },
+                        {
+                            data: "estado"
+                        },
+                        {
+                            data: "btn"
+                        }
                     ],
                     ajax: {
                         method: 'post',
-                        url: "<?=base_url();?>Pagos/FiltroProg/",
+                        url: "<?= base_url(); ?>Pagos/FiltroProg/",
                         data: {
-                            pag_usu: pag_usu, pag_fec1: pag_fec1, pag_fec2: pag_fec2
+                            pag_usu: pag_usu,
+                            pag_est: pag_est,
+                            pag_fec1: pag_fec1,
+                            pag_fec2: pag_fec2
                         }
                     },
                     language: {
-                        url: "<?=base_url('Public/assets/');?>/lib/Datetables.js/Spanish.json"
+                        url: "<?= base_url('Public/assets/'); ?>/lib/Datetables.js/Spanish.json"
                     },
-                    initComplete: function (row, data, start, end, display) {
+                    initComplete: function(row, data, start, end, display) {
                         var table = $('#Pagos').DataTable();
                         var num = table.rows().count();
-                        $('#modal-num').val(num); 
- 
+                        $('#modal-num').val(num);
+
                         pageTotal = data["totalPago"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                         $('#modal-pag').val('$ ' + pageTotal);
                     }
                 });
+                $('#panel-result').removeClass("hidden");
             }
 
             function dataModalSolo(num, pageTotal, cliente, pedido) {
@@ -640,9 +778,9 @@ endforeach;
                 var codigo = $('#modal-codigo-confirmar').val();
                 var pedido = $('#modal-pedido-confirmar').val();
                 var cliente = $('#modal-cliente-confirmar').val();
-//                var nombre = $('#modal-nombre-confirmar').val();
+                //                var nombre = $('#modal-nombre-confirmar').val();
                 var pago = $('#modal-Pago-confirmar').val();
-//                var saldo = $('#modal-Saldo-confirmar').val();
+                //                var saldo = $('#modal-Saldo-confirmar').val();
                 var valor = $('#modal-Valor-confirmar').val();
                 var cobrador = $('#Cobrador-confirmar').val();
                 var FechaPago = $('#FechaPago-confirmar').val();
@@ -652,41 +790,41 @@ endforeach;
 
                 if (observaciones.toString().length <= 0) {
                     $('#message-confirmar').html(
-                            '<div class="alert alert-danger alert-dismissable fade in" >\n\
+                        '<div class="alert alert-danger alert-dismissable fade in" >\n\
                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                     <strong>Error</strong><br />Debe Indicar alguna indicación\n\
                                 </div>');
                 } else {
                     if (cobrador.toString().length <= 0) {
                         $('#message-confirmar').html(
-                                '<div class="alert alert-danger alert-dismissable fade in" >\n\
+                            '<div class="alert alert-danger alert-dismissable fade in" >\n\
                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                     <strong>Error</strong><br />Debe Indicar que Cobrador recogió el pago\n\
                                 </div>');
                     } else {
                         if (FechaPago.toString().length <= 0) {
                             $('#message-confirmar').html(
-                                    '<div class="alert alert-danger alert-dismissable fade in" >\n\
+                                '<div class="alert alert-danger alert-dismissable fade in" >\n\
                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                         <strong>Error</strong><br />Debe Indicar cuando se recogió el pago\n\
                                     </div>');
                         } else {
                             if (FechaPagoProximo.toString().length <= 0) {
                                 $('#message-confirmar').html(
-                                        '<div class="alert alert-danger alert-dismissable fade in" >\n\
+                                    '<div class="alert alert-danger alert-dismissable fade in" >\n\
                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                             <strong>Error</strong><br />Debe Indicar la próxima fecha de pago\n\
                                         </div>');
                             } else {
                                 if (cobrador.toString().length <= 0) {
-                                $('#message-confirmar').html(
+                                    $('#message-confirmar').html(
                                         '<div class="alert alert-danger alert-dismissable fade in" >\n\
                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                             <strong>Error</strong><br />Debe Indicar que Cobrador recogió el pago\n\
                                         </div>');
                                 } else {
                                     $('#message-confirmar').html("");
-                                    var method = "<?=base_url();?>Pagos/ConfirmarDia/";
+                                    var method = "<?= base_url(); ?>Pagos/ConfirmarDia/";
                                     $("body").css({
                                         'cursor': 'wait'
                                     })
@@ -694,19 +832,28 @@ endforeach;
                                         type: 'post',
                                         url: method,
                                         data: {
-                                            codigo: codigo, pedido: pedido, cliente: cliente, pago: pago, FechaPago: FechaPago, FechaPagoProximo: FechaPagoProximo, valor: valor, cobrador: cobrador, ObservacionesAnt: ObservacionesAnt, observaciones: observaciones
+                                            codigo: codigo,
+                                            pedido: pedido,
+                                            cliente: cliente,
+                                            pago: pago,
+                                            FechaPago: FechaPago,
+                                            FechaPagoProximo: FechaPagoProximo,
+                                            valor: valor,
+                                            cobrador: cobrador,
+                                            ObservacionesAnt: ObservacionesAnt,
+                                            observaciones: observaciones
                                         },
                                         cache: false,
-                                        beforeSend: function () {
+                                        beforeSend: function() {
                                             $('#message-confirmar').html("");
                                             $('#btn-modal-confirmar').html('<i class="fa fa-check"></i> Confirmando...');
                                         },
-                                        success: function (data) {
+                                        success: function(data) {
                                             $('#btn-modal-confirmar').html('<i class="fa fa-check"></i> Confirmar Pago');
                                             console.log(data);
                                             if (data == 1 || data == 123) {
                                                 $('#message-confirmar').html(
-                                                        '<div class="alert alert-success alert-dismissable fade in">\n\
+                                                    '<div class="alert alert-success alert-dismissable fade in">\n\
                                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                                             <strong>Se confirmó el pago de <b>' + pago + '</b></strong>\n\
                                                         </div>');
@@ -715,7 +862,7 @@ endforeach;
                                                 $('#btn-FiltrarPagos').click();
                                             } else {
                                                 $('#message-confirmar').html(
-                                                        '<div class="alert alert-danger alert-dismissable fade in">\n\
+                                                    '<div class="alert alert-danger alert-dismissable fade in">\n\
                                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                                             <strong>Error</strong><br />' + data + '\n\
                                                         </div>');
@@ -763,13 +910,13 @@ endforeach;
 
                 if (observaciones.toString().length <= 0) {
                     $('#message-confirmar').html(
-                            '<div class="alert alert-danger alert-dismissable fade in" >\n\
+                        '<div class="alert alert-danger alert-dismissable fade in" >\n\
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                 <strong>Error</strong><br />Debe Indicar alguna indicación\n\
                             </div>');
                 } else {
                     $('#message-descartar').html("");
-                    var method = "<?=base_url();?>Pagos/DescartarDia/";
+                    var method = "<?= base_url(); ?>Pagos/DescartarDia/";
                     $("body").css({
                         'cursor': 'wait'
                     })
@@ -777,18 +924,25 @@ endforeach;
                         type: 'post',
                         url: method,
                         data: {
-                            codigo: codigo, pedido: pedido, cliente: cliente, pago: pago, saldo: saldo, volverLlamar: volverLlamar, ObservacionesAnt: observacionesAnt, observaciones: observaciones
+                            codigo: codigo,
+                            pedido: pedido,
+                            cliente: cliente,
+                            pago: pago,
+                            saldo: saldo,
+                            volverLlamar: volverLlamar,
+                            ObservacionesAnt: observacionesAnt,
+                            observaciones: observaciones
                         },
                         cache: false,
-                        beforeSend: function () {
+                        beforeSend: function() {
                             $('#message-descartar').html("");
                             $('#btn-modal-descartar').html('<i class="fa fa-close"></i> Descartar...');
                         },
-                        success: function (data) {
+                        success: function(data) {
                             $('#btn-modal-descartar').html('<i class="fa fa-close"></i> Descartar Pago');
                             if (data == 1) {
                                 $('#message-descartar').html(
-                                        '<div class="alert alert-success alert-dismissable fade in">\n\
+                                    '<div class="alert alert-success alert-dismissable fade in">\n\
                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                             <strong>Se Descartó el pago de <b>' + pago + '</b></strong>\n\
                                         </div>');
@@ -797,7 +951,7 @@ endforeach;
                                 $('#btn-FiltrarPagos').click();
                             } else {
                                 $('#message-descartar').html(
-                                        '<div class="alert alert-danger alert-dismissable fade in">\n\
+                                    '<div class="alert alert-danger alert-dismissable fade in">\n\
                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                             <strong>Error</strong><br />' + data + '\n\
                                         </div>');
@@ -814,20 +968,26 @@ endforeach;
             }
 
             function imprimirRecibos() {
-                var margen = prompt("¿Quiere subir o bajar la impresión?\n0: Normal\n1: Arriba 1 punto\n2: Arriba 2 puntos\n3: Abajo 1 punto\n4: Abajo 2 puntos");
+                var margen = prompt(
+                    "¿Quiere subir o bajar la impresión?\n0: Normal\n1: Arriba 1 punto\n2: Arriba 2 puntos\n3: Abajo 1 punto\n4: Abajo 2 puntos"
+                );
                 var pag_usu = $('#dropUsuario').val();
+                var pag_est = $('#dropEstados').val();
                 var pag_fec1 = $('#FechaIni').val();
                 var pag_fec2 = $('#FechaFin').val();
 
                 if (pag_usu == "") {
                     pag_usu = "*";
                 }
+                if (pag_est == "") {
+                    pag_est = "*";
+                }
                 if (margen.toString().length <= 0) {
                     margen = 0;
                 }
 
                 $('#message').html("");
-                var method = "<?=base_url();?>Pagos/ImprimirRecibosPP/";
+                var method = "<?= base_url(); ?>Pagos/ImprimirRecibosPP/";
                 $("body").css({
                     'cursor': 'wait'
                 })
@@ -835,17 +995,20 @@ endforeach;
                     type: 'post',
                     url: method,
                     data: {
-                        pag_usu: pag_usu, pag_fec1: pag_fec1, pag_fec2: pag_fec2
+                        pag_usu: pag_usu,
+                        pag_est: pag_est,
+                        pag_fec1: pag_fec1,
+                        pag_fec2: pag_fec2
                     },
                     cache: false,
-                    beforeSend: function () {
+                    beforeSend: function() {
                         $('#message').html("");
                         $('#btn-imprimirPagos').html('<i class="fa fa-print"></i> Imprimiendo...');
                     },
-                    success: function (data) {
+                    success: function(data) {
                         $('#btn-imprimirPagos').html('<i class="fa fa-print"></i> Imprimir Recibos');
                         if (data == 1) {
-                            window.open('<?=base_url();?>Pagos/ImprimirRecibos/' + margen, '_blank');
+                            window.open('<?= base_url(); ?>Pagos/ImprimirRecibos/' + margen, '_blank');
                         }
                     }
 
@@ -857,7 +1020,7 @@ endforeach;
                 return false;
             }
 
-            function imprimirReciboSolo() { 
+            function imprimirReciboSolo() {
                 $('#message').html("");
                 $('#btn-modalSolo').removeClass('disabled');
                 var method = "<?= base_url(); ?>Pagos/PermisosImprimirRecibos/";
@@ -868,13 +1031,12 @@ endforeach;
                 $.ajax({
                     type: 'post',
                     url: method,
-                    data: { 
-                    },
+                    data: {},
                     cache: false,
-                    beforeSend: function () {
-                        $('#message').html(""); 
+                    beforeSend: function() {
+                        $('#message').html("");
                     },
-                    success: function (data) {
+                    success: function(data) {
                         console.log(data);
                         if (data != 1) {
                             $('#message').html(
@@ -882,37 +1044,38 @@ endforeach;
                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                     <strong>No tiene permisos para imprimir recibos</strong><br />\n\
                                 </div>');
-                            
+
                             $('#ModalPrintSolo').modal('hide');
                             $('#btn-modalSolo').addClass('disabled');
                             $("body").css({
                                 'cursor': 'Default'
                             });
-                            
+
                             return false;
                         } else {
                             $('#btn-modalSolo').removeClass('disabled');
                             $("body").css({
                                 'cursor': 'Default'
                             });
-                            
+
                             var cliente = $('#modal-ClienteSolo').val();
                             var pedido = $('#modal-PedidoSolo').val();
-                            var margen = prompt("¿Quiere subir o bajar la impresión?\n0: Normal\n1: Arriba 1 punto\n2: Arriba 2 puntos\n3: Abajo 1 punto\n4: Abajo 2 puntos");
+                            var margen = prompt(
+                                "¿Quiere subir o bajar la impresión?\n0: Normal\n1: Arriba 1 punto\n2: Arriba 2 puntos\n3: Abajo 1 punto\n4: Abajo 2 puntos"
+                            );
 
                             $('#message').html("");
                             $("body").css({
                                 'cursor': 'wait'
                             })
-                            window.open('<?= base_url(); ?>Pagos/ImprimirReciboSolo/' + pedido + '/' + cliente + '/' +  margen, '_blank');
+                            window.open('<?= base_url(); ?>Pagos/ImprimirReciboSolo/' + pedido + '/' + cliente + '/' + margen,
+                                '_blank');
 
                             $("body").css({
                                 'cursor': 'Default'
-                            }) 
+                            })
                         }
-                    } 
-                });    
+                    }
+                });
             }
-
-
         </script>

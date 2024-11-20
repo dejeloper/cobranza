@@ -27,7 +27,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				</a>
 
 				<ul class="dropdown-menu">
-					<li style="border-bottom:1px solid;">
+					<li style="border-bottom:0px solid;">
 						<div style="border:none;width:100px;height:100px;text-align:center;margin:0px auto 5px;">
 							<?php
 							$subdominio = $this->config->item('subdominio');
@@ -43,7 +43,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							<img src="<?= $foto; ?>" style="width:100%;height:100%;" alt="" />
 						</div>
 					</li>
-					<li><a href="<?= base_url('Mantenimiento/Usuarios/Ver/' . $this->session->userdata('Codigo') . '/'); ?>">Mi
+					<li class="divider"></li>
+					<li style="display: none;"><a
+							href="<?= base_url('Mantenimiento/Usuarios/Ver/' . $this->session->userdata('Codigo') . '/'); ?>">Mi
 							Cuenta</a></li>
 					<li><a
 							href="<?= base_url('Mantenimiento/Usuarios/CambiarPass/' . $this->session->userdata('Codigo') . '/'); ?>">Cambio
