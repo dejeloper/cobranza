@@ -1,26 +1,30 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Vendedores extends CI_Controller {
+class Vendedores extends CI_Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->viewControl = 'Vendedores';
         $this->load->model('Vendedores_model');
         $this->load->model('Estados_model');
         if (!$this->session->userdata('Login')) {
-            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI] );
+            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
             $url = str_replace("/", "|", $_SERVER["REQUEST_URI"]);
             redirect(site_url("Login/index/" . substr($url, 1)));
         }
     }
 
-    public function index() {
+    public function index()
+    {
         //redirect(site_url($this->viewControl . "/Admin/"));
     }
-    
-    public function obtenerVendedoresCod() {
+
+    public function obtenerVendedoresCod()
+    {
         $codVen = $this->input->post("codigo");
 
         $Vendedor = $this->Vendedores_model->obtenerEvento($codVen);
@@ -31,7 +35,4 @@ class Vendedores extends CI_Controller {
             echo json_encode($Vendedor);
         }
     }
-
 }
-
-?>

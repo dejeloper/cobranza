@@ -16,7 +16,7 @@ class Devoluciones extends CI_Controller
         $this->load->model('Estados_model');
         $this->load->model('Cobradores_model');
         if (!$this->session->userdata('Login')) {
-            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://" . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI]);
+            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
             $url = str_replace("/", "|", $_SERVER["REQUEST_URI"]);
             redirect(site_url("Login/index/" . substr($url, 1)));
         }
@@ -289,19 +289,19 @@ class Devoluciones extends CI_Controller
         }
     }
 
-    public function Contador()
-    {
-        $f1 = date("Y-m-d 00:00:00");
-        $f2 = date("Y-m-d 23:59:59");
+    // public function Contador()
+    // {
+    //     $f1 = date("Y-m-d 00:00:00");
+    //     $f2 = date("Y-m-d 23:59:59");
 
-        $Pagos = $this->ConteoPagos($f1, $f2);
-        $data = new stdClass();
-        $data->Controller = "Devoluciones";
-        $data->title = "Conteo de Devoluciones";
-        $data->subtitle = "Listado de Devoluciones";
-        $data->contenido = $this->viewControl . '/Contador';
-        $data->Pagos = $Pagos;
+    //     $Pagos = $this->ConteoPagos($f1, $f2);
+    //     $data = new stdClass();
+    //     $data->Controller = "Devoluciones";
+    //     $data->title = "Conteo de Devoluciones";
+    //     $data->subtitle = "Listado de Devoluciones";
+    //     $data->contenido = $this->viewControl . '/Contador';
+    //     $data->Pagos = $Pagos;
 
-        $this->load->view('frontend', $data);
-    }
+    //     $this->load->view('frontend', $data);
+    // }
 }

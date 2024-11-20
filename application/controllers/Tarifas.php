@@ -1,26 +1,30 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Tarifas extends CI_Controller {
+class Tarifas extends CI_Controller
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->viewControl = 'Tarifas';
         $this->load->model('Tarifas_model');
         $this->load->model('Estados_model');
         if (!$this->session->userdata('Login')) {
-            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI] );
+            $this->session->set_flashdata("error", "Debe iniciar sesión antes de continuar. Después irá a: http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
             $url = str_replace("/", "|", $_SERVER["REQUEST_URI"]);
             redirect(site_url("Login/index/" . substr($url, 1)));
         }
     }
 
-    public function index() {
+    public function index()
+    {
         redirect(site_url($this->viewControl . "/Admin/"));
     }
 
-     public function Admin() {
+    public function Admin()
+    {
         $dataTarifas = $this->Tarifas_model->obtenerTarifasProductos();
         //var_dump($dataTarifas);
         if (isset($dataTarifas) && $dataTarifas == false) {
@@ -36,8 +40,9 @@ class Tarifas extends CI_Controller {
 
         $this->load->view('frontend', $data);
     }
-    
-    public function obtenerTarifaCod() {
+
+    public function obtenerTarifaCod()
+    {
         $codTar = $this->input->post("codigo");
 
         $Tarifa = $this->Tarifas_model->obtenerTarifa($codTar);
@@ -49,7 +54,8 @@ class Tarifas extends CI_Controller {
         }
     }
 
-    public function obtenerTarifaProductoJson() {
+    public function obtenerTarifaProductoJson()
+    {
         $codigo = $this->input->post("codigo");
         $Tarifa = $this->Tarifas_model->obtenerTarifaPorProducto($codigo);
         if (!isset($Tarifa) || $Tarifa == false) {
@@ -58,7 +64,4 @@ class Tarifas extends CI_Controller {
             echo json_encode($Tarifa);
         }
     }
-
 }
-
-?>
