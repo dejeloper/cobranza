@@ -332,11 +332,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                             readonly style="background-color:#ffffff;">
                                     </div>
                                 </div>
-                                <div class="col-md-6 hidden">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Volver a llamar:</label>
                                         <input type="text" id="Fecha-volverLlamar-descartar" name="Fecha-volverLlamar-descartar"
-                                            class="form-control datepicker8">
+                                            class="form-control datepickerTomorrow">
                                     </div>
                                 </div>
                             </div>
@@ -499,6 +499,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         url: "<?= base_url('Public/assets/'); ?>/lib/Datetables.js/Spanish.json"
                     }
                 });
+                $('#Fecha-volverLlamar-descartar').val("");
+                $('#Observaciones-descartar').val("");
                 $('#message').html("");
                 $('#message-confirmar').html("");
                 var todayDate = new Date();
@@ -507,6 +509,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 MaxDate.setDate(MaxDate.getDate() + 45);
                 var MinDate = new Date();
                 MinDate.setDate(MinDate.getDate() - 45);
+                var tomorrowDate = new Date();
+                tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+                var ReCallDate = new Date();
+                ReCallDate.setDate(ReCallDate.getDate() + 15);
 
                 $('.datepicker1').datetimepicker({
                     format: 'DD/MM/YYYY',
@@ -528,6 +534,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     locale: 'es',
                     minDate: MinDate,
                     maxDate: MaxDate
+                });
+
+                $('.datepickerTomorrow').datetimepicker({
+                    format: 'DD/MM/YYYY',
+                    locale: 'es',
+                    minDate: tomorrowDate,
+                    maxDate: ReCallDate
                 });
 
                 $('#form-FiltrarPagos').submit(function(e) {
@@ -568,6 +581,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 $('#btn-modal-descartar').click(function(e) {
                     e.preventDefault();
                     descartarPago();
+                });
+
+                $('#Fecha-volverLlamar-descartar').on('blur', function() {
+                    getObserDescarte();
+                });
+
+                $('#Observaciones-descartar').on('click', function() {
+                    getObserDescarte();
                 });
 
                 $('#modal-Pago-confirmar').focusout(function() {
@@ -964,6 +985,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     })
 
                     return false;
+                }
+            }
+
+            function getObserDescarte() {
+                var fechaVolverLlamarDescartar = $('#Fecha-volverLlamar-descartar').val();
+                if (fechaVolverLlamarDescartar != "") {
+                    var ob = "Cliente no pagó como se acordó. Se cambia fecha para volver a llamar para el día: " +
+                        fechaVolverLlamarDescartar;
+                    $('#Observaciones-descartar').val(ob);
+                } else {
+                    var ob = "Cliente no pagó como se acordó y no asigno una fecha para volver a llamar.";
+                    $('#Observaciones-descartar').val(ob);
                 }
             }
 

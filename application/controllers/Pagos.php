@@ -1072,36 +1072,22 @@ class Pagos extends CI_Controller
                     $this->inhabilitarLlamadas($pag_cli, $pag_ped, $fecha, $user);
 
                     if ($pag_fechaRellam != "") {
-                        //Programar Llamada para otro día //
-                        $observaciones = "Se descarta el Recibo de Pago.\n---\n" . $pag_obs . "\n\n"
-                            . "Se asigna otro día para Llamar al Cliente nuevamente.\n"
-                            . "Nuevo día: " . $pag_fechaRellam . ".\n \nObservación Automática";
-                        $fechaGestion = date("Y-m-d", strtotime($fecha));
-                        $gestion = array(
-                            "Pedido" => $pag_ped,
-                            "Cliente" => $pag_cli,
-                            "Fecha" => $fechaGestion,
-                            "Motivo" => 104, //Llamar otro día (black)
-                            "Habilitado" => 1,
-                            "FechaProgramada" => date("Y-m-d H:i:s", strtotime($Fecha_Rellam)),
-                            "Observaciones" => $observaciones,
-                            "UsuarioCreacion" => $user,
-                            "FechaCreacion" => $fecha
-                        );
+                        // Cambio de Fecha de Cobro del cliente 
+                        $user = $this->session->userdata('Usuario');
+                        $fecha = date("Y-m-d H:i:s");
 
-                        if ($this->Cobradores_model->saveLlamada($gestion)) {
-                            $dataGestion = $this->Cobradores_model->obtenerLlamadasPedidoFecha($pag_ped, $pag_cli, $fechaGestion);
-                            if ($dataGestion) {
-                                $gestion["Codigo"] = $dataGestion[0]['Codigo'];
-                                $gestion['Observaciones'] = "Gestión de Llamada: Recibo de Pago\n---\n" . $observaciones;
-                                $modulo = "Gestión Cliente";
-                                $tabla = "Llamada";
-                                $accion = "Llamada a Cliente";
-                                $llave = $dataGestion[0]['Cliente'];
-                                $sql = LogSave($gestion, $modulo, $tabla, $accion, $llave);
-                            }
+                        $dataP = array(
+                            "DiaCobro" => date("Y-m-d H:i:s", strtotime($Fecha_Rellam)),
+                            "UsuarioModificacion" => $user,
+                            "FechaModificacion" => $fecha
+                        );
+                        if (!$this->Pedidos_model->update($pag_cli, $dataP)) {
+                            echo "No se pudo Actualizar la Fecha de Pago. Actualice la página y vuelva a intentarlo.";
                         }
                     }
+
+                    // Agregar Gestion de llamadas 
+                    $this->AddGestionCallDescarte($pag_ped, $pag_cli, $pag_obs);
                 }
                 echo 1;
             } else {
@@ -1109,6 +1095,37 @@ class Pagos extends CI_Controller
             }
         } catch (Exception $e) {
             echo 'Ha habido una excepción: ' . $e->getMessage() . "<br>";
+        }
+    }
+
+    public function AddGestionCallDescarte($pedido, $cliente, $observaciones)
+    {
+        //Datos Auditoría
+        $user = $this->session->userdata('Usuario');
+        $fecha = date("Y-m-d H:i:s");
+
+        $gestion = array(
+            "Pedido" => $pedido,
+            "Cliente" => $cliente,
+            "Fecha" => $fecha,
+            "Motivo" => 102,
+            "Habilitado" => 1,
+            "Observaciones" => $observaciones,
+            "UsuarioCreacion" => $user,
+            "FechaCreacion" => $fecha
+        );
+
+        if ($this->Cobradores_model->saveLlamada($gestion)) {
+            $dataGestion = $this->Cobradores_model->obtenerLlamadasPedidoFecha($pedido, $cliente, $fecha);
+            if ($dataGestion) {
+                $gestion["Codigo"] = $dataGestion[0]['Codigo'];
+                $gestion['Observaciones'] = "Gestión de Llamada: Descartar recibo de Pago\n---\n" . $observaciones;
+                $modulo = "Gestión Cliente";
+                $tabla = "Llamada";
+                $accion = "Llamada a Cliente";
+                $llave = $dataGestion[0]['Cliente'];
+                $sql = LogSave($gestion, $modulo, $tabla, $accion, $llave);
+            }
         }
     }
 
