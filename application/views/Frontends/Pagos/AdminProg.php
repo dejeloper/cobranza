@@ -512,7 +512,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 var tomorrowDate = new Date();
                 tomorrowDate.setDate(tomorrowDate.getDate() + 1);
                 var ReCallDate = new Date();
-                ReCallDate.setDate(ReCallDate.getDate() + 15);
+                ReCallDate.setDate(ReCallDate.getDate() + 30);
 
                 $('.datepicker1').datetimepicker({
                     format: 'DD/MM/YYYY',

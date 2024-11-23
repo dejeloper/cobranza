@@ -49,8 +49,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <th>Nombre</th>
                             <th>Cuota</th>
                             <th>Saldo</th>
-                            <th>Último Pago</th>
                             <th>Próximo Pago</th>
+                            <th>Evento</th>
                             <th>Factura</th>
                             <th>Gestión</th>
                             <th>Opciones</th>
@@ -268,10 +268,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             data: "saldo"
                         },
                         {
-                            data: "UltimoPago"
+                            data: "DiaCobro"
                         },
                         {
-                            data: "DiaCobro"
+                            data: "Evento"
                         },
                         {
                             data: "Ubicacion"

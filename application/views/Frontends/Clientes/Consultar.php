@@ -29,27 +29,36 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <div class="tab-pane active in" id="datos">
                         <div class="form-group hidden">
                             <label>Pedido</label>
-                            <input type="text" readonly style="background-color: #fff;" placeholder="Pedido" value="<?= $pedido; ?>" class="form-control" id="pedido" name="pedido">
+                            <input type="text" readonly style="background-color: #fff;" placeholder="Pedido" value="<?= $pedido; ?>"
+                                class="form-control" id="pedido" name="pedido">
                         </div>
                         <form id="form-id">
                             <div class="form-group">
                                 <label>Código Cliente</label>
-                                <input type="text" readonly style="background-color: #fff;" placeholder="Codigo Cliente" value="<?= $Listadatos[0]["Codigo"]; ?>" class="form-control" id="Codigo" name="Codigo">
+                                <input type="text" readonly style="background-color: #fff;" placeholder="Codigo Cliente"
+                                    value="<?= $Listadatos[0]["Codigo"]; ?>" class="form-control" id="Codigo" name="Codigo">
                             </div>
                             <div class="form-group">
                                 <label>Nombre</label>
-                                <input type="text" <?php if (!$accion) echo "readonly"; ?> minlength="5" maxlength="50" style="background-color: #fff;" placeholder="Nombre" value="<?= $Listadatos[0]["Nombre"]; ?>" class="form-control" id="Nombre" name="Nombre">
+                                <input type="text" <?php if (!$accion) echo "readonly"; ?> minlength="5" maxlength="50"
+                                    style="background-color: #fff;" placeholder="Nombre" value="<?= $Listadatos[0]["Nombre"]; ?>"
+                                    class="form-control" id="Nombre" name="Nombre">
                             </div>
                             <div class="form-group">
                                 <label>Tipo de Documento</label>
-                                <input type="text" readonly style="background-color: #fff;" placeholder="Tipo Documento" value="<?= $Lista1[0]['Nombre']; ?>" class="form-control required" id="TipoDocumento" name="TipoDocumento">
+                                <input type="text" readonly style="background-color: #fff;" placeholder="Tipo Documento"
+                                    value="<?= $Lista1[0]['Nombre']; ?>" class="form-control required" id="TipoDocumento"
+                                    name="TipoDocumento">
                             </div>
                             <div class="form-group">
                                 <label>Documento</label>
-                                <input type="number" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" placeholder="Documento" value="<?= $Listadatos[0]["Documento"]; ?>" class="form-control number" id="Documento" name="Documento">
+                                <input type="number" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                    placeholder="Documento" value="<?= $Listadatos[0]["Documento"]; ?>" class="form-control number"
+                                    id="Documento" name="Documento">
                             </div>
                             <div class="form-group pull-right <?php if (!$accion) echo "hidden"; ?> ">
-                                <button type="submit" id="btn-id" name="btn-id" class="btn btn-primary"><i class="fa fa-save"></i> Actualizar Datos</button>
+                                <button type="submit" id="btn-id" name="btn-id" class="btn btn-primary"><i class="fa fa-save"></i>
+                                    Actualizar Datos</button>
                             </div>
                         </form>
                     </div>
@@ -61,25 +70,33 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <form id="form-ubicacion">
                             <div class="form-group">
                                 <label>Dirección *</label>
-                                <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" placeholder="Direccion" value="<?= $Listadatos[0]["Dir"]; ?>" minlength="8" maxlength="150" class="form-control required" id="Direccion" name="Direccion">
+                                <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                    placeholder="Direccion" value="<?= $Listadatos[0]["Dir"]; ?>" minlength="8" maxlength="150"
+                                    class="form-control required" id="Direccion" name="Direccion">
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Etapa</label>
-                                        <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" placeholder="Etapa" value="<?= $Listadatos[0]["Etapa"]; ?>" class="form-control" maxlength="10" id="Etapa" name="Etapa">
+                                        <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                            placeholder="Etapa" value="<?= $Listadatos[0]["Etapa"]; ?>" class="form-control" maxlength="10"
+                                            id="Etapa" name="Etapa">
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Torre</label>
-                                        <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" placeholder="Torre" value="<?= $Listadatos[0]["Torre"]; ?>" class="form-control" maxlength="10" id="Torre" name="Torre">
+                                        <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                            placeholder="Torre" value="<?= $Listadatos[0]["Torre"]; ?>" class="form-control" maxlength="10"
+                                            id="Torre" name="Torre">
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Apartamento</label>
-                                        <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" placeholder="Apartamento" value="<?= $Listadatos[0]["Apartamento"]; ?>" class="form-control" maxlength="10" id="Apartamento" name="Apartamento">
+                                        <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                            placeholder="Apartamento" value="<?= $Listadatos[0]["Apartamento"]; ?>" class="form-control"
+                                            maxlength="10" id="Apartamento" name="Apartamento">
                                     </div>
                                 </div>
                             </div>
@@ -87,19 +104,25 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Manzana</label>
-                                        <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" placeholder="Manzana" value="<?= $Listadatos[0]["Manzana"]; ?>" class="form-control" id="Manzana" maxlength="10" name="Manzana">
+                                        <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                            placeholder="Manzana" value="<?= $Listadatos[0]["Manzana"]; ?>" class="form-control" id="Manzana"
+                                            maxlength="10" name="Manzana">
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Interior</label>
-                                        <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" placeholder="Interior" value="<?= $Listadatos[0]["Interior"]; ?>" class="form-control" maxlength="10" id="Interior" name="Interior">
+                                        <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                            placeholder="Interior" value="<?= $Listadatos[0]["Interior"]; ?>" class="form-control"
+                                            maxlength="10" id="Interior" name="Interior">
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Casa</label>
-                                        <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" placeholder="Casa" value="<?= $Listadatos[0]["Casa"]; ?>" class="form-control" maxlength="10" id="Casa" name="Casa">
+                                        <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                            placeholder="Casa" value="<?= $Listadatos[0]["Casa"]; ?>" class="form-control" maxlength="10"
+                                            id="Casa" name="Casa">
                                     </div>
                                 </div>
                             </div>
@@ -107,13 +130,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Barrio *</label>
-                                        <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" placeholder="Barrio" value="<?= $Listadatos[0]["Barrio"]; ?>" class="form-control required" maxlength="30" id="Barrio" name="Barrio">
+                                        <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                            placeholder="Barrio" value="<?= $Listadatos[0]["Barrio"]; ?>" class="form-control required"
+                                            maxlength="30" id="Barrio" name="Barrio">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Tipo de Vivienda *</label>
-                                        <select name="TipoVivienda" <?php if (!$accion) echo "disabled = 'true'"; ?> style="background-color: #fff;" id="TipoVivienda" class="form-control required">
+                                        <select name="TipoVivienda" <?php if (!$accion) echo "disabled = 'true'"; ?>
+                                            style="background-color: #fff;" id="TipoVivienda" class="form-control required">
                                             <?php
                                             foreach ($Lista2 as $item) {
                                                 if ($item['Codigo'] == $Listadatos[0]["TipoVivienda"]) {
@@ -127,7 +153,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <div class="form-group pull-right <?php if (!$accion) echo "hidden"; ?> ">
-                                    <button type="submit" id="btn-ubicacion" name="btn-ubicacion" class="btn btn-primary"><i class="fa fa-save"></i> Actualizar Dirección</button>
+                                    <button type="submit" id="btn-ubicacion" name="btn-ubicacion" class="btn btn-primary"><i
+                                            class="fa fa-save"></i> Actualizar Dirección</button>
                                 </div>
                             </div>
                         </form>
@@ -138,18 +165,25 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <form id="form-telefonos">
                             <div class="form-group">
                                 <label>Teléfono 1 *</label>
-                                <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" placeholder="Teléfono 1" value="<?= $Listadatos[0]["Telefono1"]; ?>" class="form-control required number" minlength="7" maxlength="10" id="Telefono1" name="Telefono1">
+                                <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                    placeholder="Teléfono 1" value="<?= $Listadatos[0]["Telefono1"]; ?>"
+                                    class="form-control required number" minlength="7" maxlength="10" id="Telefono1" name="Telefono1">
                             </div>
                             <div class="form-group">
                                 <label>Teléfono 2</label>
-                                <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" placeholder="Teléfono 2" value="<?= $Listadatos[0]["Telefono2"]; ?>" class="form-control" minlength="7" maxlength="10" id="Telefono2" name="Telefono2">
+                                <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                    placeholder="Teléfono 2" value="<?= $Listadatos[0]["Telefono2"]; ?>" class="form-control"
+                                    minlength="7" maxlength="10" id="Telefono2" name="Telefono2">
                             </div>
                             <div class="form-group">
                                 <label>Teléfono 3</label>
-                                <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" placeholder="Teléfono 3" value="<?= $Listadatos[0]["Telefono3"]; ?>" class="form-control" minlength="7" maxlength="10" id="Telefono3" name="Telefono3">
+                                <input type="text" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                    placeholder="Teléfono 3" value="<?= $Listadatos[0]["Telefono3"]; ?>" class="form-control"
+                                    minlength="7" maxlength="10" id="Telefono3" name="Telefono3">
                             </div>
                             <div class="form-group pull-right <?php if (!$accion) echo "hidden"; ?> ">
-                                <button type="submit" id="btn-telefonos" name="btn-telefonos" class="btn btn-primary"><i class="fa fa-save"></i> Actualizar Teléfonos</button>
+                                <button type="submit" id="btn-telefonos" name="btn-telefonos" class="btn btn-primary"><i
+                                        class="fa fa-save"></i> Actualizar Teléfonos</button>
                             </div>
                         </form>
                     </div>
@@ -165,7 +199,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                     if (isset($Lista4["cod1"])) {
                                                                         echo $Lista4["cod1"];
                                                                     };
-                                                                    ?>" class="form-control" id="CodigoRef1" name="CodigoRef1">
+                                                                    ?>" class="form-control" id="CodigoRef1"
+                                            name="CodigoRef1">
                                     </div>
                                     <div class="form-group">
                                         <label>Nombre Referencia *</label>
@@ -173,7 +208,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                                         if (isset($Lista4["nom1"])) {
                                                                                             echo $Lista4["nom1"];
                                                                                         };
-                                                                                        ?>" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" class="form-control required" minlength="5" maxlength="50" id="NombreRef1" name="NombreRef1">
+                                                                                        ?>"
+                                            <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                            class="form-control required" minlength="5" maxlength="50" id="NombreRef1" name="NombreRef1">
                                     </div>
                                 </div>
                             </div>
@@ -185,7 +222,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                                             if (isset($Lista4["tel1"])) {
                                                                                                 echo $Lista4["tel1"];
                                                                                             };
-                                                                                            ?>" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" class="form-control required" minlength="7" maxlength="30" id="TelefonoRef1" name="TelefonoRef1">
+                                                                                            ?>"
+                                            <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                            class="form-control required" minlength="7" maxlength="30" id="TelefonoRef1" name="TelefonoRef1">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -195,7 +234,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                                             if (isset($Lista4["par1"])) {
                                                                                                 echo $Lista4["par1"];
                                                                                             };
-                                                                                            ?>" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" class="form-control required" minlength="3" maxlength="50" id="ParentescoRef1" name="ParentescoRef1">
+                                                                                            ?>"
+                                            <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                            class="form-control required" minlength="3" maxlength="50" id="ParentescoRef1"
+                                            name="ParentescoRef1">
                                     </div>
                                 </div>
                             </div>
@@ -207,7 +249,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                     if (isset($Lista4["cod2"])) {
                                                                         echo $Lista4["cod2"];
                                                                     };
-                                                                    ?>" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" class="form-control" id="CodigoRef2" name="CodigoRef2">
+                                                                    ?>" <?php if (!$accion) echo "readonly"; ?>
+                                            style="background-color: #fff;" class="form-control" id="CodigoRef2" name="CodigoRef2">
                                     </div>
                                     <div class="form-group">
                                         <label>Nombre Referencia *</label>
@@ -215,7 +258,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                                         if (isset($Lista4["nom2"])) {
                                                                                             echo $Lista4["nom2"];
                                                                                         };
-                                                                                        ?>" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" class="form-control required" minlength="5" maxlength="50" id="NombreRef2" name="NombreRef2">
+                                                                                        ?>"
+                                            <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                            class="form-control required" minlength="5" maxlength="50" id="NombreRef2" name="NombreRef2">
                                     </div>
                                 </div>
                             </div>
@@ -227,7 +272,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                                             if (isset($Lista4["tel2"])) {
                                                                                                 echo $Lista4["tel2"];
                                                                                             };
-                                                                                            ?>" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" class="form-control required" minlength="7" maxlength="30" id="TelefonoRef2" name="TelefonoRef2">
+                                                                                            ?>"
+                                            <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                            class="form-control required" minlength="7" maxlength="30" id="TelefonoRef2" name="TelefonoRef2">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -237,7 +284,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                                             if (isset($Lista4["par2"])) {
                                                                                                 echo $Lista4["par2"];
                                                                                             };
-                                                                                            ?>" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" class="form-control required" minlength="3" maxlength="10" id="ParentescoRef2" name="ParentescoRef2">
+                                                                                            ?>"
+                                            <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                            class="form-control required" minlength="3" maxlength="10" id="ParentescoRef2"
+                                            name="ParentescoRef2">
                                     </div>
                                 </div>
                             </div>
@@ -249,7 +299,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                     if (isset($Lista4["cod3"])) {
                                                                         echo $Lista4["cod3"];
                                                                     };
-                                                                    ?>" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" class="form-control" id="CodigoRef3" name="CodigoRef3">
+                                                                    ?>" <?php if (!$accion) echo "readonly"; ?>
+                                            style="background-color: #fff;" class="form-control" id="CodigoRef3" name="CodigoRef3">
                                     </div>
                                     <div class="form-group">
                                         <label>Nombre Referencia</label>
@@ -257,7 +308,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                                         if (isset($Lista4["nom3"])) {
                                                                                             echo $Lista4["nom3"];
                                                                                         };
-                                                                                        ?>" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" class="form-control" minlength="5" maxlength="50" id="NombreRef3" name="NombreRef3">
+                                                                                        ?>"
+                                            <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" class="form-control"
+                                            minlength="5" maxlength="50" id="NombreRef3" name="NombreRef3">
                                     </div>
                                 </div>
                             </div>
@@ -269,7 +322,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                                             if (isset($Lista4["tel3"])) {
                                                                                                 echo $Lista4["tel3"];
                                                                                             };
-                                                                                            ?>" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" class="form-control" minlength="7" maxlength="30" id="TelefonoRef3" name="TelefonoRef3">
+                                                                                            ?>"
+                                            <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" class="form-control"
+                                            minlength="7" maxlength="30" id="TelefonoRef3" name="TelefonoRef3">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -279,13 +334,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                                                                             if (isset($Lista4["par3"])) {
                                                                                                 echo $Lista4["par3"];
                                                                                             };
-                                                                                            ?>" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" class="form-control" minlength="3" maxlength="10" id="ParentescoRef3" name="ParentescoRef3">
+                                                                                            ?>"
+                                            <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" class="form-control"
+                                            minlength="3" maxlength="10" id="ParentescoRef3" name="ParentescoRef3">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group pull-right <?php if (!$accion) echo "hidden"; ?> ">
-                                <button type="submit" id="btn-referencias" name="btn-referencias" class="btn btn-primary"><i class="fa fa-save"></i> Actualizar Referencias</button>
+                                <button type="submit" id="btn-referencias" name="btn-referencias" class="btn btn-primary"><i
+                                        class="fa fa-save"></i> Actualizar Referencias</button>
                             </div>
                         </form>
                     </div>
@@ -305,25 +363,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <div class="col-md-4 hidden">
                                 <div class="form-group">
                                     <label>Cantidad</label>
-                                    <input type="number" placeholder="Cantidad" value="<?= $cantidad; ?>" readonly style="background-color: #fff;" class="form-control" id="Cantidad1" name="Cantidad1">
+                                    <input type="number" placeholder="Cantidad" value="<?= $cantidad; ?>" readonly
+                                        style="background-color: #fff;" class="form-control" id="Cantidad1" name="Cantidad1">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Producto</label>
-                                    <input type="text" placeholder="Producto" value="<?= $item["NomPro"]; ?>" readonly style="background-color: #fff;" class="form-control" id="Cantidad1" name="Producto1">
+                                    <input type="text" placeholder="Producto" value="<?= $item["NomPro"]; ?>" readonly
+                                        style="background-color: #fff;" class="form-control" id="Cantidad1" name="Producto1">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Valor Total</label>
-                                    <input type="text" placeholder="Valor Total" value="<?= money_format_cop(intval($item["Valor1"])); ?>" readonly style="background-color: #fff;" class="form-control" id="valorTotal1" name="valorTotal1">
+                                    <input type="text" placeholder="Valor Total" value="<?= money_format_cop(intval($item["Valor"])); ?>"
+                                        readonly style="background-color: #fff;" class="form-control" id="valorTotal1" name="valorTotal1">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Fecha Pedido</label>
-                                    <input type="text" placeholder="Fecha Pedido" value="<?= date("d/m/Y", strtotime($item["FechaPedido"])); ?>" readonly style="background-color: #fff;" class="form-control" id="FechaPedido" name="FechaPedido">
+                                    <input type="text" placeholder="Fecha Pedido"
+                                        value="<?= date("d/m/Y", strtotime($item["FechaPedido"])); ?>" readonly
+                                        style="background-color: #fff;" class="form-control" id="FechaPedido" name="FechaPedido">
                                 </div>
                             </div>
                         </div>
@@ -331,19 +394,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Tarifa</label>
-                                    <input type="text" placeholder="Tarifas" value="<?= $item["NomTarifa"]; ?>" readonly style="background-color: #fff;" class="form-control" id="Tarifa1" name="Tarifa1">
+                                    <input type="text" placeholder="Tarifas" value="<?= $item["NomTarifa"]; ?>" readonly
+                                        style="background-color: #fff;" class="form-control" id="Tarifa1" name="Tarifa1">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Descuento</label>
-                                    <input type="text" placeholder="Valor del Descuento" value="<?= money_format_cop($descuento); ?>" readonly style="background-color: #fff;" class="form-control required" id="valorDescuento" name="valorDescuento">
+                                    <input type="text" placeholder="Valor del Descuento" value="<?= money_format_cop($descuento); ?>"
+                                        readonly style="background-color: #fff;" class="form-control required" id="valorDescuento"
+                                        name="valorDescuento">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Fecha de Pago</label>
-                                    <input type="text" placeholder="Fecha Pago" value="<?= date("d/m/Y", strtotime($item["DiaCobro"])); ?>" readonly style="background-color: #fff;" class="form-control" id="DiaCobro" name="DiaCobro">
+                                    <input type="text" placeholder="Fecha Pago"
+                                        value="<?= date("d/m/Y", strtotime($item["DiaCobro"])); ?>" readonly style="background-color: #fff;"
+                                        class="form-control" id="DiaCobro" name="DiaCobro">
                                 </div>
                             </div>
                         </div>
@@ -351,19 +419,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Número de Cuotas</label>
-                                    <input type="number" placeholder="Cuotas" value="<?= $item["Cuotas"]; ?>" readonly style="background-color: #fff;" class="form-control required" id="numCuotas" name="numCuotas" onchange="tarifaManual(1)">
+                                    <input type="number" placeholder="Cuotas" value="<?= $item["Cuotas"]; ?>" readonly
+                                        style="background-color: #fff;" class="form-control required" id="numCuotas" name="numCuotas"
+                                        onchange="tarifaManual(1)">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Valor de la Cuota</label>
-                                    <input type="text" min="0" placeholder="Valor de la Cuota" value="<?= money_format_cop($ValorCuota); ?>" readonly style="background-color: #fff;" class="form-control required" id="valorCuota" name="valorCuota" onchange="tarifaManual(2)">
+                                    <input type="text" min="0" placeholder="Valor de la Cuota"
+                                        value="<?= money_format_cop($ValorCuota); ?>" readonly style="background-color: #fff;"
+                                        class="form-control required" id="valorCuota" name="valorCuota" onchange="tarifaManual(2)">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Saldo</label>
-                                    <input type="text" placeholder="Saldo" value="<?= money_format_cop($item["Saldo"]); ?>" readonly style="background-color: #fff;" class="form-control" id="Saldo" name="Saldo">
+                                    <input type="text" placeholder="Saldo" value="<?= money_format_cop($item["Saldo"]); ?>" readonly
+                                        style="background-color: #fff;" class="form-control" id="Saldo" name="Saldo">
                                 </div>
                             </div>
                         </div>
@@ -375,7 +448,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group pull-right">
-                                        <a href="<?= base_url("Clientes/Productos/" . $pedido . "/"); ?>" class="btn btn-primary"><i class="fa fa-shopping-basket"></i> Lista de Productos</a>
+                                        <a href="<?= base_url("Clientes/Productos/" . $pedido . "/"); ?>" class="btn btn-primary"><i
+                                                class="fa fa-shopping-basket"></i> Lista de Productos</a>
                                     </div>
                                 </div>
                             </div>
@@ -391,33 +465,39 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Vendedor</label>
-                                        <input type="text" placeholder="Vendedor" value="<?= $Lista5[0]["Nombre"]; ?>" readonly style="background-color: #fff;" class="form-control" name="Vendedor1" id="Vendedor1">
+                                        <input type="text" placeholder="Vendedor" value="<?= $Lista5[0]["Nombre"]; ?>" readonly
+                                            style="background-color: #fff;" class="form-control" name="Vendedor1" id="Vendedor1">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Iglesia de Evento</label>
-                                        <input type="text" placeholder="Iglesia" value="<?= $Lista6[0]["Iglesia"]; ?>" readonly style="background-color: #fff;" class="form-control" name="Iglesia" id="Iglesia">
+                                        <label>Domingo de Evento</label>
+                                        <input type="text" placeholder="Domingo" value="<?= $Lista6[0]["Iglesia"]; ?>" readonly
+                                            style="background-color: #fff;" class="form-control" name="Iglesia" id="Iglesia">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Barrio de Evento</label>
-                                        <input type="text" placeholder="Barrio" value="<?= $Lista6[0]["Barrio"]; ?>" readonly style="background-color: #fff;" class="form-control" name="Barrio" id="Barrio">
+                                        <input type="text" placeholder="Barrio" value="<?= $Lista6[0]["Barrio"]; ?>" readonly
+                                            style="background-color: #fff;" class="form-control" name="Barrio" id="Barrio">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Fecha de Evento</label>
-                                        <input type="text" placeholder="Fecha" value="<?= date("d/m/Y", strtotime($Lista6[0]["Fecha"])); ?>" readonly style="background-color: #fff;" class="form-control" name="Fecha" id="Fecha">
+                                        <input type="text" placeholder="Fecha" value="<?= date("d/m/Y", strtotime($Lista6[0]["Fecha"])); ?>"
+                                            readonly style="background-color: #fff;" class="form-control" name="Fecha" id="Fecha">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Ubicación Física</label>
-                                        <input type="text" placeholder="Ubicación Física" value="<?= $PaginaFisica; ?>" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" class="form-control" name="Pagina" id="Pagina">
+                                        <label>Factura</label>
+                                        <input type="text" placeholder="Factura" value="<?= $PaginaFisica; ?>"
+                                            <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" class="form-control"
+                                            name="Pagina" id="Pagina">
                                     </div>
                                 </div>
                             </div>
@@ -425,13 +505,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Notas/Observaciones</label>
-                                        <textarea rows="6" disabled class="form-control" name="Observaciones" id="Observaciones" style="resize: none;"><?= trim(str_replace("\n", "\n", $Listadatos[0]['Observaciones'])); ?></textarea>
+                                        <textarea rows="6" disabled class="form-control" name="Observaciones" id="Observaciones"
+                                            style="resize: none;"><?= trim(str_replace("\n", "\n", $Listadatos[0]['Observaciones'])); ?></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Nuevas Notas/Observaciones</label>
-                                        <textarea rows="6" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;" class="form-control" name="nuevasObservaciones" id="nuevasObservaciones" style="resize: none;"></textarea>
+                                        <textarea rows="6" <?php if (!$accion) echo "readonly"; ?> style="background-color: #fff;"
+                                            class="form-control" name="nuevasObservaciones" id="nuevasObservaciones"
+                                            style="resize: none;"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -439,19 +522,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Usuario Creación</label>
-                                        <input type="text" disabled placeholder="Usuario Creador" value="<?= $Listadatos[0]['UsuarioCreacion']; ?>" <?php if (!$accion) echo "readonly"; ?> class="form-control" name="UsuarioCreacion" id="UsuarioCreacion">
+                                        <input type="text" disabled placeholder="Usuario Creador"
+                                            value="<?= $Listadatos[0]['UsuarioCreacion']; ?>" <?php if (!$accion) echo "readonly"; ?>
+                                            class="form-control" name="UsuarioCreacion" id="UsuarioCreacion">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Fecha Creación</label>
-                                        <input type="text" disabled placeholder="Fecha Creación" value="<?= $Listadatos[0]['FechaCreacion']; ?>" <?php if (!$accion) echo "readonly"; ?> class="form-control" name="FechaCreacion" id="FechaCreacion">
+                                        <input type="text" disabled placeholder="Fecha Creación"
+                                            value="<?= $Listadatos[0]['FechaCreacion']; ?>" <?php if (!$accion) echo "readonly"; ?>
+                                            class="form-control" name="FechaCreacion" id="FechaCreacion">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group pull-right <?php if (!$accion) echo "hidden"; ?> ">
-                                    <button type="submit" id="btn-observaciones" name="btn-observaciones" class="btn btn-primary"><i class="fa fa-save"></i> Actualizar Observaciones</button>
+                                    <button type="submit" id="btn-observaciones" name="btn-observaciones" class="btn btn-primary"><i
+                                            class="fa fa-save"></i> Actualizar Observaciones</button>
                                 </div>
                             </div>
                         </form>
@@ -558,7 +646,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                             $('#message').html(
                                                 '<div class="alert alert-success alert-dismissable fade in">\n\
                                                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
-                                                            <strong>Se actualizó la información del cliente <b>' + Nombre + '</b></strong>\n\
+                                                            <strong>Se actualizó la información del cliente <b>' +
+                                                Nombre + '</b></strong>\n\
                                                         </div>');
                                             location.reload();
                                         } else {
@@ -653,7 +742,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                             $('#message').html(
                                                 '<div class="alert alert-success alert-dismissable fade in">\n\
                                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
-                                                        <strong>Se actualizó la información del cliente <b>' + cli_nom + '</b></strong>\n\
+                                                        <strong>Se actualizó la información del cliente <b>' +
+                                                cli_nom + '</b></strong>\n\
                                                     </div>');
                                             location.reload();
                                         } else {
@@ -699,7 +789,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <strong>Error</strong><br />No existe Cliente\n\
                             </div>');
                 } else {
-                    if ((cli_tel1.toString().length <= 0) && (cli_tel2.toString().length <= 0) && (cli_tel3.toString().length <= 0)) {
+                    if ((cli_tel1.toString().length <= 0) && (cli_tel2.toString().length <= 0) && (cli_tel3.toString().length <=
+                            0)) {
                         $('#message').html(
                             '<div class="alert alert-danger alert-dismissable fade in">\n\
                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
@@ -785,14 +876,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 <strong>Error</strong><br />No existe Cliente\n\
                             </div>');
                 } else {
-                    if ((cli_nomrf1.toString().length <= 0) || (cli_telrf1.toString().length <= 0) || (cli_paren1.toString().length <= 0)) {
+                    if ((cli_nomrf1.toString().length <= 0) || (cli_telrf1.toString().length <= 0) || (cli_paren1.toString()
+                            .length <= 0)) {
                         $('#message').html(
                             '<div class="alert alert-danger alert-dismissable fade in">\n\
                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\
                                     <strong>Error</strong><br />Debe poner los Datos de la Referecia 1\n\
                                 </div>');
                     } else {
-                        if ((cli_nomrf2.toString().length <= 0) || (cli_telrf2.toString().length <= 0) || (cli_paren2.toString().length <= 0)) {
+                        if ((cli_nomrf2.toString().length <= 0) || (cli_telrf2.toString().length <= 0) || (cli_paren2.toString()
+                                .length <= 0)) {
                             $('#message').html(
                                 '<div class="alert alert-danger alert-dismissable fade in">\n\
                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\n\

@@ -1108,7 +1108,7 @@ class Pagos extends CI_Controller
             "Pedido" => $pedido,
             "Cliente" => $cliente,
             "Fecha" => $fecha,
-            "Motivo" => 102,
+            "Motivo" => 105,
             "Habilitado" => 1,
             "Observaciones" => $observaciones,
             "UsuarioCreacion" => $user,
@@ -1251,6 +1251,7 @@ class Pagos extends CI_Controller
                                 $dataPagosP["barrio"] = $barrio;
                                 $dataPagosP["codCliente"] = $codCliente;
                                 $dataPagosP["PaginaFisica"] = $item1["PaginaFisica"];
+                                $dataPagosP["Evento"] = $item1["NomEvento"];
 
                                 $datosPagos[$i] = $dataPagosP;
                             }
@@ -1418,6 +1419,7 @@ class Pagos extends CI_Controller
                                 $dataPagosP["barrio"] = $barrio;
                                 $dataPagosP["codCliente"] = $codCliente;
                                 $dataPagosP["PaginaFisica"] = $item1["PaginaFisica"];
+                                $dataPagosP["Evento"] = $item1["NomEvento"];
 
                                 $datosPagos[$i] = $dataPagosP;
                             }
@@ -1460,6 +1462,7 @@ class Pagos extends CI_Controller
                     "saldo" => money_format_cop($item["saldo"]),
                     "UltimoPago" => money_format_cop($item["UltimoPago"]),
                     "DiaCobro" => $item["DiaCobro"],
+                    "Evento" => $item["Evento"],
                     "Ubicacion" => $item["PaginaFisica"],
                     "Motivo" => $item["Motivo"],
                     "btn" => '<div class="btn-group text-center" style="margin: 0px auto;  width:100%;">' . $btn1 . $btn2 . $btn3 . $btn4 . '</div>'
@@ -1494,6 +1497,7 @@ class Pagos extends CI_Controller
                     "saldo" => money_format_cop($item["saldo"]),
                     "UltimoPago" => money_format_cop($item["UltimoPago"]),
                     "DiaCobro" => $item["DiaCobro"],
+                    "Evento" => $item["Evento"],
                     "Ubicacion" => $item["PaginaFisica"],
                     "Motivo" => $item["Motivo"],
                     "btn" => '<div class="btn-group text-center" style="margin: 0px auto;  width:100%;">' . $btn1 . $btn2 . $btn3 . $btn4 . '</div>'
